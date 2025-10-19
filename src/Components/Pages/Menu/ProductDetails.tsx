@@ -5,7 +5,7 @@ import { FaStar, FaRegStar } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../../../Store/Store";
 import { getAllMenuData } from "../../../Store/MenuSlice";
-import { add, increase, decrease } from "../../../Store/CartSlice";
+import { add, increase, decreaseCart } from "../../../Store/CartSlice";
 // import Loading from "./Loading";
 
 export default function ProductDetails() {
@@ -218,7 +218,7 @@ export default function ProductDetails() {
                                 <div className="counter_item_btn">
                                   <button onClick={(e) => {
                                     e.stopPropagation();
-                                    dispatch(decrease(relatedProduct.id));
+                                    dispatch(decreaseCart(relatedProduct.id));
                                   }}>−</button>
                                   <span>{cartItem.quantity}</span>
                                   <button onClick={(e) => {
@@ -236,7 +236,7 @@ export default function ProductDetails() {
                                       navigate("/login");
                                       return;
                                     }
-                                    dispatch(add(relatedProduct));
+                                    dispatch(addCart(relatedProduct));
                                   }}
                                 >
                                   <BsCart3 />

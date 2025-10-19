@@ -34,7 +34,7 @@ function Heading() {
         return () => window.removeEventListener("scroll", handleHeadingScroll);
     }, []);
 
-    // const cartQuantity =cart.reduce((total, item) => total + item.quantity, 0)
+    const cartQuantity =cart.reduce((total, item) => total + item.quantity, 0)
 
     return (
         <>
@@ -88,7 +88,8 @@ function Heading() {
 
 
                     <Link to="shippingcart" className='cart'>
-                        <i><BsCart3 /> {cart.length > 0 && <span>{cart.length}</span>}</i>
+                        {/* <i><BsCart3 /> {cart.length > 0 && <span>{cart.length}</span>}</i> */}
+                        <i><BsCart3 /> {cartQuantity > 0 && <span>{cartQuantity}</span>}</i>
                     </Link>
 
                     <i className='toggle' onClick={() => setResponsive(true)}><RiMenu2Line /></i>

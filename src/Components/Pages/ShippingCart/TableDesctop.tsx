@@ -1,11 +1,20 @@
 import React from "react";
+import type { CartItem } from "../../../types";
 import "./ShippingCart.css";
 import { RxCross2 } from "react-icons/rx";
 import { useDispatch} from 'react-redux';
-import { increase, decreaseCart, remove } from '../../../Store/CartSlice';
+import { decreaseCart, increase, remove } from '../../../Store/CartSlice';
+import type { AppDispatch } from "../../../Store/Store";
 
-const TableDesctop: React.FC = ({product}) => {
-    const dispatch =useDispatch();
+interface TableDesctopProduct {
+    product: CartItem;
+}
+
+
+const TableDesctop: React.FC<TableDesctopProduct> = ({product}) => {
+    const dispatch =useDispatch<AppDispatch>();
+
+
 
     return (
         <>

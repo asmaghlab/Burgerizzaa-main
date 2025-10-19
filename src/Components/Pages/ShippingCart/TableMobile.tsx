@@ -2,12 +2,14 @@ import React from "react";
 import "./ShippingCart.css";
 import { RxCross2 } from "react-icons/rx";
 import { useDispatch} from 'react-redux';
-import { increase, remove, decreaseCart } from '../../../Store/CartSlice';
+import { increase,  decreaseCart, remove } from '../../../Store/CartSlice';
+import type { AppDispatch } from "../../../Store/Store";
 
 
 const TableMobile: React.FC = ({product}) => {
-    const dispatch =useDispatch();
+    const dispatch =useDispatch<AppDispatch>();
 
+    
     return (
         <>
         <tr className="tbody_icon">

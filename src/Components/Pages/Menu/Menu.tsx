@@ -12,31 +12,28 @@ import { useNavigate } from 'react-router-dom'
 
 function Menu() {
 
-    const user = useSelector((state: RootState) => state.user);
+    // const user = useSelector((state: RootState) => state.user);
     const dispatch =useDispatch<AppDispatch>();
-    const { menuData, loading, error } = useSelector((state: RootState) => state.menu);
-    const navigate = useNavigate();
     const cart = useSelector((state:RootState) => state.cart);
+    const { menuData } = useSelector((state: RootState) => state.menu);
+    const navigate = useNavigate();
 
     const [activeFilter, setActiveFilter] = useState<string>("Menu");
     const [currentPage, setCurrentPage] = useState<number>(1);
     const itemsPerPage = 12; 
 
-    useEffect(()=> {
-        dispatch(getAllMenuData());
-    }, [dispatch])
-
 
 
     // Add Items
     const handleAddClick = (item: MenuType) => {
-        if (!user) {
-            alert("You need to login first!");
-            navigate("/login");
-            return;
-        }
+        // if (!user) {
+        //     alert("You need to login first!");
+        //     navigate("/login");
+        //     return;
+        // }
         dispatch(add(item));
     };
+
     const handleIncrement = (id:number) => {
         dispatch(increase(id));
     };
@@ -45,9 +42,18 @@ function Menu() {
         dispatch(decrease(id));
     };
 
+
+
+
     const handleProductClick = (id: number) => {
         navigate(`/menu/${id}`);
     };
+
+    useEffect(()=> {
+        dispatch(getAllMenuData());
+    }, [dispatch])
+
+
 
 
     const filteredMenuData = activeFilter === "Menu"
@@ -98,72 +104,62 @@ function Menu() {
                     ))}
                 </div>
 
-
-
-
                 <div className="menu_items">
 
-                    {
-                        loading? (
-                            <p>Loading</p>
-                        ): error? (
-                            <p>{error}</p>
-                        ):(
-                            currentItems.map((item:MenuType)=> (
-                                <div className="menu_item" key={item.id}>
-                                    <div 
-                                        className="menu_item_img"
-                                        onClick={() => handleProductClick(item.id)} 
-                                        style={{ cursor: "pointer" }}
-                                    >
-                                        <img src={item.image} alt="" />
+                    {currentItems.map((item:MenuType)=> (
+                        <div className="menu_item" key={item.id}>
+                            <div 
+                                className="menu_item_img"
+                                onClick={() => handleProductClick(item.id)} 
+                                style={{ cursor: "pointer" }}
+                            >
+                                <img src={item.image} alt="" />
+                            </div>
+
+                            <div className="menu_item_data">
+                                <div 
+                                    className="menu_item_col1"
+                                    onClick={() => handleProductClick(item.id)}
+                                    style={{ cursor: "pointer" }}
+                                >
+                                    <h3>{item.name.length > 12 ? item.name.slice(0, 12) + "..." : item.name}</h3>
+                                    <div className="item_star">
+                                        <FaStar />
+                                        <FaStar />
+                                        <FaStar />
+                                        <FaRegStar />
                                     </div>
-
-                                    <div className="menu_item_data">
-                                        <div 
-                                            className="menu_item_col1"
-                                            onClick={() => handleProductClick(item.id)}
-                                            style={{ cursor: "pointer" }}
-                                        >
-                                            <h3>{item.name.length > 12 ? item.name.slice(0, 12) + "..." : item.name}</h3>
-                                            <div className="item_star">
-                                                <FaStar />
-                                                <FaStar />
-                                                <FaStar />
-                                                <FaRegStar />
-                                            </div>
-                                        </div>
-                                        <div className="menu_item_col2">
-                                            <p>{item.description?.substring(0, 25)}...</p>
-                                        </div>
-
-
-                                        <div className="menu_item_col3">
-                                            {
-                                                (() => {
-                                                    const cartItem = cart.find((cartItem) => cartItem.id === item.id);
-
-                                                    return cartItem ? (
-                                                        <div className="counter_item_btn">
-                                                            <button onClick={() => handleDecrement(item.id)} >−</button>
-                                                            <span>{cartItem.quantity}</span>
-                                                            <button onClick={() => handleIncrement(item.id)}>+</button>
-                                                        </div>
-                                                    ):(
-                                                        <button className='menu_item_btn' onClick={() => handleAddClick(item)}  >
-                                                            <BsCart3 />
-                                                        </button>
-                                                    );
-                                                })()
-                                            }
-
-                                            <p>{item.price}<span>EGP</span></p>
-                                        </div>
-                                    </div>
-
                                 </div>
-                            ))
-                        )
+                                <div className="menu_item_col2">
+                                    <p>{item.description?.substring(0, 25)}...</p>
+                                </div>
+
+
+                                <div className="menu_item_col3">
+                                    {
+                                        (() => {
+                                            const cartItem = cart.find((cartItem) => cartItem.id === item.id);
+
+                                            return cartItem ? (
+                                                <div className="counter_item_btn">
+                                                    <button onClick={() => handleDecrement(item.id)} >−</button>
+                                                    <span>{cartItem.quantity}</span>
+                                                    <button onClick={() => handleIncrement(item.id)}>+</button>
+                                                </div>
+                                            ):(
+                                                <button className='menu_item_btn' onClick={() => handleAddClick(item)}  >
+                                                    <BsCart3 />
+                                                </button>
+                                            );
+                                        })()
+                                    }
+
+                                    <p>{item.price}<span>EGP</span></p>
+                                </div>
+                            </div>
+
+                        </div>
+                    ))
                     }
 
 
