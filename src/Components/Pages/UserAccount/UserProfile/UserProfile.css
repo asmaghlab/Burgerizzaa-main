@@ -74,7 +74,7 @@
     left: 0;
     top: 50%;
     transform: translateY(-50%);
-    height: 70%;
+    height: 90%;
     width: 3px;
     background-color: var(--color_input_bg);
     border-radius: 2px;

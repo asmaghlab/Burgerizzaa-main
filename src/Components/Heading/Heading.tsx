@@ -109,10 +109,24 @@ function Heading() {
                     <NavLink to="/menu" className="mobile_menu_link" onClick={() => setResponsive(false)}>Menu</NavLink>
                     <NavLink to="/contactus" className="mobile_menu_link" onClick={() => setResponsive(false)}>Contact</NavLink>
 
-                    <Link to="/login" className="mobile_account" onClick={() => setResponsive(false)}>
-                        <i><RiUser3Line /></i>
+                    {/* <Link to="/login" className="mobile_account" onClick={() => setResponsive(false)}>
                         <h4>Login</h4>
-                    </Link>
+                    </Link> */}
+
+                    <div className="mobile_account">
+
+                        {user? (
+
+                        <h5>Hi, {user.username.split("")}</h5>
+
+                        ):(
+                            <Link to="/login">
+                                <button className='user_login'>Login</button>
+                            </Link>
+                        )}
+                        
+                    </div>
+
                 </div>
             )}
 

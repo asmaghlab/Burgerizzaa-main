@@ -21,41 +21,92 @@ function CheckOut() {
         dispatch(sumTotals(cart));
     }, [cart, dispatch]);
 
-    const handelInputValidation = (e: React.MouseEvent<HTMLButtonElement>) => {
+
+    // const handelInputValidation = (e: React.MouseEvent<HTMLButtonElement>) => {
+    //     e.preventDefault();
+
+    //     const allInput: (keyof CheckOutData)[] = [
+    //         "firstName",
+    //         "lastName",
+    //         "email",
+    //         "phone",
+    //         "address",
+    //         "city",
+    //         "radioBox",
+    //     ];
+
+
+    //     for (let input of allInput) {
+    //         const value = checkout[input];
+
+    //     if (!value) {
+    //         const element = document.getElementById(input) as HTMLInputElement | HTMLTextAreaElement  | null;
+    //         if (element) {
+    //             element.focus();
+
+    //             const fieldName = input.charAt(0).toUpperCase() + input.slice(1);
+    //             element.placeholder = `${fieldName} (Required)`;
+
+    //         } 
+    //         return; 
+    //         }
+            
+    //     }
+        
+    //     setShowBill(true);
+    //     console.log(checkout); 
+        
+    // };
+
+
+
+    const handelInputValidation = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
 
         const allInput: (keyof CheckOutData)[] = [
-            "firstName",
-            "lastName",
-            "email",
-            "phone",
-            "address",
-            "city",
-            "radioBox",
+            "firstName", "lastName", "email", "phone", "address", "city", "radioBox"
         ];
-
 
         for (let input of allInput) {
             const value = checkout[input];
-
-        if (!value) {
-            const element = document.getElementById(input) as HTMLInputElement | HTMLTextAreaElement  | null;
-            if (element) {
-                element.focus();
-
-                const fieldName = input.charAt(0).toUpperCase() + input.slice(1);
-                element.placeholder = `${fieldName} (Required)`;
-
-            } 
-            return; 
+            if (!value) {
+                const element = document.getElementById(input) as HTMLInputElement;
+                if (element) {
+                    element.focus();
+                    element.placeholder = `${input} (Required)`;
+                }
+                return;
             }
-            
         }
-        
-        setShowBill(true);
-        console.log(checkout); 
-        
+
+        const newOrder = {
+            date: new Date().toLocaleString(),
+            items: cart,
+            checkoutData: checkout
+        };
+
+        try {
+            await fetch("https://68eec8f4b06cc802829b50f7.mockapi.io/order", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(newOrder)
+            });
+
+            setShowBill(true);
+
+        } catch (error) {
+            console.error("Error saving order:", error);
+        }
     };
+
+
+
+
+
+
+
+
+
 
     function closeBill() {
         setShowBill(false);

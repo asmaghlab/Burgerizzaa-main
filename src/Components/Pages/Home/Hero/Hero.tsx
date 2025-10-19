@@ -1,8 +1,10 @@
 import "./Hero.css";
 import { GiRoundStar } from "react-icons/gi";
+import { Link } from "react-router-dom";
 
 
 function Hero() {
+
     return (
         <>
             <div id="hero">
@@ -14,17 +16,20 @@ function Hero() {
                             <p>
                                 Savor our freshly made burgers and cheesy pizzas, crafted with the finest ingredients.<br></br>
                             </p>
-                            <button className="hero_btn">Order Now</button>
+                            <Link to="/menu">
+                                <button className="hero_btn">Order Now</button>
+                            </Link>
                         </div>
                         <div className="hero_cards">
+
                             <div className="hero_card">
                                 <div className="hero_card_img">
                                     <img src="/src/assets/Images/menu_img/dessert_img1.png" alt="" />
                                 </div>
                                 <div className="hero_card_text">
                                     <p>
-                                        Burger Club
-                                        <span>105$</span>
+                                        Tiramisu
+                                        <span>65EGP</span>
                                     </p>
                                     <div className="Hero_star">
                                         <GiRoundStar />
@@ -35,14 +40,15 @@ function Hero() {
                                     </div>
                                 </div>
                             </div>
+
                             <div className="hero_card">
                                 <div className="hero_card_img">
                                     <img src="/src/assets/Images/menu_img/burger_img1.png" alt="" />
                                 </div>
                                 <div className="hero_card_text">
                                     <p>
-                                        ClubCoffe
-                                        <span>50$</span>
+                                        Chicken
+                                        <span>90EGP</span>
                                     </p>
                                     <div className="Hero_star">
                                         <GiRoundStar />
@@ -53,14 +59,15 @@ function Hero() {
                                     </div>
                                 </div>
                             </div>
+
                             <div className="hero_card">
                                 <div className="hero_card_img">
                                     <img src="/src/assets/Images/menu_img/juice_img1.png" alt="" />
                                 </div>
                                 <div className="hero_card_text">
                                     <p>
-                                        Pizza Club
-                                        <span>105$</span>
+                                        Lemonade
+                                        <span>30EGP</span>
                                     </p>
                                     <div className="Hero_star">
                                         <GiRoundStar />

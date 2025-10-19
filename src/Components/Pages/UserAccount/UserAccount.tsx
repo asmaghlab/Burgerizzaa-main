@@ -61,8 +61,8 @@ const UserAccount:React.FC = () => {
                                     className={({ isActive }) => isActive ? "active" : ""}
                                 >Orders</NavLink>
                                                 
-                                <button className="logout_btn" onClick={handleLogout}
-                                >LogOut</button>                                
+                                {/* <button className="logout_btn" onClick={handleLogout}
+                                >LogOut</button>                                 */}
                             </div>
                         </div>
 
