@@ -22,8 +22,8 @@ const TableMobile: React.FC = ({product}) => {
             <img src={product.image} alt="" />
             </th>
             <td colSpan={2} className="product_info_res">
-            <h4>{product.name.substring(0,6)}</h4>
-            <p>{product.description.substring(0,10)} </p>
+            <h4>{product.name ? product.name.substring(0,6): ""}</h4>
+            <p>{product.description ? product.description.substring(0,10): ""} </p>
             </td>
         </tr>
         <tr>

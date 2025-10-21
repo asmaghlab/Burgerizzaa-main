@@ -2,23 +2,32 @@ import React from "react";
 import { useEffect } from "react";
 import './CheckOut.css';
 import {  useSelector, useDispatch  } from 'react-redux';
-import type { RootState } from '../../../../Store/Store';
+import type { AppDispatch, RootState } from '../../../../Store/Store';
 import { saveCheckOutPersonalData, sumTotals } from "../../../../Store/CheckOutSlice";
 import type { CheckOutData } from "../../../../types";
 import BillOrder from "./BillOrder";
+import { getAllDataCart } from "../../../../Store/CartSlice";
 
 
 function CheckOut() {
 
     const cart =useSelector((state: RootState)=> state.cart);
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const checkout = useSelector((state: RootState) => state.checkout);
 
     const [showBill, setShowBill] = React.useState(false);
 
+    useEffect(()=> {
+        dispatch(getAllDataCart())
+    }, [dispatch])
+
 
     useEffect(() => {
-        dispatch(sumTotals(cart));
+        
+        if (cart.length > 0) {
+            dispatch(sumTotals(cart));
+        }
+        
     }, [cart, dispatch]);
 
 
@@ -67,6 +76,7 @@ function CheckOut() {
             "firstName", "lastName", "email", "phone", "address", "city", "radioBox"
         ];
 
+
         for (let input of allInput) {
             const value = checkout[input];
             if (!value) {
@@ -93,9 +103,11 @@ function CheckOut() {
             });
 
             setShowBill(true);
+            console.log(newOrder);
+            
 
         } catch (error) {
-            console.error("Error saving order:", error);
+            console.error("Error:", error);
         }
     };
 

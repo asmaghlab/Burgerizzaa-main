@@ -1,53 +1,87 @@
+import { useEffect, useState } from 'react';
 import './Orders.css';
+import type { CartItem, Order } from '../../../../types';
+import { useSelector } from 'react-redux';
+import type { RootState } from '../../../../Store/Store';
 
 const Orders = () => {
 
+    const [orders, setOrders]=useState<Order[]>([]);
+    const user = useSelector((state:RootState)=> state.user);
+
+
+    useEffect(()=> {
+        const getAllOrdersData= async ()=> {
+            try {
+                const ordersData= await fetch("https://68eec8f4b06cc802829b50f7.mockapi.io/order");
+                const data =await ordersData.json()
+
+                // Orders Current User::
+                // const userOrders = data.filter((order: any) => order.userID === user?.id);
+
+                setOrders(data);
+            } catch(error) {
+                console.log("Error:" , error );
+                
+            }
+        };
+
+        getAllOrdersData()
+    },[user])
 
     return (
         <>
 
         <div id="Orders_users">
+
             <div className="orders_users_cards">
 
+                {orders.map((order)=> (
+                    
+                    <div className="orders_user_card" key={order.id}>
+
+                        <div className="order_user_data pb-3">
+                            <h5>Order {order.id}</h5>
+                            <p>{order.date}</p>
+                        </div>
 
 
-                <div className="orders_user_card">
 
-                    <div className="order_user_data pb-3">
-                        <h5>Order 352</h5>
-                        <p>23 Feb 2021, 08:28 PM</p>
-                    </div>
+                        <div className="order_user_items">
 
+                            {order.items.map((item:CartItem)=> (
+                                <div className="order_user_item" key={item.id}>
+                                    <img src={item.image} alt={item.name} />
+                                    <div className="order_card_item_des">
+                                        <h6>{item.name.substring(0, 20)}</h6>
+                                        <p>{item.description?.substring(0, 25)}...</p>
 
+                                        <div className="order_item_price pb-2 fw-medium">
+                                            <p>{item.price}</p>
+                                            <p>Qty: {item.quantity}</p>
+                                        </div>
+                                    </div>
 
-                    <div className="order_user_items">
-                        <div className="order_user_item">
-                            <img src="/src/assets/Images/menu_img/burger_img1.png" alt="" />
-                            <div className="order_card_item_des">
-                                <h6>Vegetable Mixups</h6>
-                                <p>Mixups With Egg Vegetable </p>
-
-                                <div className="order_item_price pb-2 fw-medium">
-                                    <p>EGP3.30</p>
-                                    <p>Qty:1</p>
                                 </div>
+                            ))}
+
+
+                        </div>
+
+
+                        <div className="order_action pt-2 mt-3">
+                            <div className="order_action_data">
+                                <p>x{order.items.length} items</p>
+                                <p className='fw-medium'>EGP{order.checkoutData.total}</p>
                             </div>
 
+                            <div className="order_action_btn">
+                                <button>X</button>
+                            </div>
                         </div>
                     </div>
+                ))}
 
-
-                    <div className="order_action pt-2 mt-3">
-                        <div className="order_action_data">
-                            <p>x2 items</p>
-                            <p className='fw-medium'>EGP10.60</p>
-                        </div>
-
-                        <div className="order_action_btn">
-                            <button>X</button>
-                        </div>
-                    </div>
-                </div>
 
 
 

@@ -17,6 +17,8 @@
 }
 #heading.headingScrolled {
     background-color: rgba(245, 200, 200, 0.928);
+
+    /* box-shadow:var(--box-shadow); */
 }
 .heading{
     height: 100%;

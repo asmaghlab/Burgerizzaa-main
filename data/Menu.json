@@ -1,37 +1,36 @@
-
 {
-    "menu":[
-        {
-            "id":1,
-            "name":"Burger",
-            "desc":"Lorem ipsum dolor",
-            "price":100,
-            "image":"/src/assets/Images/menu_img/burger_img1.png",
-            "type":"Burger"
-        },
-        {
-            "id":2,
-            "name":"Burger",
-            "desc":"Lorem ipsum dolor",
-            "price":200,
-            "image":"/src/assets/Images/menu_img/dessert_img1.png",
-            "type":"Dessert"
-        },
-        {
-            "id":1,
-            "name":"Burger",
-            "desc":"Lorem ipsum dolor",
-            "price":90,
-            "image":"/src/assets/Images/menu_img/juice_img1.png",
-            "type":"Juice"
-        },
-            {
-            "id":1,
-            "name":"Burger",
-            "desc":"Lorem ipsum dolor",
-            "price":150,
-            "image":"/src/assets/Images/menu_img/pizza_img1.png",
-            "type":"Pizza"
-        }
-    ]
+  "menu": [
+    {
+      "id": 1,
+      "name": "Burger",
+      "desc": "Lorem ipsum dolor",
+      "price": 100,
+      "image": "/src/assets/Images/menu_img/burger_img1.png",
+      "type": "Burger"
+    },
+    {
+      "id": 2,
+      "name": "Burger",
+      "desc": "Lorem ipsum dolor",
+      "price": 200,
+      "image": "/src/assets/Images/menu_img/dessert_img1.png",
+      "type": "Dessert"
+    },
+    {
+      "id": 1,
+      "name": "Burger",
+      "desc": "Lorem ipsum dolor",
+      "price": 90,
+      "image": "/src/assets/Images/menu_img/juice_img1.png",
+      "type": "Juice"
+    },
+    {
+      "id": 1,
+      "name": "Burger",
+      "desc": "Lorem ipsum dolor",
+      "price": 150,
+      "image": "/src/assets/Images/menu_img/pizza_img1.png",
+      "type": "Pizza"
+    }
+  ]
 }

@@ -1,5 +1,5 @@
 import './Menu.css';
-import type { Menu as MenuType } from '../../../types';
+import type { CartItem, Menu as MenuType } from '../../../types';
 import { FaStar } from "react-icons/fa";
 import { FaRegStar } from "react-icons/fa";
 import { BsCart3 } from "react-icons/bs";
@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import type { RootState, AppDispatch } from '../../../Store/Store';
 import { getAllMenuData } from '../../../Store/MenuSlice';
-import {add, increase, decrease} from '../../../Store/CartSlice';
+import {add, increase, decrease, getAllDataCart} from '../../../Store/CartSlice';
 import { useNavigate } from 'react-router-dom'
 
 function Menu() {
@@ -23,26 +23,37 @@ function Menu() {
     const itemsPerPage = 12; 
 
 
+    useEffect(()=> {
+        dispatch(getAllDataCart());
+    }, [dispatch])
+
+
+
+
 
     // Add Items
-    const handleAddClick = (item: MenuType) => {
+    const handleAddClick = (product: MenuType) => {
         // if (!user) {
         //     alert("You need to login first!");
         //     navigate("/login");
         //     return;
         // }
-        dispatch(add(item));
+        const object = {
+            ...product,
+            id: String(product.id)
+        };
+
+        dispatch(add(object));
     };
 
-    const handleIncrement = (id:number) => {
-        dispatch(increase(id));
-    };
-
-    const handleDecrement = (id:number) => {
-        dispatch(decrease(id));
+    const handleIncrement = (cartItem:CartItem) => {
+        dispatch(increase(cartItem));
     };
 
 
+    const handleDecrement = (cartItem:CartItem) => {
+        dispatch(decrease(cartItem));
+    };
 
 
     const handleProductClick = (id: number) => {
@@ -110,7 +121,7 @@ function Menu() {
                         <div className="menu_item" key={item.id}>
                             <div 
                                 className="menu_item_img"
-                                onClick={() => handleProductClick(item.id)} 
+                                onClick={() => handleProductClick(Number(item.id))} 
                                 style={{ cursor: "pointer" }}
                             >
                                 <img src={item.image} alt="" />
@@ -119,7 +130,7 @@ function Menu() {
                             <div className="menu_item_data">
                                 <div 
                                     className="menu_item_col1"
-                                    onClick={() => handleProductClick(item.id)}
+                                    onClick={() => handleProductClick(Number(item.id))}
                                     style={{ cursor: "pointer" }}
                                 >
                                     <h3>{item.name.length > 12 ? item.name.slice(0, 12) + "..." : item.name}</h3>
@@ -138,13 +149,13 @@ function Menu() {
                                 <div className="menu_item_col3">
                                     {
                                         (() => {
-                                            const cartItem = cart.find((cartItem) => cartItem.id === item.id);
+                                            const cartItem = cart.find((cartItem) => Number(cartItem.id) === Number( item.id));
 
                                             return cartItem ? (
                                                 <div className="counter_item_btn">
-                                                    <button onClick={() => handleDecrement(item.id)} >−</button>
+                                                    <button onClick={() => handleDecrement(cartItem)}>−</button>
                                                     <span>{cartItem.quantity}</span>
-                                                    <button onClick={() => handleIncrement(item.id)}>+</button>
+                                                    <button onClick={() => handleIncrement(cartItem)}>+</button>
                                                 </div>
                                             ):(
                                                 <button className='menu_item_btn' onClick={() => handleAddClick(item)}  >

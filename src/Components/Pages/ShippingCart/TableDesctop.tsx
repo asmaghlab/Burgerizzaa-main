@@ -15,7 +15,6 @@ const TableDesctop: React.FC<TableDesctopProduct> = ({product}) => {
     const dispatch =useDispatch<AppDispatch>();
 
 
-
     return (
         <>
         <tbody className="table_tbody_left">
@@ -29,7 +28,7 @@ const TableDesctop: React.FC<TableDesctopProduct> = ({product}) => {
             </td>
             <td className="product_info">
                 <h4>{product.name}</h4>
-                <p>{product.description.substring(0,19)}...</p>
+                <p>{product.description ? product.description.substring(0,19): ""}...</p>
             </td>
 
             <td className="td_price">EGP {product.price}</td>
@@ -37,9 +36,9 @@ const TableDesctop: React.FC<TableDesctopProduct> = ({product}) => {
             <td>
                 <div className="table_quantity">
                 <div className="table_quantity_td">
-                    <button onClick={()=> dispatch(decreaseCart(product.id))}>-</button>
+                    <button onClick={()=> dispatch(decreaseCart(product))}>-</button>
                     <button>{product.quantity}</button>
-                    <button onClick={()=> dispatch(increase(product.id))}>+</button>
+                    <button onClick={()=> dispatch(increase(product))}>+</button>
                 </div>
                 </div>
             </td>

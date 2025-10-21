@@ -7,6 +7,7 @@
     -moz-border-radius: 10px;
     -ms-border-radius: 10px;
     -o-border-radius: 10px;
+
 }
 .orders_users_cards {
     display: grid;
@@ -21,7 +22,7 @@
     border-radius: 10px;
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: .8rem;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     -ms-border-radius: 10px;
@@ -29,6 +30,15 @@
 }
 
 /* Order User */
+.order_user_items {
+    max-height: 230px;
+    min-height: 230px;
+    overflow-y: auto; 
+}
+
+.order_user_items::-webkit-scrollbar {
+    width: 0px;
+}
 
 .order_user_item {
     display: flex;
