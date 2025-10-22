@@ -1,7 +1,7 @@
 import '../../Menu/Menu.css';
 import './OurMenu.css';
 import { Link, useNavigate } from 'react-router-dom';
-import type { Menu as MenuType } from "../../../../types";
+import type { CartItem, Menu as MenuType } from "../../../../types";
 import { FaStar, FaRegStar } from "react-icons/fa";
 import { BsCart3 } from "react-icons/bs";
 import { FaArrowRightLong } from "react-icons/fa6";
@@ -9,70 +9,79 @@ import { useDispatch, useSelector } from "react-redux";
 import { add, increase, decrease } from "../../../../Store/CartSlice";
 import type { RootState, AppDispatch } from "../../../../Store/Store";
 import { addToCartAlert, loginPromptAlert } from "../../../Sweet/SweetAlert";
-import { useQuery } from "@tanstack/react-query";
+// import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
+import { getAllMenuData } from '../../../../Store/MenuSlice';
 
 const OurMenu = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const cart = useSelector((state: RootState) => state.cart);
-  const user = useSelector((state: RootState) => state.user);
+  const user = useSelector((state: RootState) => state.user.user);
+  const { menuData} = useSelector((state: RootState) => state.menu);
 
-  // ✅ جلب البيانات باستخدام React Query
-  const { data } = useQuery<MenuType[]>({
-    queryKey: ["menuData"],
-    queryFn: async () => {
-      const response = await fetch("https://68e3e5f38e116898997a5f72.mockapi.io/items");
-      return response.json();
-    },
-  });
+  // const { data } = useQuery<MenuType[]>({
+  //   queryKey: ["menuData"],
+  //   queryFn: async () => {
+  //     const response = await fetch("https://68e3e5f38e116898997a5f72.mockapi.io/items");
+  //     return response.json();
+  //   },
+  // });
 
-  const AllMenuData = data?.slice(0, 8) || [];
+  const AllMenuData = menuData?.slice(0, 8) || [];
 
-  // ✅ عند الضغط على إضافة للسلة
   const handleAddClick = (item: MenuType) => {
     if (!user) {
       loginPromptAlert(() => navigate("/login"));
       return;
     }
 
-    dispatch(add(item));
+    const object = {
+      ...item,
+      id: String(item.id)
+    }
+
+    dispatch(add(object));
     addToCartAlert(item.name);
   };
 
-  const handleIncrement = (id: number) => {
-    dispatch(increase(id));
+  const handleIncrement = (cartItem:CartItem) => {
+    dispatch(increase(cartItem));
   };
 
-  const handleDecrement = (id: number) => {
-    dispatch(decrease(id));
+  const handleDecrement = (cartItem:CartItem) => {
+    dispatch(decrease(cartItem));
   };
 
-  // ✅ Scroll to top عند دخول الصفحة
   useEffect(() => {
+    dispatch(getAllMenuData());
     window.scrollTo({ top: 0, behavior: "smooth" });
-  }, []);
+  },[dispatch]);
 
   return (
     <>
-      <div id="ourmenu" className="pb-5">
-        <div className="ourmenu container_box">
-          <div className="ourmenu_header">
-            <Link to="/menu">
-              <button className="ourmenu_btn">
-                View All Menu
-                <i className="p-2">
-                  <FaArrowRightLong />
-                </i>
-              </button>
-            </Link>
-          </div>
+      <div id="menus" className="pb-3 container_box">
 
-          <div className="menu_items ourmenu_item">
+        <div className="ourmenu_header">
+          <Link to="/menu">
+            <button className="ourmenu_btn">
+              View All Menu
+              <i className="p-2">
+                <FaArrowRightLong />
+              </i>
+            </button>
+          </Link>
+        </div>
+
+        <div className="ourmenu_container">
+
+          <div className="menu_items ourmenu_items">
+            
             {AllMenuData.map((item: MenuType) => {
-              const cartItem = cart.find((cartItem) => cartItem.id === item.id);
+              const cartItem = cart.find((cartItem) => Number(cartItem.productId) === Number(item.id));
 
               return (
+
                 <div className="menu_item" key={item.id}>
                   <div
                     className="menu_item_img"
@@ -109,9 +118,9 @@ const OurMenu = () => {
                     <div className="menu_item_col3">
                       {cartItem ? (
                         <div className="counter_item_btn">
-                          <button onClick={() => handleDecrement(item.id)}>−</button>
+                          <button onClick={() => handleDecrement(cartItem)}>−</button>
                           <span>{cartItem.quantity}</span>
-                          <button onClick={() => handleIncrement(item.id)}>+</button>
+                          <button onClick={() => handleIncrement(cartItem)}>+</button>
                         </div>
                       ) : (
                         <button
@@ -128,6 +137,7 @@ const OurMenu = () => {
                     </div>
                   </div>
                 </div>
+
               );
             })}
           </div>

@@ -4,18 +4,21 @@ import { useSelector, useDispatch } from 'react-redux';
 import type { AppDispatch, RootState } from '../../../../Store/Store';
 import { saveCheckOutPersonalData, sumTotals } from "../../../../Store/CheckOutSlice";
 import type { CheckOutData } from "../../../../types";
-import BillOrder from "./BillOrder";
+// import BillOrder from "./BillOrder";
 import { getAllDataCart } from "../../../../Store/CartSlice";
 
 // SweetAlert
-import { orderSuccessAlert } from "../../../Sweet/SweetAlert";
+// import { orderSuccessAlert } from "../../../Sweet/SweetAlert";
 
 function CheckOut() {
     const cart = useSelector((state: RootState) => state.cart);
     const dispatch = useDispatch<AppDispatch>();
     const checkout = useSelector((state: RootState) => state.checkout);
+    const user = useSelector((state: RootState) => state.user.user);
 
-    const [showBill, setShowBill] = React.useState(false);
+
+
+    // const [showBill, setShowBill] = React.useState(false);
 
     useEffect(() => {
         dispatch(getAllDataCart())
@@ -40,7 +43,7 @@ function CheckOut() {
             "firstName", "lastName", "email", "phone", "address", "city", "radioBox"
         ];
 
-        for (let input of allInput) {
+        for (const input of allInput) {
             const value = checkout[input];
             if (!value) {
                 const element = document.getElementById(input) as HTMLInputElement;
@@ -52,10 +55,13 @@ function CheckOut() {
             }
         }
 
+        if (!user) return;
+
         const newOrder = {
             date: new Date().toLocaleString(),
             items: cart,
-            checkoutData: checkout
+            checkoutData: checkout,
+            userID: user.id,
         };
 
         try {
@@ -65,7 +71,7 @@ function CheckOut() {
                 body: JSON.stringify(newOrder)
             });
 
-            setShowBill(true);
+            // setShowBill(true);
             console.log(newOrder);
 
         } catch (error) {
@@ -73,9 +79,9 @@ function CheckOut() {
         }
     };
 
-    function closeBill() {
-        setShowBill(false);
-    }
+    // function closeBill() {
+    //     setShowBill(false);
+    // }
 
     return (
         <>

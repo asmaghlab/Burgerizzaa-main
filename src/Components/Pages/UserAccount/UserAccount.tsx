@@ -1,35 +1,35 @@
 import React from 'react'
 import './UserProfile/UserProfile.css';
-import { NavLink,  Outlet, useNavigate } from 'react-router-dom';
+import { NavLink,  Outlet} from 'react-router-dom';
 import type { RootState } from "../../../Store/Store";
-import { useDispatch, useSelector} from "react-redux";
-import { setuser } from '../../../Store/Userslice';
+import { useSelector} from "react-redux";
+// import { setuser } from '../../../Store/Userslice';
 // import axios from 'axios';
 
 const UserAccount:React.FC = () => {
-    const dispatch=useDispatch();
+    // const dispatch=useDispatch();
     const user = useSelector((state: RootState) => state.user.user)!;
-    const navigate=useNavigate();
+    // const navigate=useNavigate();
 
 
 
     // Handle Logout::
-    const handleLogout= async ()=> {
-        if (!user || !user.id){
-            dispatch(setuser(null));
-            localStorage.removeItem("user");
-            navigate('/')
+    // const handleLogout= async ()=> {
+    //     if (!user || !user.id){
+    //         dispatch(setuser(null));
+    //         localStorage.removeItem("user");
+    //         navigate('/')
 
-            return;
-        }
+    //         return;
+    //     }
 
-        // await axios.delete(`https://68e4e1228e116898997d6e79.mockapi.io/signup/${user.id}`);
+    //     // await axios.delete(`https://68e4e1228e116898997d6e79.mockapi.io/signup/${user.id}`);
 
-        dispatch(setuser(null));
-        localStorage.removeItem("user");
-        localStorage.removeItem("userInfoExtra");
-        navigate('/')
-    }
+    //     dispatch(setuser(null));
+    //     localStorage.removeItem("user");
+    //     localStorage.removeItem("userInfoExtra");
+    //     navigate('/')
+    // }
 
 
     return (

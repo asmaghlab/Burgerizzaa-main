@@ -1,13 +1,13 @@
 {
   "cart": [
     {
-      "id": "6",
-      "name": "Iced Coffee",
-      "description": "Cold brew coffee served with ice and milk.",
-      "price": 35,
-      "image": "https://i.ibb.co/DDHyVDHJ/6.png",
-      "category": "Drinks",
-      "quantity": 1
+      "id": "3",
+      "name": "Classic Beef Burger",
+      "description": "Juicy beef patty with lettuce, tomato, and cheddar cheese.",
+      "price": 85,
+      "image": "https://i.ibb.co/HD5dPTBX/3.png",
+      "category": "Burger",
+      "quantity": 2
     }
   ]
 }

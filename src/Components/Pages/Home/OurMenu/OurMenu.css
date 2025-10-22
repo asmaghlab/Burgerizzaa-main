@@ -2,19 +2,23 @@
 #ourmenu {
     margin-top: 3rem;
 }
-
-.ourmenu_item {
-    display:flex;
+.ourmenu_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;    
+}
+.ourmenu_items {
+    display: flex;
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    margin-top: 1.5rem !important;
 }
+
 .ourmenu_header {
+    width: 90%;
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    padding: 0 6rem;
 } 
 
 .ourmenu_header .ourmenu_btn {
@@ -27,15 +31,10 @@
 /* Media Queries (Media Device) */
 
 @media screen and (max-width:1024px) {
-    .ourmenu_header {
-        padding: 0 4.5rem;
-    } 
 }
 
 /* Media Queries (Small Device) */
 
 @media screen and (max-width:600px) {
-    .ourmenu_header {
-        padding: 0 4rem;
-    } 
+
 }

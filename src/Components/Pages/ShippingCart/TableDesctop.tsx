@@ -20,7 +20,7 @@ const TableDesctop: React.FC<TableDesctopProduct> = ({product}) => {
         <tbody className="table_tbody_left">
             <tr>
             <td>
-                <i onClick={()=> dispatch(remove(product.id))}><RxCross2 /></i>
+                <i onClick={()=> dispatch(remove(Number(product.id)))}><RxCross2 /></i>
             </td>
 
             <td className="table_product_img">

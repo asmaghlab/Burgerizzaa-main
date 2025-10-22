@@ -12,33 +12,40 @@ const initialState: CartState = [];
 // Using Thunks To Deal With API 
 
 // 1. get All Data Cart From API ::
-export const getAllDataCart=createAsyncThunk('cart/get', async()=> {
-    const allDataCart=await axios.get<CartItem[]>("http://localhost:8002/cart");
+export const getAllDataCart=createAsyncThunk('cart/get', async(_, {getState})=> {
+    const state = getState() as { user: { user: { id: string }}};
+    const userID = state.user.user.id;
 
+    const allDataCart=await axios.get<CartItem[]>("https://68eec8f4b06cc802829b50f7.mockapi.io/cart");
 
-    return allDataCart.data;
+    return allDataCart.data.filter(item => item.userID ===  userID);
 })
+
+
 
 // 2.Add Items To Cart::
 export const add = createAsyncThunk("cart/add", async(product: Menu, {getState})=> {
-    const state =getState() as {cart:CartItem[]};
+
+    const state =getState() as {cart:CartItem[], user: { user: { id: string }}};
+    const userID = state.user.user.id;
     const exist= state.cart.find(item=> item.id === product.id)
 
     if(exist) {
         const updatedQuantity ={...exist, quantity:exist.quantity + 1}
-        const dataUpdated = await axios.put(`http://localhost:8002/cart/${exist.id}`, updatedQuantity);
+        const dataUpdated = await axios.put(`https://68eec8f4b06cc802829b50f7.mockapi.io/cart/${exist.id}`, updatedQuantity);
 
         return dataUpdated.data; 
         
     }else {
-        const addedItem=await axios.post("http://localhost:8002/cart", {...product, quantity:1});
+        const addedItem=await axios.post("https://68eec8f4b06cc802829b50f7.mockapi.io/cart", 
+            {...product, productId: product.id, quantity:1, userID: userID,});
         return addedItem.data;
     }
 })
 
 // 3.Remove Items From Cart::
 export const remove= createAsyncThunk('cart/remove', async(id:number)=> {
-    await axios.delete(`http://localhost:8002/cart/${id}`)
+    await axios.delete(`https://68eec8f4b06cc802829b50f7.mockapi.io/cart/${id}`)
 
     return id;
 })
@@ -48,7 +55,7 @@ export const remove= createAsyncThunk('cart/remove', async(id:number)=> {
 export const increase=createAsyncThunk('cart/increase', async(item:CartItem)=> {
 
     const updateQuantity= {...item, quantity:item.quantity + 1};
-    const dataUpdated= await axios.put(`http://localhost:8002/cart/${item.id}`, updateQuantity);
+    const dataUpdated= await axios.put(`https://68eec8f4b06cc802829b50f7.mockapi.io/cart/${item.id}`, updateQuantity);
     
     return dataUpdated.data
 
@@ -59,13 +66,13 @@ export const increase=createAsyncThunk('cart/increase', async(item:CartItem)=> {
 export const decrease = createAsyncThunk("cart/decrease", async (item: CartItem) => {
     if (item.quantity === 1) {
 
-        await axios.delete(`http://localhost:8002/cart/${item.id}`);
+        await axios.delete(`https://68eec8f4b06cc802829b50f7.mockapi.io/cart/${item.id}`);
         return { id: item.id, removed: true };
     
     } else {
 
         const updatedQuantity = { ...item, quantity: item.quantity - 1 };
-        const dataUpdated = await axios.put(`http://localhost:8002/cart/${item.id}`,updatedQuantity);
+        const dataUpdated = await axios.put(`https://68eec8f4b06cc802829b50f7.mockapi.io/cart/${item.id}`,updatedQuantity);
         
         return dataUpdated.data;
 
@@ -78,7 +85,7 @@ export const decrease = createAsyncThunk("cart/decrease", async (item: CartItem)
 export const decreaseCart =createAsyncThunk('cart/decreaseCart', async(item: CartItem)=> {
     if (item.quantity > 1) {
         const updateQuantity = {...item, quantity:item.quantity -1};
-        const updatedData =await axios.put(`http://localhost:8002/cart/${item.id}`, updateQuantity);
+        const updatedData =await axios.put(`https://68eec8f4b06cc802829b50f7.mockapi.io/cart/${item.id}`, updateQuantity);
 
         return updatedData.data;
     }else {
@@ -90,12 +97,9 @@ export const decreaseCart =createAsyncThunk('cart/decreaseCart', async(item: Car
 // 7. Crear Cart ::
 export const clearCart = createAsyncThunk('cart/clearCart', async (_, { getState }) => {
     const state = getState() as { cart: CartItem[] };
-    await Promise.all(state.cart.map(item => axios.delete(`http://localhost:8002/cart/${item.id}`)));
+    await Promise.all(state.cart.map(item => axios.delete(`https://68eec8f4b06cc802829b50f7.mockapi.io/cart/${item.id}`)));
     return [];
 });
-
-
-
 
 
 
@@ -147,9 +151,9 @@ const cartSlice = createSlice({
         //     }
         // },
         
-        // clearCart:()=> {
-        //     return[];
-        // },
+        clearCartAll:()=> {
+            return[];
+        },
         
 
     },
@@ -162,33 +166,33 @@ const cartSlice = createSlice({
         .addCase(getAllDataCart.fulfilled, (_, action)=> action.payload)
 
         .addCase(add.fulfilled, (state, action) => {
-            const exist = state.find(i => i.id === action.payload.id);
+            const exist = state.find(item => Number(item.id) === Number(action.payload.id));
             if (!exist) state.push(action.payload);
             else {
-            const index = state.findIndex(i => i.id === action.payload.id);
+            const index = state.findIndex(item => Number(item.id) === Number(action.payload.id));
             state[index] = action.payload;
             }
         })
 
         .addCase(remove.fulfilled, (state, action) =>
-            state.filter(item => item.id !== action.payload)
+            state.filter(item => Number(item.id) !== Number(action.payload))
         )
 
         .addCase(increase.fulfilled, (state, action) => {
-            const index = state.findIndex(i => i.id === action.payload.id);
+            const index = state.findIndex(item => Number(item.id) === Number(action.payload.id));
             if (index !== -1) state[index] = action.payload;
         })
 
         .addCase(decrease.fulfilled, (state, action) => {
             if ('removed' in action.payload && action.payload.removed) {
-            return state.filter(item => item.id !== action.payload.id);
+            return state.filter(item => Number(item.id) !== Number(action.payload.id));
             }
-            const index = state.findIndex(i => i.id === action.payload.id);
+            const index = state.findIndex(item => Number(item.id) === Number(action.payload.id));
             if (index !== -1) state[index] = action.payload;
         })
 
         .addCase(decreaseCart.fulfilled, (state, action) => {
-            const index = state.findIndex(i => i.id === action.payload.id);
+            const index = state.findIndex(item => Number(item.id) === Number(action.payload.id));
             if (index !== -1) state[index] = action.payload;
         })
 
@@ -198,6 +202,7 @@ const cartSlice = createSlice({
 
 
 // export const { add, remove, increase, decrease,decreaseCart, clearCart } = cartSlice.actions;
+export const { clearCartAll } = cartSlice.actions;
 export default cartSlice.reducer;
 
 

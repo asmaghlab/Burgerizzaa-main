@@ -15,6 +15,8 @@ export type Menu ={
 
 export type CartItem = Menu & {
     quantity: number;
+    productId: number | string;
+    userID:string;
 };
 
 

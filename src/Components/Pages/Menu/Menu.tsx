@@ -9,12 +9,14 @@ import { getAllMenuData } from '../../../Store/MenuSlice';
 import { add, increase, decrease } from '../../../Store/CartSlice';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { addToCartAlert, loginPromptAlert } from "../../Sweet/SweetAlert";
+import type { CartItem } from '../../../types';
+
 
 function Menu() {
 
     const user = useSelector((state: RootState) => state.user.user);
     const dispatch = useDispatch<AppDispatch>();
-    const { menuData, loading, error } = useSelector((state: RootState) => state.menu);
+    const { menuData } = useSelector((state: RootState) => state.menu);
     const navigate = useNavigate();
     const cart = useSelector((state: RootState) => state.cart);
 
@@ -27,11 +29,9 @@ function Menu() {
 
     useEffect(() => {
         dispatch(getAllMenuData());
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }, [dispatch]);
 
-    useEffect(() => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }, []);
 
     // Add Items
     const handleAddClick = (item: MenuType) => {
@@ -39,16 +39,21 @@ function Menu() {
             loginPromptAlert(() => navigate("/login"));
             return;
         }
-        dispatch(add(item));
+
+        const object ={
+            ...item, 
+            id:String(item.id)
+        }
+        dispatch(add(object));
         addToCartAlert(item.name);
     };
 
-    const handleIncrement = (id: number) => {
-        dispatch(increase(id));
+    const handleIncrement = (cartItem:CartItem) => {
+        dispatch(increase(cartItem));
     };
 
-    const handleDecrement = (id: number) => {
-        dispatch(decrease(id));
+    const handleDecrement = (cartItem:CartItem) => {
+        dispatch(decrease(cartItem));
     };
 
     const handleProductClick = (id: number) => {
@@ -100,18 +105,14 @@ function Menu() {
                 </div>
 
                 <div className="menu_items">
-                    {loading ? (
-                        <p>Loading...</p>
-                    ) : error ? (
-                        <p>{error}</p>
-                    ) : (
+                    {(
                         currentItems.map((item: MenuType) => {
-                            const cartItem = cart.find((cartItem) => cartItem.id === item.id);
+                            const cartItem = cart.find((cartItem) => Number(cartItem.productId) === Number(item.id));
                             return (
                                 <div className="menu_item" key={item.id}>
                                     <div
                                         className="menu_item_img"
-                                        onClick={() => handleProductClick(item.id)}
+                                        onClick={() => handleProductClick(Number(item.id))}
                                         style={{ cursor: "pointer" }}
                                     >
                                         <img src={item.image} alt="" />
@@ -120,7 +121,7 @@ function Menu() {
                                     <div className="menu_item_data">
                                         <div
                                             className="menu_item_col1"
-                                            onClick={() => handleProductClick(item.id)}
+                                            onClick={() => handleProductClick(Number(item.id))}
                                             style={{ cursor: "pointer" }}
                                         >
                                             <h3>{item.name.length > 22 ? item.name.slice(0, 22) + "..." : item.name}</h3>
@@ -140,9 +141,9 @@ function Menu() {
                                         <div className="menu_item_col3">
                                             {cartItem ? (
                                                 <div className="counter_item_btn">
-                                                    <button onClick={() => handleDecrement(item.id)}>−</button>
+                                                    <button onClick={() => handleDecrement(cartItem)}>−</button>
                                                     <span>{cartItem.quantity}</span>
-                                                    <button onClick={() => handleIncrement(item.id)}>+</button>
+                                                    <button onClick={() => handleIncrement(cartItem)}>+</button>
                                                 </div>
                                             ) : (
                                                 <button
@@ -161,7 +162,7 @@ function Menu() {
                     )}
                 </div>
 
-                {/* ✅ Pagination */}
+                {/* Pagination */}
                 {totalPages > 1 && (
                     <div className="pagination-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '40px', gap: '10px' }}>
                         <button

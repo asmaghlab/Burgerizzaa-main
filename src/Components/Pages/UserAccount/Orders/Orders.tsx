@@ -7,18 +7,20 @@ import type { RootState } from '../../../../Store/Store';
 const Orders = () => {
 
     const [orders, setOrders]=useState<Order[]>([]);
-    const user = useSelector((state:RootState)=> state.user);
+    const user = useSelector((state:RootState)=> state.user.user);
 
 
     useEffect(()=> {
+        if (!user) return;
+
         const getAllOrdersData= async ()=> {
             try {
                 const ordersData= await fetch("https://68eec8f4b06cc802829b50f7.mockapi.io/order");
                 const data =await ordersData.json()
 
-                // const userOrders = data.filter((order: any) => order.userID === user?.id);
+                const userOrders = data.filter((order: any) => order.userID === user?.id);
+                setOrders(userOrders);
 
-                setOrders(data);
             } catch(error) {
                 console.log("Error:" , error );
                 
@@ -27,6 +29,25 @@ const Orders = () => {
 
         getAllOrdersData()
     },[user])
+
+
+    const handleDeleteOrder = async (orderId: number) => {
+
+        await fetch(`https://68eec8f4b06cc802829b50f7.mockapi.io/order/${orderId}`, {
+        method: "DELETE",
+        });
+
+        setOrders((order) => order.filter((order) => order.id !== orderId));
+
+    };
+
+    if (!user) {
+        return (
+            <div id="Orders_users" className="login-need-msg">
+                <h3>No Orders Yet</h3>
+            </div>
+        );
+    }
 
     return (
         <>
@@ -75,7 +96,7 @@ const Orders = () => {
                             </div>
 
                             <div className="order_action_btn">
-                                <button>X</button>
+                                <button onClick={() => handleDeleteOrder(order.id)}>X</button>
                             </div>
                         </div>
                     </div>

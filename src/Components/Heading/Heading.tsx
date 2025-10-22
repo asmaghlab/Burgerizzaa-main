@@ -3,9 +3,9 @@ import { useEffect } from 'react';
 // import { IoLogInOutline } from "react-icons/io5";
 import { BsCart3 } from "react-icons/bs";
 import { RiMenu2Line } from "react-icons/ri";
-import { NavLink,Link } from 'react-router-dom';
+import { NavLink,Link, useNavigate } from 'react-router-dom';
 import { RiCloseLine } from "react-icons/ri";
-import { RiUser3Line } from "react-icons/ri";
+// import { RiUser3Line } from "react-icons/ri";
 
 import { LuUserPen } from "react-icons/lu";
 // import { GoChecklist } from "react-icons/go";
@@ -14,10 +14,17 @@ import { IoIosArrowDown } from "react-icons/io";
 
 
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../../Store/Store";
 
+import { clearCartAll } from "../../Store/CartSlice";
+import { logout } from '../../Store/Userslice';
+
+
 function Heading() {
+
+    const dispatch=useDispatch();
+    const navigate=useNavigate();
 
     const [responsive, setResponsive] = useState(false);
     const cart = useSelector((state: RootState) => state.cart);
@@ -35,6 +42,15 @@ function Heading() {
     }, []);
 
     const cartQuantity =cart.reduce((total, item) => total + item.quantity, 0)
+
+
+    const handleLogout= async ()=> {
+        setOpenDropdown(false);
+            
+        dispatch(clearCartAll());
+        dispatch(logout()) 
+        navigate("/home"); 
+    }
 
     return (
         <>
@@ -70,7 +86,7 @@ function Heading() {
                                             <LuUserPen />
                                             Profile
                                         </Link>
-                                        <Link to="/login" onClick={() => setOpenDropdown(false)}>
+                                        <Link to="/home" onClick={handleLogout}>
                                             <FiLogIn />
                                             LogOut
                                         </Link>
