@@ -1,0 +1,10 @@
+.menu_items {
+    margin-top: 3rem;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.7rem;
+}
+/* .details{
+    background-color: var(--color_bg);
+    box-shadow: var(--box-shadow);
+} */
