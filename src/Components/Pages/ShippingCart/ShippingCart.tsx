@@ -1,30 +1,39 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './ShippingCart.css';
 import { Link } from 'react-router-dom';
 import TableDesctop from './TableDesctop';
 import TableMobile from './TableMobile';
-import {  useSelector } from 'react-redux';
-import type { RootState } from '../../../Store/Store';
+import { useDispatch, useSelector } from 'react-redux';
+import type {  AppDispatch, RootState} from '../../../Store/Store';
 import CartEmpty from './CartEmpty';
-
-
-
-
+import { getAllDataCart } from '../../../Store/CartSlice';
 
 
 const ShippingCart:React.FC = () => {
 
     const cart =useSelector((state: RootState)=> state.cart);
-
-    
     const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
     const cartQuantity =cart.reduce((total, item) => total + item.quantity, 0)
+
+    const dispatch=useDispatch<AppDispatch>();
+
+    // useEffect(() => {
+    //     dispatch(getAllDataCart());
+    // }, [dispatch]);
+
+    useEffect(()=> {
+        dispatch(getAllDataCart());
+    }, [dispatch])
+
 
 
 
     if (cart.length === 0) {
         return <CartEmpty/>
     }
+
+
+
 
     return (
     <div id="background_home">

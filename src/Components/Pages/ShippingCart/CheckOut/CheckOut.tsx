@@ -1,56 +1,81 @@
 import React, { useEffect } from "react";
 import './CheckOut.css';
 import { useSelector, useDispatch } from 'react-redux';
-import type { RootState } from '../../../../Store/Store';
+import type { AppDispatch, RootState } from '../../../../Store/Store';
 import { saveCheckOutPersonalData, sumTotals } from "../../../../Store/CheckOutSlice";
 import type { CheckOutData } from "../../../../types";
+import BillOrder from "./BillOrder";
+import { getAllDataCart } from "../../../../Store/CartSlice";
 
 // SweetAlert
 import { orderSuccessAlert } from "../../../Sweet/SweetAlert";
 
 function CheckOut() {
-
-    const cart = useSelector((state: RootState)=> state.cart);
-    const dispatch = useDispatch();
+    const cart = useSelector((state: RootState) => state.cart);
+    const dispatch = useDispatch<AppDispatch>();
     const checkout = useSelector((state: RootState) => state.checkout);
 
+    const [showBill, setShowBill] = React.useState(false);
+
     useEffect(() => {
-        dispatch(sumTotals(cart));
+        dispatch(getAllDataCart())
+    }, [dispatch]);
+
+    useEffect(() => {
+        if (cart.length > 0) {
+            dispatch(sumTotals(cart));
+        }
     }, [cart, dispatch]);
 
-    const handelInputValidation = (e: React.MouseEvent<HTMLButtonElement>) => {
+    // الكومنت القديم ل validate inputs
+    // const handelInputValidation = (e: React.MouseEvent<HTMLButtonElement>) => {
+    //     e.preventDefault();
+    //     ...
+    // };
+
+    const handelInputValidation = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
 
         const allInput: (keyof CheckOutData)[] = [
-            "firstName",
-            "lastName",
-            "email",
-            "phone",
-            "address",
-            "city",
-            "radioBox",
+            "firstName", "lastName", "email", "phone", "address", "city", "radioBox"
         ];
 
         for (let input of allInput) {
             const value = checkout[input];
-
             if (!value) {
-                const element = document.getElementById(input) as
-                    | HTMLInputElement
-                    | HTMLTextAreaElement
-                    | null;
+                const element = document.getElementById(input) as HTMLInputElement;
                 if (element) {
                     element.focus();
-                    const fieldName = input.charAt(0).toUpperCase() + input.slice(1);
-                    element.placeholder = `${fieldName} (Required)`;
+                    element.placeholder = `${input} (Required)`;
                 }
                 return;
             }
         }
 
-        // كل البيانات موجودة، نعرض SweetAlert نجاح الطلب
-        orderSuccessAlert();
+        const newOrder = {
+            date: new Date().toLocaleString(),
+            items: cart,
+            checkoutData: checkout
+        };
+
+        try {
+            await fetch("https://68eec8f4b06cc802829b50f7.mockapi.io/order", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(newOrder)
+            });
+
+            setShowBill(true);
+            console.log(newOrder);
+
+        } catch (error) {
+            console.error("Error:", error);
+        }
     };
+
+    function closeBill() {
+        setShowBill(false);
+    }
 
     return (
         <>

@@ -74,7 +74,7 @@
     left: 0;
     top: 50%;
     transform: translateY(-50%);
-    height: 70%;
+    height: 90%;
     width: 3px;
     background-color: var(--color_input_bg);
     border-radius: 2px;
@@ -155,7 +155,15 @@
     -moz-border-radius: 20px;
     -ms-border-radius: 20px;
     -o-border-radius: 20px;
+
+
+    max-height: 550px; 
+    overflow-y: auto;
 }
+.profile_box_right::-webkit-scrollbar {
+    width: 0px;
+}
+
 
 .profile_box_right> h4 {
 padding-bottom: 1rem;

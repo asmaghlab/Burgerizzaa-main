@@ -1,7 +1,7 @@
 
 
 export type Menu ={
-    id: number;              
+    id: number | string ;              
     createdAt?: string;    
     name: string;
     image?: string;
@@ -35,5 +35,15 @@ export type CheckOutData = {
     total: number;
 }
 
+
+
+export type Order = {
+    userID?: string;
+    createdAt:string;
+    id: number;
+    date: string;
+    items: CartItem[];
+    checkoutData: CheckOutData;
+};
 
 

@@ -122,7 +122,6 @@ const UserProfile:React.FC = () => {
         <>
             <h4 className='mb-3'>User Information</h4>
 
-
             <form id="profile_form" onSubmit={handleSubmit}>
 
 

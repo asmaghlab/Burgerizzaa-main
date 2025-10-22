@@ -8,7 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "script": "json-server --watch data/Menu.json --port 5000"
+    "script": "json-server --watch data/Menu.json --port 5001",
+    "script2": "json-server --watch data/Cart.json --port 8002"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",

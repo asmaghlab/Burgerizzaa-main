@@ -10,12 +10,13 @@ import { add, increase, decrease } from "../../../../Store/CartSlice";
 import type { RootState, AppDispatch } from "../../../../Store/Store";
 import { addToCartAlert, loginPromptAlert } from "../../../Sweet/SweetAlert";
 import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
 
 const OurMenu = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const cart = useSelector((state: RootState) => state.cart);
-  const user = useSelector((state: RootState) => state.user.user); // ✅ خُد بس user.user
+  const user = useSelector((state: RootState) => state.user);
 
   // ✅ جلب البيانات باستخدام React Query
   const { data } = useQuery<MenuType[]>({
@@ -30,7 +31,7 @@ const OurMenu = () => {
 
   // ✅ عند الضغط على إضافة للسلة
   const handleAddClick = (item: MenuType) => {
-    if (!user || Object.keys(user).length === 0) { // ✅ الشرط المظبوط
+    if (!user) {
       loginPromptAlert(() => navigate("/login"));
       return;
     }
@@ -46,6 +47,11 @@ const OurMenu = () => {
   const handleDecrement = (id: number) => {
     dispatch(decrease(id));
   };
+
+  // ✅ Scroll to top عند دخول الصفحة
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
 
   return (
     <>
@@ -71,6 +77,7 @@ const OurMenu = () => {
                   <div
                     className="menu_item_img"
                     style={{ cursor: "pointer" }}
+                    onClick={() => navigate(`/menu/${item.id}`)}
                   >
                     <img src={item.image} alt={item.name} />
                   </div>
@@ -79,6 +86,7 @@ const OurMenu = () => {
                     <div
                       className="menu_item_col1"
                       style={{ cursor: "pointer" }}
+                      onClick={() => navigate(`/menu/${item.id}`)}
                     >
                       <h3>
                         {item.name.length > 22

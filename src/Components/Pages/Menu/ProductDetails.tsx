@@ -23,7 +23,7 @@ export default function ProductDetails() {
 
   const product = menuData.find((item) => item.id === Number(id));
   useEffect(() => {
-    window.scrollTo(0, 0); 
+    window.scrollTo(0, 0); // يوديك لأعلى الصفحة أول ما تفتح
   }, [id]);
   useEffect(() => {
     if (menuData.length === 0) {

@@ -34,7 +34,7 @@ function Heading() {
         return () => window.removeEventListener("scroll", handleHeadingScroll);
     }, []);
 
-    // const cartQuantity =cart.reduce((total, item) => total + item.quantity, 0)
+    const cartQuantity =cart.reduce((total, item) => total + item.quantity, 0)
 
     return (
         <>
@@ -88,7 +88,8 @@ function Heading() {
 
 
                     <Link to="shippingcart" className='cart'>
-                        <i><BsCart3 /> {cart.length > 0 && <span>{cart.length}</span>}</i>
+                        {/* <i><BsCart3 /> {cart.length > 0 && <span>{cart.length}</span>}</i> */}
+                        <i><BsCart3 /> {cartQuantity > 0 && <span>{cartQuantity}</span>}</i>
                     </Link>
 
                     <i className='toggle' onClick={() => setResponsive(true)}><RiMenu2Line /></i>
@@ -108,10 +109,24 @@ function Heading() {
                     <NavLink to="/menu" className="mobile_menu_link" onClick={() => setResponsive(false)}>Menu</NavLink>
                     <NavLink to="/contactus" className="mobile_menu_link" onClick={() => setResponsive(false)}>Contact</NavLink>
 
-                    <Link to="/login" className="mobile_account" onClick={() => setResponsive(false)}>
-                        <i><RiUser3Line /></i>
+                    {/* <Link to="/login" className="mobile_account" onClick={() => setResponsive(false)}>
                         <h4>Login</h4>
-                    </Link>
+                    </Link> */}
+
+                    <div className="mobile_account">
+
+                        {user? (
+
+                        <h5>Hi, {user.username.split("")}</h5>
+
+                        ):(
+                            <Link to="/login">
+                                <button className='user_login'>Login</button>
+                            </Link>
+                        )}
+                        
+                    </div>
+
                 </div>
             )}
 

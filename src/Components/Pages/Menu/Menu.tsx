@@ -28,10 +28,12 @@ function Menu() {
     useEffect(() => {
         dispatch(getAllMenuData());
     }, [dispatch]);
+
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }, []);
 
+    // Add Items
     const handleAddClick = (item: MenuType) => {
         if (!user) {
             loginPromptAlert(() => navigate("/login"));
@@ -40,7 +42,6 @@ function Menu() {
         dispatch(add(item));
         addToCartAlert(item.name);
     };
-
 
     const handleIncrement = (id: number) => {
         dispatch(increase(id));
@@ -54,7 +55,6 @@ function Menu() {
         navigate(`/menu/${id}`);
     };
 
-    // ✅ لازم ييجي بعد تعريف activeFilter
     const filteredMenuData = activeFilter === "Menu"
         ? menuData
         : menuData.filter((item) => item.category === activeFilter);
@@ -105,77 +105,65 @@ function Menu() {
                     ) : error ? (
                         <p>{error}</p>
                     ) : (
-                        currentItems.map((item: MenuType) => (
-                            <div className="menu_item" key={item.id}>
-                                <div
-                                    className="menu_item_img"
-                                    onClick={() => handleProductClick(item.id)}
-                                    style={{ cursor: "pointer" }}
-                                >
-                                    <img src={item.image} alt="" />
-                                </div>
-
-                                <div className="menu_item_data">
+                        currentItems.map((item: MenuType) => {
+                            const cartItem = cart.find((cartItem) => cartItem.id === item.id);
+                            return (
+                                <div className="menu_item" key={item.id}>
                                     <div
-                                        className="menu_item_col1"
+                                        className="menu_item_img"
                                         onClick={() => handleProductClick(item.id)}
                                         style={{ cursor: "pointer" }}
                                     >
-                                        <h3>{item.name.length > 22 ? item.name.slice(0, 22) + "..." : item.name}</h3>
-                                    </div>
-                                    <div className="item_star">
-                                        <FaStar />
-                                        <FaStar />
-                                        <FaStar />
-                                        <FaRegStar />
-                                    </div>
-                                    <div className="menu_item_col2">
-                                        <p>{item.description?.substring(0, 25)}...</p>
+                                        <img src={item.image} alt="" />
                                     </div>
 
-                                    <div className="menu_item_col3">
-                                        {(() => {
-                                            const cartItem = cart.find((cartItem) => cartItem.id === item.id);
+                                    <div className="menu_item_data">
+                                        <div
+                                            className="menu_item_col1"
+                                            onClick={() => handleProductClick(item.id)}
+                                            style={{ cursor: "pointer" }}
+                                        >
+                                            <h3>{item.name.length > 22 ? item.name.slice(0, 22) + "..." : item.name}</h3>
+                                        </div>
 
-                                            if (cartItem) {
-                                                return (
-                                                    <div className="counter_item_btn">
-                                                        <button onClick={() => handleDecrement(item.id)}>−</button>
-                                                        <span>{cartItem.quantity}</span>
-                                                        <button onClick={() => handleIncrement(item.id)}>+</button>
-                                                    </div>
-                                                );
-                                            } else {
-                                                return (
-                                                    <button
-                                                        className="menu_item_btn"
-                                                        onClick={() => handleAddClick(item)}
-                                                    >
-                                                        <BsCart3 />
-                                                    </button>
-                                                );
-                                            }
-                                        })()}
-                                        <p>{item.price}<span>EGP</span></p>
+                                        <div className="item_star">
+                                            <FaStar />
+                                            <FaStar />
+                                            <FaStar />
+                                            <FaRegStar />
+                                        </div>
+
+                                        <div className="menu_item_col2">
+                                            <p>{item.description?.substring(0, 25)}...</p>
+                                        </div>
+
+                                        <div className="menu_item_col3">
+                                            {cartItem ? (
+                                                <div className="counter_item_btn">
+                                                    <button onClick={() => handleDecrement(item.id)}>−</button>
+                                                    <span>{cartItem.quantity}</span>
+                                                    <button onClick={() => handleIncrement(item.id)}>+</button>
+                                                </div>
+                                            ) : (
+                                                <button
+                                                    className="menu_item_btn"
+                                                    onClick={() => handleAddClick(item)}
+                                                >
+                                                    <BsCart3 />
+                                                </button>
+                                            )}
+                                            <p>{item.price}<span>EGP</span></p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        ))
+                            );
+                        })
                     )}
                 </div>
 
                 {/* ✅ Pagination */}
                 {totalPages > 1 && (
-                    <div
-                        className="pagination-container"
-                        style={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            marginTop: '40px',
-                            gap: '10px',
-                        }}
-                    >
+                    <div className="pagination-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '40px', gap: '10px' }}>
                         <button
                             className="btn"
                             onClick={() => handlePageChange(currentPage - 1)}
@@ -233,15 +221,7 @@ function Menu() {
                 )}
 
                 {totalPages > 1 && (
-                    <div
-                        className="page-info"
-                        style={{
-                            textAlign: 'center',
-                            marginTop: '20px',
-                            color: '#6c757d',
-                            fontSize: '14px',
-                        }}
-                    >
+                    <div className="page-info" style={{ textAlign: 'center', marginTop: '20px', color: '#6c757d', fontSize: '14px' }}>
                         Showing {startIndex + 1} to {Math.min(endIndex, filteredMenuData.length)} of {filteredMenuData.length} items
                     </div>
                 )}

@@ -55,7 +55,6 @@ const AppRoutes: React.FC = () => {
             <Route path="reset" element={<ResetPassword />} />
         </Routes>
 
-
         {headerFooter && <Footer />}
         </>
     );
@@ -64,7 +63,7 @@ const AppRoutes: React.FC = () => {
 const Pages: React.FC = () => {
     return (
         <BrowserRouter>
-        <AppRoutes />
+            <AppRoutes />
         </BrowserRouter>
     );
 };
