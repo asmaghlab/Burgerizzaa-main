@@ -1,3 +1,4 @@
+import "./ProductDetails.css"
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { BsCart3 } from "react-icons/bs";
@@ -7,6 +8,8 @@ import type { AppDispatch, RootState } from "../../../Store/Store";
 import { getAllMenuData } from "../../../Store/MenuSlice";
 import { add, increase, decrease } from "../../../Store/CartSlice";
 // import Loading from "./Loading";
+import { loginPromptAlert, addToCartAlert } from "../../Sweet/SweetAlert";
+
 
 export default function ProductDetails() {
   const { id } = useParams();
@@ -14,12 +17,14 @@ export default function ProductDetails() {
   const navigate = useNavigate();
 
   const { menuData, loading } = useSelector((state: RootState) => state.menu);
-  const user = useSelector((state: RootState) => state.user);
+  const user = useSelector((state: RootState) => state.user.user);
   const cart = useSelector((state: RootState) => state.cart);
   const [count, setCount] = useState(1);
 
   const product = menuData.find((item) => item.id === Number(id));
-
+  useEffect(() => {
+    window.scrollTo(0, 0); 
+  }, [id]);
   useEffect(() => {
     if (menuData.length === 0) {
       dispatch(getAllMenuData());
@@ -28,22 +33,24 @@ export default function ProductDetails() {
 
   const handleAddToCart = () => {
     if (!user) {
-      alert("You need to login first!");
-      navigate("/login");
+      loginPromptAlert(() => navigate("/login"));
       return;
     }
+
     if (product) {
       for (let i = 0; i < count; i++) {
         dispatch(add(product));
       }
+      addToCartAlert(product.name);
       navigate("/shippingcart");
     }
   };
 
-  const relatedProducts = product 
+
+  const relatedProducts = product
     ? menuData
-        .filter(item => item.category === product.category && item.id !== product.id)
-        .slice(0, 4)
+      .filter(item => item.category === product.category && item.id !== product.id)
+      .slice(0, 4)
     : [];
 
   // if (loading) return <Loading />;
@@ -52,7 +59,7 @@ export default function ProductDetails() {
 
   return (
     <div className="container py-5" style={{ marginTop: "100px" }}>
-      <div className="row align-items-center">
+      <div className="row align-items-center details">
         <div className="col-md-6 text-center">
           <img
             src={product.image}
@@ -101,9 +108,9 @@ export default function ProductDetails() {
             >
               −
             </button>
-            <span style={{ 
-              fontSize: "1.5rem", 
-              fontWeight: "bold", 
+            <span style={{
+              fontSize: "1.5rem",
+              fontWeight: "bold",
               color: "#2c3e50",
               minWidth: "50px",
               textAlign: "center"
@@ -138,8 +145,8 @@ export default function ProductDetails() {
           </div>
 
           <div className="d-flex align-items-center gap-3">
-            <button 
-              className="btn px-4 py-3" 
+            <button
+              className="btn px-4 py-3"
               onClick={handleAddToCart}
               style={{
                 backgroundColor: "#ad343e",
@@ -167,8 +174,8 @@ export default function ProductDetails() {
               </h3>
               <div className="menu_items">
                 {relatedProducts.map((relatedProduct) => (
-                  <div 
-                    className="menu_item" 
+                  <div
+                    className="menu_item"
                     key={relatedProduct.id}
                     style={{
                       transition: "transform 0.3s ease, box-shadow 0.3s ease",
@@ -183,16 +190,16 @@ export default function ProductDetails() {
                       e.currentTarget.style.boxShadow = "0 4px 15px rgba(0, 0, 0, 0.1)";
                     }}
                   >
-                    <div 
+                    <div
                       className="menu_item_img"
-                      onClick={() => navigate(`/menu/${relatedProduct.id}`)} 
+                      onClick={() => navigate(`/menu/${relatedProduct.id}`)}
                       style={{ cursor: "pointer" }}
                     >
                       <img src={relatedProduct.image} alt="" />
                     </div>
 
                     <div className="menu_item_data">
-                      <div 
+                      <div
                         className="menu_item_col1"
                         onClick={() => navigate(`/menu/${relatedProduct.id}`)}
                         style={{ cursor: "pointer" }}
@@ -208,44 +215,55 @@ export default function ProductDetails() {
                       <div className="menu_item_col2">
                         <p>{relatedProduct.description?.substring(0, 25)}...</p>
                       </div>
+                      <div className="menu_item_col3">
+                        {(() => {
+                          const cartItem = cart.find(
+                            (cartItem) => cartItem.id === relatedProduct.id
+                          );
 
-                        <div className="menu_item_col3">
-                          {
-                            (() => {
-                              const cartItem = cart.find((cartItem) => cartItem.id === relatedProduct.id);
-
-                              return cartItem ? (
-                                <div className="counter_item_btn">
-                                  <button onClick={(e) => {
-                                    e.stopPropagation();
-                                    dispatch(decrease(relatedProduct.id));
-                                  }}>−</button>
-                                  <span>{cartItem.quantity}</span>
-                                  <button onClick={(e) => {
-                                    e.stopPropagation();
-                                    dispatch(increase(relatedProduct.id));
-                                  }}>+</button>
-                                </div>
-                              ):( 
-                                <button 
-                                  className='menu_item_btn' 
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    if (!user) {
-                                      alert("You need to login first!");
-                                      navigate("/login");
-                                      return;
-                                    }
-                                    dispatch(add(relatedProduct));
-                                  }}
-                                >
-                                  <BsCart3 />
-                                </button>
-                              );
-                            })()
-                          }
-                          <p>{relatedProduct.price}<span>EGP</span></p>
-                        </div>
+                          return cartItem ? (
+                            <div className="counter_item_btn">
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  dispatch(decrease(relatedProduct.id));
+                                }}
+                              >
+                                −
+                              </button>
+                              <span>{cartItem.quantity}</span>
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  dispatch(increase(relatedProduct.id));
+                                }}
+                              >
+                                +
+                              </button>
+                            </div>
+                          ) : (
+                            <button
+                              className="menu_item_btn"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                if (!user) {
+                                  if (!user) {
+                                    loginPromptAlert(() => navigate("/login"));
+                                    return;
+                                  }
+                                  navigate("/login");
+                                  return;
+                                }
+                                dispatch(add(relatedProduct));
+                                addToCartAlert(relatedProduct.name);
+                              }}
+                            >
+                              <BsCart3 />
+                            </button>
+                          );
+                        })()}
+                        <p>{relatedProduct.price}<span>EGP</span></p>
+                      </div>
                     </div>
                   </div>
                 ))}
