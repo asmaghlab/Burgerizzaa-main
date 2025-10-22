@@ -16,7 +16,6 @@ const Orders = () => {
                 const ordersData= await fetch("https://68eec8f4b06cc802829b50f7.mockapi.io/order");
                 const data =await ordersData.json()
 
-                // Orders Current User::
                 // const userOrders = data.filter((order: any) => order.userID === user?.id);
 
                 setOrders(data);
