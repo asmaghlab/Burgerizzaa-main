@@ -10,7 +10,7 @@ type ResetUserState = {
 
 const initialState: ResetUserState = {
   id: null,
- 
+
 };
 
 
@@ -26,7 +26,6 @@ const resetSlice = createSlice({
     // مسح بيانات المستخدم
     clearresetuser: (state) => {
       state.id = null;
-     
     },
   },
 });

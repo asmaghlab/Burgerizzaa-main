@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import Heading from "../Heading/Heading";
 import HomePage from "../HomePage/HomePage";
 import MenuPage from "../MenuPage/MenuPage";
@@ -49,10 +49,10 @@ const AppRoutes: React.FC = () => {
             <Route path="/shippingcart/checkout" element={<CheckOut />} />
 
             {/* Auth */}
-            <Route path="login" element={<Login />} />
-            <Route path="register" element={<Register />} />
-            <Route path="forget" element={<ForgetPassword />} />
-            <Route path="reset" element={<ResetPassword />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/forget" element={<ForgetPassword />} />
+            <Route path="/reset" element={<ResetPassword />} />
         </Routes>
 
         {headerFooter && <Footer />}
@@ -62,9 +62,7 @@ const AppRoutes: React.FC = () => {
 
 const Pages: React.FC = () => {
     return (
-        <BrowserRouter>
-            <AppRoutes />
-        </BrowserRouter>
+        <AppRoutes />
     );
 };
 

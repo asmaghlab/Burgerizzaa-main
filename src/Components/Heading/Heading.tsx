@@ -103,7 +103,7 @@ function Heading() {
 
 
 
-                    <Link to="shippingcart" className='cart'>
+                    <Link to="/shippingcart" className='cart'>
                         {/* <i><BsCart3 /> {cart.length > 0 && <span>{cart.length}</span>}</i> */}
                         <i><BsCart3 /> {cartQuantity > 0 && <span>{cartQuantity}</span>}</i>
                     </Link>
