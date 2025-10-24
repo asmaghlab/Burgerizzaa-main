@@ -97,6 +97,8 @@ const UserProfile:React.FC = () => {
                 username: updateUserInfo.username,
                 email: updateUserInfo.email,
                 password: updateUserInfo.password,
+                location:updateUserInfo.location,
+                phone:updateUserInfo.phone,
                 }
 
             );

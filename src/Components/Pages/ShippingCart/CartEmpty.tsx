@@ -5,7 +5,7 @@ function CartEmpty(){
     return (
         <>
         <div id="background_home">
-            <section style={{height:"100vh"}}>
+            <section style={{height:"100vh"}} className="section">
                 <div style={{display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center", gap:"2rem", marginTop:"7rem"}}>
                     <div style={{color:"#ad343e"}}>
                         <img src="/public/SVG.png" alt="" />
