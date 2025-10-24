@@ -167,7 +167,7 @@ const cartSlice = createSlice({
 
         .addCase(add.fulfilled, (state, action) => {
             const exist = state.find(item => Number(item.id) === Number(action.payload.id));
-            if (!exist) state.push(action.payload);
+            if (!exist) state.unshift(action.payload);
             else {
             const index = state.findIndex(item => Number(item.id) === Number(action.payload.id));
             state[index] = action.payload;

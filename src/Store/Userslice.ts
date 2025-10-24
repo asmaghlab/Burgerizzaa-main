@@ -9,7 +9,7 @@ type User = {
   password?: string;
   re_password?: string;
   location?: string;
-  phone?: string;
+  phone?: number;
 };
 
 type UserState = {

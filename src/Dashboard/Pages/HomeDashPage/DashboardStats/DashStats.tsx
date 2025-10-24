@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import axios from "axios";
-import type {Order } from "../../../../types";
+import type {Order} from "../../../../types";
 
 const DashStats:React.FC = () => {
 

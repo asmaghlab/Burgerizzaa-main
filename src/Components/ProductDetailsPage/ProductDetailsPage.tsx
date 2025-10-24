@@ -4,7 +4,7 @@ function ProductDetailsPage() {
     return (
         <>
         <div id="background_home">
-            <section>
+            <section className="section">
                 <ProductDetails/>
             </section>
         </div>

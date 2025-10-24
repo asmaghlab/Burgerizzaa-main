@@ -6,7 +6,7 @@ const navItems = [
     { icon: "home", label: "Home", path: "/dashboard" },
     { icon: "restaurant_menu", label: "Menu", path: "/dashboard/menuDash" },
     { icon: "receipt_long", label: "Orders", path: "/dashboard/ordersDash" },
-    { icon: "group", label: "Users", path: "/dashboard/usersDash" },
+    { icon: "group", label: "Users", path: "/dashboard/userDashboard" },
     { icon: "mail", label: "Message", path: "/dashboard/messageDash" },
     { icon: "insert_chart", label: "Report", path: "/dashboard/reportspage" },
 

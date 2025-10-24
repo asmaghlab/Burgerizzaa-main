@@ -5,7 +5,7 @@ function ContactPage() {
     return (
         <>
         <div id="background_home">
-            <section>ContactPage</section>
+            <section className="section">ContactPage</section>
         </div>
         </>
     );

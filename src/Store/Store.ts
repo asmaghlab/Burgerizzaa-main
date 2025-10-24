@@ -5,6 +5,8 @@ import MenuReducer from './MenuSlice';
 import userReducer from './Userslice';
 import resetReducer from './Resetslice';
 import checkOutReducer from './CheckOutSlice';
+import dashboardMenuReducer from "./DashboardMenuSlice";
+import cartDashReducer from './CartDashSlice';
 
 export const store = configureStore({
     reducer: {
@@ -13,6 +15,9 @@ export const store = configureStore({
         user: userReducer,
         resetuser: resetReducer,
         checkout: checkOutReducer,
+        dashboardMenu: dashboardMenuReducer,
+        cartDash:cartDashReducer,
+
     },
     devTools: true,
 });

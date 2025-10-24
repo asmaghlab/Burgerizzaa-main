@@ -16,7 +16,7 @@ function HomePage() {
     return (
     <>
     <div id="background_home">
-        <section>
+        <section className="section">
             <Hero/>
             <Deals/>
             <Categories/>

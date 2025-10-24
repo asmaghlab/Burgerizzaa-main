@@ -86,7 +86,7 @@ function CheckOut() {
     return (
         <>
             <div id="background_home">
-                <section id="checkout">
+                <section id="checkout" className="section">
                     <div className="container_box form-billing-data">
 
                         <form id="form-checkout">

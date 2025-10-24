@@ -4,7 +4,7 @@ function MenuPage() {
     return (
         <>
         <div id="background_home">
-            <section>
+            <section className="section">
                 <Menu/>
             </section>
         </div>

@@ -35,7 +35,7 @@ const UserAccount:React.FC = () => {
     return (
         <>
         <div id="background_home">
-            <section id='profile_page'>
+            <section id='profile_page' className='section'>
 
                 <div className="container_box profile_page">
 

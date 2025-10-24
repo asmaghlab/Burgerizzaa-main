@@ -49,3 +49,5 @@ export type Order = {
 };
 
 
+export type CartDashItem = Menu & { quantity: number };
+

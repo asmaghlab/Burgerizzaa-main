@@ -6,8 +6,9 @@ import Navbar from "../Navbare/Navbare";
 import DashboardPage from "../DashboardPage/DashboardPage";
 import MenuPage from "../MenuDashPage/MenuPage";
 import OrdersPage from "../OrdersDashPage/OrdersPage";
-import UsersPage from "../UsersDashPage/UsersPage";
+// import UsersPage from "../UsersDashPage/UsersPage";
 import ReportsPage from '../ReportsPage/ReportsPage';
+import UserDashboard from '../UserDashboard/UserDashboard';
 
 
 const DashboardRoutes: React.FC = () => {
@@ -28,7 +29,7 @@ const DashboardRoutes: React.FC = () => {
                     <Route path="" element={<DashboardPage/>} />
                     <Route path="menuDash" element={<MenuPage/>} />
                     <Route path="ordersDash" element={<OrdersPage/>} />
-                    <Route path="usersDash" element={<UsersPage/>} />
+                    <Route path="userDashboard" element={<UserDashboard/>} />
                     <Route path="reportspage" element={<ReportsPage/>} />
                 </Routes>
             </div>

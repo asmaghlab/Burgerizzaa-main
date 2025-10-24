@@ -140,10 +140,10 @@ const Login: React.FC = () => {
 
                             <button
                                 type="submit"
-                                disabled={mutation.isLoading}
+                                disabled={mutation.isPending}
                                 className="login_btn btn w-100 d-flex justify-content-center align-items-center rounded-4"
                             >
-                                {mutation.isLoading ? (
+                                {mutation.isPending ? (
                                     <div className="spinner-border" role="status">
                                         <span className="visually-hidden">Loading...</span>
                                     </div>
