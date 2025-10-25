@@ -4,6 +4,9 @@ import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../Store/Store";
 import { Link } from "react-router-dom";
+import { IoHome } from "react-icons/io5";
+
+
 const Navbar: React.FC = () => {
     
     const location = useLocation();
@@ -22,11 +25,13 @@ const Navbar: React.FC = () => {
 
             <div>{currentRoute}</div>
 
-            <div className=" d-flex align-items-center nav_link">
-                <Link to="/" style={{marginRight:"10px", color:"#2C2F24"}}>Home</Link>
+            <div className=" nav_link">
+                <Link to="/">
+                    <IoHome />
+                </Link>
                 {user && (
                         <img src={`https://ui-avatars.com/api/?name=${user.username}&background=ad343e&color=fff&size=128`} alt="" 
-                        style={{width:"30px", borderRadius:"50%",marginRight:"5px"}}/>
+                        style={{width:"30px", borderRadius:"5px",marginRight:"5px"}}/>
                 )}
             
             </div>
