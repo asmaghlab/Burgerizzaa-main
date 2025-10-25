@@ -1,22 +1,41 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import { Helmet } from "react-helmet-async";
+import z from 'zod';
+import { useForm} from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 interface IUser {
   id: string;
   username: string;
   email: string;
   role: 'user' | 'admin';
+  phone:string;
 }
-
+ 
 export default function UserDashboard() {
   const [search, setSearch] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState<IUser | null>(null);
   const queryClient = useQueryClient();
 
+  const schema=z.object({
+    username:z.string().min(1,'name is required').max(20,'max length is 20'),
+    email:z.email('invalid email'),
+    phone:z.string().optional().refine((val) => !val || /^[0-9]{11}$/.test(val), "Phone must be exactly 11 digits"),
+    // phone:z.string() .regex(/^[0-9]{11}$/, "Phone must be 11 digits"),
+    
+  });
+type UserFormData = z.infer<typeof schema>;
+
+  const { register, handleSubmit, reset, formState} = useForm<UserFormData>({
+    resolver: zodResolver(schema),
+  });
+ 
+
+ 
   //  Get Users
   const { data, isLoading, isError } = useQuery<IUser[]>({
     queryKey: ['users'],
@@ -76,6 +95,11 @@ export default function UserDashboard() {
 
   const handleEditClick = (user: IUser) => {
     setSelectedUser(user);
+     reset({
+      username: user.username,
+      email: user.email,
+      phone: user.phone.toLowerCase().includes("phone") ? "" : user.phone,
+    });
     setShowModal(true);
   };
 
@@ -84,11 +108,17 @@ export default function UserDashboard() {
     setSelectedUser(null);
   };
 
-  const handleSaveChanges = () => {
-    
-      updateUser.mutate(selectedUser as IUser);
-    
+  const onSubmit = (data: UserFormData) => {
+    if (selectedUser) {
+      updateUser.mutate({ ...selectedUser, ...data });
+    }
   };
+
+  // const handleSaveChanges = () => {
+    
+  //     updateUser.mutate(selectedUser as IUser);
+    
+  // };
 
   //  Loading & Error States
   if (isLoading)
@@ -112,10 +142,10 @@ export default function UserDashboard() {
   return (
     <>
     <Helmet>
-        <title>User Dashboard</title>
-        <meta charSet="utf-8" />
-        <link rel="canonical" href="http://mysite.com/example" />
-    </Helmet>
+            <title>User Dashboard</title>
+            <meta charSet="utf-8" />
+            <link rel="canonical" href="http://mysite.com/example" />
+          </Helmet>
     <div className="container mt-2">
       <h2 className="mb-3 text-center">Users Dashboard</h2>
       <div className="mb-3">
@@ -141,6 +171,7 @@ export default function UserDashboard() {
               <th style={{ width: '8%' }}>Id</th>
               <th style={{ width: '20%' }}>Name</th>
               <th style={{ width: '22%' }}>Email</th>
+                <th style={{ width: '20%' }}>Phone</th>
               <th style={{ width: '20%' }}>Role</th>
               <th style={{ width: '15%' }}>Action</th>
             </tr>
@@ -151,6 +182,7 @@ export default function UserDashboard() {
                 <td>{user.id}</td>
                 <td>{user.username}</td>
                 <td>{user.email}</td>
+                <td>{user.phone.toLowerCase().includes("phone")? "-":user.phone}</td>
                 <td>{user.role}</td>
                 <td>
                   <div className="d-flex justify-content-center flex-wrap gap-2">
@@ -183,8 +215,8 @@ export default function UserDashboard() {
         >
           <div className="modal-dialog modal-dialog-centered modal-md">
             <div className="modal-content shadow-lg rounded-4 p-4">
-              <div className="modal-header border-0 pb-0">
-                <h5 className="modal-title fw-bold">Edit User</h5>
+              <div className="modal-header  border-0 pb-0">
+                <h5 className="modal-title text-danger fw-bold">Edit User</h5>
                 <button type="button" className="btn-close" onClick={handleModalClose}></button>
               </div>
               <div className="modal-body pt-3">
@@ -193,23 +225,38 @@ export default function UserDashboard() {
                   <input
                     type="text"
                     className="form-control rounded-3"
-                    value={selectedUser.username}
-                    onChange={(e) =>
-                      setSelectedUser({ ...selectedUser, username: e.target.value })
-                    }
+                    {...register("username")}
                   />
+                  {formState.errors.username && (
+                      <p className="alert alert-danger p-1 mt-1 text-center">
+                        {formState.errors.username.message}
+                      </p>)}
                 </div>
                 <div className="mb-3">
                   <label className="form-label fw-semibold">Email</label>
                   <input
                     type="email"
                     className="form-control rounded-3"
-                    value={selectedUser.email}
-                    onChange={(e) =>
-                      setSelectedUser({ ...selectedUser, email: e.target.value })
-                    }
+                      {...register("email")}
+                    
                   />
+                  {formState.errors.email && (
+                      <p className="alert alert-danger p-1 mt-1 text-center">
+                        {formState.errors.email.message}
+                      </p>)}
                 </div>
+                <div className="mb-3">
+  <label className="form-label fw-semibold">Phone</label>
+  <input
+    type="text"
+    className="form-control rounded-3"
+   {...register("phone")}
+  />
+  {formState.errors.phone && (
+                      <p className="alert alert-danger p-1 mt-1 text-center">
+                        {formState.errors.phone.message}
+                      </p>)}
+</div>
                 <div className="mb-4">
                   <label className="form-label fw-semibold">Role</label>
                   <select
@@ -227,7 +274,7 @@ export default function UserDashboard() {
               <div className="modal-footer border-0 pt-0">
                 <button
                   className="btn btn-danger w-100 rounded-3 fw-semibold"
-                  onClick={handleSaveChanges}
+                  onClick={handleSubmit(onSubmit)}
                   disabled={updateUser.isPending}
                 >
                   {updateUser.isPending ? (
@@ -246,3 +293,7 @@ export default function UserDashboard() {
     </>
   );
 }
+
+
+
+

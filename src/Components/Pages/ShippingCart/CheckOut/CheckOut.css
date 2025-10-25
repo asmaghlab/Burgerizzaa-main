@@ -336,7 +336,6 @@ input[type="radio"]:checked::before {
     left:0;
     width:100%;
     height:100%;
-    background-color: rgba(255, 255, 255, 0.826);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -344,12 +343,12 @@ input[type="radio"]:checked::before {
 }
 
 .bill-box {
-    background-color: var(--color_bg);
+    background-color: white;
     padding: 2rem;
     border-radius: 12px;
     width: 400px;
     text-align: center;
-    box-shadow:  0 4px 8px 0 #efbcc1b6, 0 6px 20px 0 #efbcc1b6;
+    /* box-shadow:  0 4px 8px 0 #efbcc1b6, 0 6px 20px 0 #efbcc1b6; */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -380,3 +379,7 @@ border-top: 1px dashed var(--color_border);
 .order_data> p> span {
     font-weight: 500;
 }
+
+
+
+

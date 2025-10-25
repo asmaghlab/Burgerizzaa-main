@@ -2,13 +2,17 @@ import React, { useEffect } from "react";
 import './CheckOut.css';
 import { useSelector, useDispatch } from 'react-redux';
 import type { AppDispatch, RootState } from '../../../../Store/Store';
-import { saveCheckOutPersonalData, sumTotals } from "../../../../Store/CheckOutSlice";
+import { saveCheckOutPersonalData, sumTotals} from "../../../../Store/CheckOutSlice";
 import type { CheckOutData } from "../../../../types";
-// import BillOrder from "./BillOrder";
+import BillOrder from "./BillOrder";
 import { getAllDataCart } from "../../../../Store/CartSlice";
+import { CheckoutSchema } from "../../../../Store/CheckoutSchema";
+import axios from "axios";
 
 // SweetAlert
 // import { orderSuccessAlert } from "../../../Sweet/SweetAlert";
+
+
 
 function CheckOut() {
     const cart = useSelector((state: RootState) => state.cart);
@@ -16,9 +20,7 @@ function CheckOut() {
     const checkout = useSelector((state: RootState) => state.checkout);
     const user = useSelector((state: RootState) => state.user.user);
 
-
-
-    // const [showBill, setShowBill] = React.useState(false);
+    const [showBill, setShowBill] = React.useState(false);
 
     useEffect(() => {
         dispatch(getAllDataCart())
@@ -38,13 +40,14 @@ function CheckOut() {
 
     const handelInputValidation = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
+        
 
         const allInput: (keyof CheckOutData)[] = [
-            "firstName", "lastName", "email", "phone", "address", "city", "radioBox"
+            "firstName", "lastName", "email", "phone", "address", "city"
         ];
 
         for (const input of allInput) {
-            const value = checkout[input];
+            const value = checkout[input as keyof CheckOutData];
             if (!value) {
                 const element = document.getElementById(input) as HTMLInputElement;
                 if (element) {
@@ -55,33 +58,54 @@ function CheckOut() {
             }
         }
 
+        const validation =CheckoutSchema.safeParse(checkout);
+
+        if (!validation.success) {
+            const errors = validation.error.flatten().fieldErrors;
+            const firstErrorField = Object.keys(errors)[0] as keyof CheckOutData;
+            const firstErrorMessage = errors[firstErrorField]?.[0];
+
+            const element = document.getElementById(firstErrorField) as HTMLInputElement;
+
+            if (element) {
+                element.focus();
+                element.value = ""; 
+                element.placeholder = firstErrorMessage ?? "Invalid field";
+            }
+
+            return;
+        }
+
         if (!user) return;
 
         const newOrder = {
             date: new Date().toLocaleString(),
+            Status:"Pending",
             items: cart,
             checkoutData: checkout,
             userID: user.id,
+
         };
 
-        try {
-            await fetch("https://68eec8f4b06cc802829b50f7.mockapi.io/order", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(newOrder)
-            });
 
-            // setShowBill(true);
+        try {
+            await axios.post("https://68eec8f4b06cc802829b50f7.mockapi.io/order", newOrder);
+
+            setShowBill(true);
+
             console.log(newOrder);
 
         } catch (error) {
             console.error("Error:", error);
         }
+
+
+
     };
 
-    // function closeBill() {
-    //     setShowBill(false);
-    // }
+    function closeBill() {
+        setShowBill(false);
+    }
 
     return (
         <>
@@ -100,7 +124,9 @@ function CheckOut() {
                                         <label htmlFor="firstName">First Name <span>*</span></label>
                                         <input type="text" id="firstName" name="firstName" 
                                             value={checkout.firstName}
-                                            onChange={(e)=>dispatch(saveCheckOutPersonalData({
+                                            onChange={(e)=>
+                                                
+                                                dispatch(saveCheckOutPersonalData({
                                                 name:e.target.name as keyof CheckOutData,
                                                 value:e.target.value
                                             }))}
@@ -212,8 +238,12 @@ function CheckOut() {
                                 </div>
                             </div>
 
-                            <button className='btn_order' onClick={handelInputValidation}>Place Order</button>
+                            <button type="button" className='btn_order' onClick={handelInputValidation}>Place Order</button>
                         </div>
+
+                        {showBill && (
+                            <BillOrder onClose={closeBill}/>
+                        )}
 
                     </div>
                 </section>

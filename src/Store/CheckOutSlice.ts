@@ -41,11 +41,12 @@ const CheckOutSlice = createSlice({
         state.subTotal = subTotal;
         state.shipping = shipping;
         state.total = totalPrice;
-    }
+    },
+
 
     }
 })
 
 
-export const {saveCheckOutPersonalData, sumTotals} = CheckOutSlice.actions;
+export const {saveCheckOutPersonalData, sumTotals } = CheckOutSlice.actions;
 export default  CheckOutSlice.reducer;

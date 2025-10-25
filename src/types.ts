@@ -35,6 +35,7 @@ export type CheckOutData = {
     subTotal: number;
     shipping: number;
     total: number;
+
 }
 
 
@@ -42,10 +43,12 @@ export type CheckOutData = {
 export type Order = {
     userID?: string;
     createdAt:string;
-    id: number;
+    id: number ;
     date: string;
     items: CartItem[];
     checkoutData: CheckOutData;
+
+    Status: string;
 };
 
 

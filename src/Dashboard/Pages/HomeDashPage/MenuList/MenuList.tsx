@@ -29,6 +29,8 @@ const MenuList:React.FC = () => {
     const { menuData } = useSelector((state: RootState) => state.dashboardMenu);
     const [filterMenu, setFilterMenu] = useState<string>('All');
     const [menuQty, setMenuQty ] =useState<{[key: number]: number}>({});
+    const [searchFoodName, setSearchFoodName] = useState('');
+
 
     useEffect(()=> {
         dispatch(getAllMenuData())
@@ -63,14 +65,17 @@ const MenuList:React.FC = () => {
                     <div className="menulist_search">
                         <p><i><RiCheckboxMultipleBlankLine /></i>Input manually</p>
                         <div className="input-group" style={{ width: '300px' }}>
-                            <span className="input-group-text">
+                            <span className="input-group-text" style={{background:"rgba(245, 200, 200, 0.268)"}}>
                                 <LuSearch />
                             </span>
                             <input
                                 type="text"
-                                className="form-control search"
+                                className="form-control menulist_search"
                                 placeholder="Search for food"
-                                value=""
+                                value={searchFoodName}
+                                onChange={(e)=> setSearchFoodName(e.target.value)}
+                                style={{ outline: "none", boxShadow: "none",borderColor: "rgba(245, 200, 200, 0.268)"  }}
+
                             />
                         </div>
                     </div>
@@ -79,16 +84,16 @@ const MenuList:React.FC = () => {
 
                 <div className="menulist_filter">
 
-                    {categories.map((item)=> {
-                        const countItem = item.name === 'All' ? menuData.length : menuData.filter(item => item.category === item.name).length;
+                    {categories.map((cate)=> {
+                        const countCategoryItem = cate.name === 'All' ? menuData.length : menuData.filter(menuItem => menuItem.category === cate.name).length;
                         return (
                         <button 
-                        key={item.name}
-                        onClick={() => setFilterMenu(item.name)}
-                        className={filterMenu === item.name ? 'active' : ''}
+                        key={cate.name}
+                        onClick={() => setFilterMenu(cate.name)}
+                        className={filterMenu === cate.name ? 'active' : ''}
                         >
-                            <i>{item.icon}</i>
-                            <p> {item.label} <span>{countItem} items</span></p>
+                            <i>{cate.icon}</i>
+                            <p> {cate.label} <span>{countCategoryItem} items</span></p>
                         </button>
                         )
                     })}
@@ -100,7 +105,10 @@ const MenuList:React.FC = () => {
 
                     {menuData
 
-                    .filter(item => filterMenu === 'All' || item.category === filterMenu)
+                    .filter((menuItem: Menu) => 
+                        (filterMenu === 'All' || menuItem.category === filterMenu) &&
+                        menuItem.name.toLowerCase().includes(searchFoodName.toLowerCase())
+                    )
                     .map((item:Menu)=> (
                         <div className="menulist_card" key={item.id}>
                             <div className="menulist_card_img">

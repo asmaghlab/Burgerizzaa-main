@@ -11,22 +11,32 @@ const CartDetails:React.FC = () => {
     const { items, customerName, location } = useSelector((state: RootState) => state.cartDash);
     const dispatch = useDispatch<AppDispatch>();
 
+    const subTotal: number = items?.reduce((sum: number, item: CartDashItem) => {
+        return sum + item.price * item.quantity}, 0) || 0;
+    const shipping = 50;
+    const total = subTotal + shipping;
+
     // Puch Order To API
     const handleProceedPayment = async() => {
         if (!customerName || !location) return;
         if (!items || items.length === 0) return;
 
-    const orderData = {
-        customerName,
-        location,
-        items,       
-        total       
-    };
+        const orderData = {
+            date: new Date().toLocaleString(),
+            Status: "Pending",
+            customerName,
+            location,
+            items,       
+            total
+        };
+        
 
-    const orderDataPost = await axios.post("https://68eec8f4b06cc802829b50f7.mockapi.io/order", orderData);
-    console.log(orderDataPost.data);
-    dispatch(clearCart());
-    
+        const orderDataPost = await axios.post("https://68eec8f4b06cc802829b50f7.mockapi.io/order", orderData);
+        console.log(orderDataPost.data);
+        dispatch(clearCart());
+
+
+
 
     };
 
@@ -42,10 +52,7 @@ const CartDetails:React.FC = () => {
         dispatch(addToCart({ item, quantity: -1 }));
     };
 
-    const subTotal: number = items?.reduce((sum: number, item: CartDashItem) => {
-        return sum + item.price * item.quantity}, 0) || 0;
-    const shipping = 50;
-    const total = subTotal + shipping;
+
 
     return (
         <>

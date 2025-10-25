@@ -80,9 +80,21 @@
     -ms-border-radius: 5px;
     -o-border-radius: 5px;
 }
+.order_action_btn button:nth-of-type(2) {
+    border: 2px solid #ababab;
+    padding: 8px 17px;
+    color: #ababaa;
+    background-color: transparent;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+}
 
-
-
+.order_action_btn button:hover {
+    box-shadow: var(--box-shadow);
+}
 /* Media Queries (Media Device) */
 
 @media screen and (max-width:1024px) {

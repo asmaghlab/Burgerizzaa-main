@@ -31,13 +31,22 @@ const Orders = () => {
     },[user])
 
 
-    const handleDeleteOrder = async (orderId: number) => {
+    const handleCancelOrder = async (orderId: number) => {
+        const newStatus = "Cancelled";
 
         await fetch(`https://68eec8f4b06cc802829b50f7.mockapi.io/order/${orderId}`, {
-        method: "DELETE",
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ Status: newStatus }),
         });
 
-        setOrders((order) => order.filter((order) => order.id !== orderId));
+        setOrders(item =>
+            item.map(order =>
+                order.id === orderId ? { ...order, Status: newStatus } : order
+            )
+        );
 
     };
 
@@ -60,9 +69,15 @@ const Orders = () => {
                     
                     <div className="orders_user_card" key={order.id}>
 
-                        <div className="order_user_data pb-3">
-                            <h5>Order {order.id}</h5>
-                            <p>{order.date}</p>
+                        <div className="order_user_data pb-3 d-flex justify-content-between align-items-start ">
+                            <div className="order_user_data_head">
+                                <h5>Order {order.id}</h5>
+                                <p>{order.date}</p>
+                            </div>
+
+                            <span className={`order_status ${order.Status.toLowerCase()}`}>
+                                {order.Status}
+                            </span>
                         </div>
 
 
@@ -96,7 +111,13 @@ const Orders = () => {
                             </div>
 
                             <div className="order_action_btn">
-                                <button onClick={() => handleDeleteOrder(order.id)}>X</button>
+                                    {order.Status === "Pending" ? (
+                                            <button onClick={() => handleCancelOrder(order.id)}>X</button>
+                                        ) : order.Status === "Cancelled" ? (
+                                            <button disabled style={{ cursor: "not-allowed", color:"#ababaa", border:"2px solid #ababaa" }}>✓</button>
+                                        ) : (
+                                            <button disabled style={{ cursor: "not-allowed", boxShadow:"none" }}>X</button>
+                                    )}
                             </div>
                         </div>
                     </div>

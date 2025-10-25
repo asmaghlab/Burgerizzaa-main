@@ -1,30 +1,62 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Table, Container, Spinner, Alert, Card, Form, Button, Toast, ToastContainer } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  Form,
+  Button,
+  Spinner,
+  Toast,
+  ToastContainer,
+  OverlayTrigger,
+  Tooltip,
+  Badge,
+  Alert,
+} from "react-bootstrap";
+import { FaEdit, FaTrash, FaSave, FaTimes, FaSearch, FaClock } from "react-icons/fa";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-const MessageDash: React.FC = () => {
-    const [messages, setMessages] = useState([]);
-    const [filteredMessages, setFilteredMessages] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState("");
-    const [searchTerm, setSearchTerm] = useState("");
-    const [deletingId, setDeletingId] = useState<string | null>(null);
-    const [toast, setToast] = useState<{ show: boolean; message: string; bg: string }>({
-        show: false,
-        message: "",
-        bg: "success",
-});
+interface Message {
+  id: string;
+  name: string;
+  email: string;
+  message: string;
+  createdAt?: string;
+}
 
-  const accentColor = "#AD343E";
+const MessageDashboard: React.FC = () => {
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [filteredMessages, setFilteredMessages] = useState<Message[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editMessage, setEditMessage] = useState("");
+  const [toast, setToast] = useState<{ show: boolean; message: string; bg: string }>({
+    show: false,
+    message: "",
+    bg: "#95A5A6", // Gray for update
+  });
+
+ 
+  const avatarGray = "#7b7f80d7"; // لون الافاتار الجديد
   const apiUrl = "https://68eaad7b76b3362414cbea0d.mockapi.io/messages";
+  const noOutlineStyle = { outline: "none", boxShadow: "none" };
 
   const fetchMessages = () => {
     setLoading(true);
     axios
-      .get(apiUrl)
+      .get<Message[]>(apiUrl)
       .then((res) => {
-        setMessages(res.data);
-        setFilteredMessages(res.data);
+        const messagesWithDate = res.data.map((msg) => ({
+          ...msg,
+          createdAt: msg.createdAt || new Date().toISOString(),
+        }));
+        setMessages(messagesWithDate);
+        setFilteredMessages(messagesWithDate);
         setLoading(false);
       })
       .catch(() => {
@@ -38,12 +70,12 @@ const MessageDash: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (!searchTerm) {
-      setFilteredMessages(messages);
-    } else {
-      const filtered = messages.filter((msg: any) =>
-        msg.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        msg.email.toLowerCase().includes(searchTerm.toLowerCase())
+    if (!searchTerm) setFilteredMessages(messages);
+    else {
+      const filtered = messages.filter(
+        (msg) =>
+          msg.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          msg.email.toLowerCase().includes(searchTerm.toLowerCase())
       );
       setFilteredMessages(filtered);
     }
@@ -55,117 +87,250 @@ const MessageDash: React.FC = () => {
       axios
         .delete(`${apiUrl}/${id}`)
         .then(() => {
-          setMessages((prev) => prev.filter((msg: any) => msg.id !== id));
+          setMessages((prev) => prev.filter((msg) => msg.id !== id));
           setDeletingId(null);
-          setToast({ show: true, message: "Message deleted successfully!", bg: "success" });
+          setToast({ show: true, message: "Message deleted!", bg: "#3498DB" });
         })
         .catch(() => {
           setDeletingId(null);
-          setToast({ show: true, message: "Error deleting the message. Please try again.", bg: "danger" });
+          setToast({ show: true, message: "Error deleting message.", bg: "#E74C3C" });
         });
     }
   };
 
-  // Format date to readable string
-  const formatDate = (dateString: string) => {
+  const handleEditClick = (msg: Message) => {
+    setEditingId(msg.id);
+    setEditMessage(msg.message);
+  };
+
+  const handleSaveEdit = (id: string) => {
+    const originalMessage = messages.find((m) => m.id === id)?.message;
+    if (!editMessage.trim() || editMessage === originalMessage) {
+      setEditingId(null);
+      return;
+    }
+    axios
+      .put(`${apiUrl}/${id}`, { message: editMessage })
+      .then(() => {
+        setMessages((prev) =>
+          prev.map((msg) => (msg.id === id ? { ...msg, message: editMessage } : msg))
+        );
+        setEditingId(null);
+        setToast({ show: true, message: "Message updated!", bg: "#95A5A6" });
+      })
+      .catch(() => {
+        setToast({ show: true, message: "Error updating message.", bg: "#E74C3C" });
+      });
+  };
+
+  const formatDate = (dateString?: string) => {
+    if (!dateString) return "-";
     const date = new Date(dateString);
+    if (isNaN(date.getTime())) return "-";
     return date.toLocaleString("en-US", {
       year: "numeric",
       month: "short",
       day: "numeric",
       hour: "2-digit",
       minute: "2-digit",
+      hour12: true,
     });
   };
 
+  const isNewMessage = (dateString?: string) => {
+    if (!dateString) return false;
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffHours = (now.getTime() - date.getTime()) / (1000 * 60 * 60);
+    return diffHours <= 24;
+  };
+
+  const getAvatarLetter = (name: string) => name.charAt(0).toUpperCase();
+
   return (
     <Container className="mt-5">
-      <Card className="shadow rounded-4 p-4" style={{ border: `1px solid ${accentColor}` }}>
-        <h2 className="mb-4 text-center fw-bold" style={{ color: accentColor }}>
-          📬 Customer Messages
-        </h2>
+      <h2 className="mb-3 text-center">Messages</h2>
 
-        <Form className="mb-4">
-          <Form.Control
-            type="search"
-            placeholder="Search by name or email..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            style={{
-              borderRadius: "20px",
-              border: `1px solid ${accentColor}`,
-              padding: "10px 15px",
-              fontSize: "1rem",
-            }}
-          />
-        </Form>
+      {/* Search */}
+      <Form className="mb-4" style={{ maxWidth: 400, margin: "0 auto", position: "relative" }}>
+        <FaSearch
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: 12,
+            transform: "translateY(-50%)",
+            color: avatarGray,
+          }}
+        />
+        <Form.Control
+          type="search"
+          placeholder="Search by name or email..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          style={{
+            borderRadius: 25,
+            border: "none",
+            padding: "10px 40px",
+            ...noOutlineStyle,
+          }}
+        />
+      </Form>
 
-        {loading && (
-          <div className="text-center my-4">
-            <Spinner animation="border" variant="danger" />
-            <div className="mt-2 text-muted">Loading messages...</div>
-          </div>
-        )}
+      {loading && (
+        <div className="text-center my-4">
+          <Spinner animation="border" variant="danger" />
+          <div className="mt-2 text-muted">Loading messages...</div>
+        </div>
+      )}
 
-        {error && <Alert variant="danger">{error}</Alert>}
+      {error && <Alert variant="danger">{error}</Alert>}
 
-        {!loading && !error && filteredMessages.length === 0 && (
-          <Alert variant="info">No messages found matching your search.</Alert>
-        )}
+      {!loading && filteredMessages.length === 0 && (
+        <Alert
+          variant="light"
+          className="text-center"
+          style={{ backgroundColor: "#f2f2f2", color: "#555", fontWeight: 500 }}
+        >
+          🔍 No messages found matching your search.
+        </Alert>
+      )}
 
-        {!loading && filteredMessages.length > 0 && (
-          <div className="table-responsive">
-            <Table bordered hover className="align-middle">
-              <thead style={{ backgroundColor: "#f8d7da" }}>
-                <tr>
-                  <th style={{ color: accentColor }}>#</th>
-                  <th style={{ color: accentColor }}>Name</th>
-                  <th style={{ color: accentColor }}>Email</th>
-                  <th style={{ color: accentColor }}>Message</th>
-                  <th style={{ color: accentColor }}>Time</th>
-                  <th style={{ color: accentColor, width: "100px" }}>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredMessages.map((msg: any, index: number) => (
-                  <tr key={msg.id}>
-                    <td>{index + 1}</td>
-                    <td>{msg.name}</td>
-                    <td>{msg.email}</td>
-                    <td>{msg.message}</td>
-                    <td>{msg.createdAt ? formatDate(msg.createdAt) : "-"}</td>
-                    <td>
-                      <Button
-                        variant="danger"
-                        size="sm"
-                        disabled={deletingId === msg.id}
-                        onClick={() => handleDelete(msg.id)}
+      <Row className="g-3">
+        {!loading &&
+          filteredMessages.map((msg) => (
+            <Col key={msg.id} xs={12} sm={6} md={6} lg={4} className="d-flex">
+              <Card
+                className="p-3 d-flex flex-column flex-grow-1"
+                style={{
+                  borderRadius: 12,
+                  backgroundColor: "#F9F9F9",
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+                  transition: "transform 0.15s",
+                  wordBreak: "break-word",
+                  overflowWrap: "anywhere",
+                  border: "none",
+                }}
+              >
+                <div className="d-flex align-items-start gap-3 mb-3">
+                  {/* Avatar */}
+                  <div
+                    style={{
+                      width: 50,
+                      height: 50,
+                      borderRadius: "50%",
+                      backgroundColor: avatarGray,
+                      color: "#fff",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontWeight: "bold",
+                      fontSize: "1.2rem",
+                      flexShrink: 0,
+                    }}
+                  >
+                    {getAvatarLetter(msg.name)}
+                  </div>
+
+                  <div className="flex-grow-1">
+                    {isNewMessage(msg.createdAt) && (
+                      <Badge
+                        style={{
+                          backgroundColor: "#3498DB",
+                          color: "#fff",
+                        }}
+                        className="mb-1"
                       >
-                        {deletingId === msg.id ? "Deleting..." : "Delete"}
-                      </Button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
-          </div>
-        )}
-      </Card>
+                        New
+                      </Badge>
+                    )}
 
-      {/* Toast Notification */}
+                    {editingId === msg.id ? (
+                      <Form.Control
+                        as="textarea"
+                        rows={2}
+                        value={editMessage}
+                        onChange={(e) => setEditMessage(e.target.value)}
+                        className="mb-2"
+                        style={{ resize: "none", color: "#414536", ...noOutlineStyle }}
+                      />
+                    ) : (
+                      <div
+                        style={{
+                          fontSize: "0.95rem",
+                          marginBottom: "0.5rem",
+                          lineHeight: 1.3,
+                          color: "#414536",
+                        }}
+                      >
+                        {msg.message}
+                      </div>
+                    )}
+
+                    <div style={{ fontSize: "0.88rem", fontWeight: 500, color: "#333" }}>{msg.name}</div>
+                    <div style={{ fontSize: "0.82rem", color: "#555" }}>{msg.email}</div>
+                    <div style={{ fontSize: "0.78rem", color: "#999", marginTop: "0.25rem" }}>
+                      <FaClock style={{ marginRight: "4px" }} /> {formatDate(msg.createdAt)}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="d-flex justify-content-end gap-2 mt-auto">
+                  {editingId === msg.id ? (
+                    <>
+                      <OverlayTrigger overlay={<Tooltip>Update</Tooltip>}>
+                        <Button size="sm" variant="warning" onClick={() => handleSaveEdit(msg.id)}>
+                          <FaSave />
+                        </Button>
+                      </OverlayTrigger>
+                      <OverlayTrigger overlay={<Tooltip>Cancel</Tooltip>}>
+                        <Button size="sm" variant="secondary" onClick={() => setEditingId(null)}>
+                          <FaTimes />
+                        </Button>
+                      </OverlayTrigger>
+                    </>
+                  ) : (
+                    <>
+                      <OverlayTrigger overlay={<Tooltip>Edit</Tooltip>}>
+                        <Button size="sm" variant="warning" onClick={() => handleEditClick(msg)}>
+                          <FaEdit />
+                        </Button>
+                      </OverlayTrigger>
+                      <OverlayTrigger overlay={<Tooltip>Delete</Tooltip>}>
+                        <Button
+                          size="sm"
+                          variant="danger"
+                          disabled={deletingId === msg.id}
+                          onClick={() => handleDelete(msg.id)}
+                        >
+                          <FaTrash />
+                        </Button>
+                      </OverlayTrigger>
+                    </>
+                  )}
+                </div>
+              </Card>
+            </Col>
+          ))}
+      </Row>
+
       <ToastContainer position="bottom-end" className="p-3">
         <Toast
           onClose={() => setToast({ ...toast, show: false })}
           show={toast.show}
           delay={3000}
           autohide
-          bg={toast.bg}
+          style={{
+            backgroundColor: toast.bg,
+            color: "#fff",
+            fontWeight: "500",
+            minWidth: "200px",
+          }}
         >
-          <Toast.Body className="text-white">{toast.message}</Toast.Body>
+          <Toast.Body>{toast.message}</Toast.Body>
         </Toast>
       </ToastContainer>
     </Container>
   );
 };
 
-export default MessageDash;
+export default MessageDashboard;
