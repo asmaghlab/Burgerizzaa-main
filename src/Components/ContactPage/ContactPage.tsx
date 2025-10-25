@@ -141,7 +141,7 @@ const ContactPage: React.FC = () => {
                     </p> */}
                 </div>
 
-                <Row className="d-flex align-items-start justify-content-center bg-success ">
+                <Row className="d-flex align-items-start justify-content-center ">
                     {/* Left side */}
                     <Col md={6}>
                         <h4 className="fw-semibold mb-4" style={{ color: accentColor }}>

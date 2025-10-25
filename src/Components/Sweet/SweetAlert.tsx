@@ -13,7 +13,7 @@ export const addToCartAlert = (productName: string): void => {
     toast: true,
     position: "top-end",
     background: "#ad343e",
-    color: "#ffffffff",
+    color: "#fff",
   });
 };
 
@@ -97,6 +97,10 @@ export const loginSuccessAlert = (
     else navigate("/home");
   });
 };
+
+/**
+ * 🎉 Order success
+ */
 export const orderSuccessAlert = (navigate?: any) => {
   Swal.fire({
     icon: "success",
@@ -110,9 +114,59 @@ export const orderSuccessAlert = (navigate?: any) => {
     confirmButtonColor: "#ad343e",
   }).then(() => {
     if (navigate) {
-      navigate("/home"); // لو تستخدم React Router
+      navigate("/home");
     } else {
-      window.location.href = "/home"; // fallback
+      window.location.href = "/home";
     }
+  });
+};
+
+/**
+ * ❌ Delete confirmation
+ */
+export const deleteConfirmationAlert = (): Promise<boolean> => {
+  return Swal.fire({
+    title: "Are you sure?",
+    text: "You won't be able to revert this!",
+    icon: "warning",
+    color: "#ad343e",
+    showCancelButton: true,
+    confirmButtonColor: "#ad343e",
+    cancelButtonColor: "#6c757d",
+    confirmButtonText: "Yes, delete it!",
+  }).then((result) => result.isConfirmed);
+};
+
+/**
+ * 🗑️ Alert: Item Deleted Successfully
+ */
+export const itemDeletedAlert = (): void => {
+  Swal.fire({
+    title: "Deleted! 🗑️",
+    text: "The item has been deleted successfully.",
+    icon: "success",
+    timer: 1500,
+    showConfirmButton: false,
+    toast: true,
+    position: "top-end",
+    background: "#ad343e",
+    color: "#fff",
+  });
+};
+
+/**
+ * ➕ Alert: Item Added Successfully
+ */
+export const itemAddedAlert = (): void => {
+  Swal.fire({
+    title: "Added! ✅",
+    text: "The item has been added successfully.",
+    icon: "success",
+    timer: 1500,
+    showConfirmButton: false,
+    toast: true,
+    position: "top-end",
+    background: "#ad343e",
+    color: "#fff",
   });
 };

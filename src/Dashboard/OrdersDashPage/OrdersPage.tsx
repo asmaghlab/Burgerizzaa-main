@@ -10,7 +10,7 @@ const OrdersPage:React.FC = () => {
         const [searchOrder, setsearchOrder] = useState('');
         const [hoveredOrderUserInfo, setHoveredOrderuserInfo] = useState<number | null>(null);
         const user = useSelector((state: RootState) => state.user.user);
-        const { customerName, location }  = useSelector((state: RootState) => state.cartDash);
+        // const { customerName, location }  = useSelector((state: RootState) => state.cartDash);
 
 
         const getAllOrdersData= async ()=> {
