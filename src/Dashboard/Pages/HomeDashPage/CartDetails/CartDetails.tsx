@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useState} from 'react'
 import './CartDetails.css';
 import axios from 'axios';
 import { useSelector, useDispatch } from "react-redux";
@@ -7,18 +7,44 @@ import { setCustomerInfo, clearCart } from "../../../../Store/CartDashSlice";
 import { addToCart } from '../../../../Store/CartDashSlice';
 import type { CartDashItem } from '../../../../types';
 
+
 const CartDetails:React.FC = () => {
     const { items, customerName, location } = useSelector((state: RootState) => state.cartDash);
     const dispatch = useDispatch<AppDispatch>();
+    const [error, setError] = useState<{ customerName?: string; location?: string }>({});
+
 
     const subTotal: number = items?.reduce((sum: number, item: CartDashItem) => {
         return sum + item.price * item.quantity}, 0) || 0;
     const shipping = 50;
     const total = subTotal + shipping;
 
+
     // Puch Order To API
     const handleProceedPayment = async() => {
-        if (!customerName || !location) return;
+
+    if (!customerName || !/^[A-Z][a-zA-Z ]*$/.test(customerName)) {
+        setError(prev => ({ ...prev, customerName: "Enter Name" }));
+        const element = document.getElementById("customerName") as HTMLInputElement;
+        if (element) {
+            element.focus();
+            element.value = "";
+            element.placeholder = "Invalid Name";
+        }
+    }
+
+    if (!location || location.trim().length < 3) {
+        setError(prev => ({ ...prev, location: "Enter Address" }));
+        const element = document.getElementById("location") as HTMLInputElement;
+        if (element) {
+            element.focus();
+            element.value = "";
+            element.placeholder = "Invalid Address";
+        }
+    }
+
+        // if (!customerName || !location) return;
+
         if (!items || items.length === 0) return;
 
         const orderData = {
@@ -27,7 +53,8 @@ const CartDetails:React.FC = () => {
             customerName,
             location,
             items,       
-            total
+            total,
+            source: "dashboard",
         };
         
 
@@ -65,7 +92,7 @@ const CartDetails:React.FC = () => {
                         <div className='cart_details_form_input'>
                             <label htmlFor="customerName">Customer Name</label>
                             <input type="text" id="customerName" name="customerName" 
-                                placeholder='Enter Name'
+                                placeholder="Enter Name"
                                 value={customerName}
                                 onChange={e => dispatch(setCustomerInfo({ name: e.target.value, location }))}
                             />
@@ -73,8 +100,8 @@ const CartDetails:React.FC = () => {
 
                         <div className='cart_details_form_input'>
                             <label htmlFor="location">Location</label>
-                            <input type="text" id="location" name="location" 
-                                placeholder='Enter Address'
+                            <input type="text" id="location" name="location"
+                                placeholder="Enter Address"
                                 value={location}
                                 onChange={e => dispatch(setCustomerInfo({ name: customerName, location: e.target.value }))}
                             />

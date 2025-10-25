@@ -2,15 +2,15 @@ import React, {useState, useEffect} from 'react'
 import './OrdersPage.css';
 import { LuSearch } from "react-icons/lu";
 import type { CartItem, Order } from '../../types';
-// import { useSelector } from 'react-redux';
-// import type { RootState } from '../../Store/Store';
+import { useSelector } from 'react-redux';
+import type { RootState } from '../../Store/Store';
 
 const OrdersPage:React.FC = () => {
         const [orders, setOrders]=useState<Order[]>([]);
         const [searchOrder, setsearchOrder] = useState('');
-        // const [hoveredOrderId, setHoveredOrderId] = useState<number | null>(null);
-        // const user = useSelector((state: RootState) => state.user.user);
-        // const adminCart = useSelector((state: RootState) => state.cartDash);
+        const [hoveredOrderUserInfo, setHoveredOrderuserInfo] = useState<number | null>(null);
+        const user = useSelector((state: RootState) => state.user.user);
+        const { customerName, location }  = useSelector((state: RootState) => state.cartDash);
 
 
         const getAllOrdersData= async ()=> {
@@ -20,7 +20,8 @@ const OrdersPage:React.FC = () => {
 
                 const object = data.map((order:Order) => ({
                     ...order,
-                    id: Number(order.id)
+                    id: Number(order.id),
+                    source: order.source || "website"
                 }));
 
                 const newOrders: Order[] = [];
@@ -135,19 +136,12 @@ const OrdersPage:React.FC = () => {
                                     <div className="order_user_data d-flex justify-content-between align-items-start pb-3">
                                         <div className="order_user_data_head">
                                             <h5
-                                                // onMouseEnter={() => setHoveredOrderId(order.id)}
-                                                // onMouseLeave={() => setHoveredOrderId(null)}
-                                            >Order {order.id}</h5>
+                                                onMouseEnter={() => setHoveredOrderuserInfo(order.id)}
+                                                onMouseLeave={() => setHoveredOrderuserInfo(null)}
+                                            >Order {order.id}  <span className="order_source" style={{display:"none"}}>({order.source})</span></h5>
 
-                                            {/* {hoveredOrderId === order.id && user && (
-                                                <div className="user_info_box">
-                                                <p><strong>Name:</strong> {user.username}</p>
-                                                <p><strong>Email:</strong> {user.email}</p>
-                                                <p><strong>Phone:</strong> {user.phone}</p>
-                                                </div>
-                                            )} */}
 
-                                            {/* {hoveredOrderId === order.id && (
+                                            {hoveredOrderUserInfo === order.id && (
                                                 <div className="user_info_box">
                                                     {order.source === "website" && user && (
                                                         <>
@@ -159,12 +153,12 @@ const OrdersPage:React.FC = () => {
 
                                                     {order.source === "dashboard" && (
                                                         <>
-                                                            <p><strong>Name:</strong> {adminCart.customerName}</p>
-                                                            <p><strong>Location:</strong> {adminCart.location}</p>
+                                                            <p><strong>Name:</strong> {order.customerName}</p>
+                                                            <p><strong>Location:</strong> {order.location}</p>
                                                         </>
                                                     )}
                                                 </div>
-                                            )} */}
+                                            )}
                                                                                         
 
                                             

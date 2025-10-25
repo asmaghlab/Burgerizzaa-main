@@ -49,6 +49,11 @@ export type Order = {
     checkoutData: CheckOutData;
 
     Status: string;
+    source:string;
+
+
+    customerName:string;
+    location:string;
 };
 
 
