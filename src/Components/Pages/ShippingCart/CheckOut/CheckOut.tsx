@@ -9,8 +9,8 @@ import { getAllDataCart } from "../../../../Store/CartSlice";
 import { CheckoutSchema } from "../../../../Store/CheckoutSchema";
 import axios from "axios";
 
-// SweetAlert
-// import { orderSuccessAlert } from "../../../Sweet/SweetAlert";
+// SweetAlert 
+import { orderSuccessAlert } from "../../../Sweet/SweetAlert";
 
 
 
@@ -20,7 +20,7 @@ function CheckOut() {
     const checkout = useSelector((state: RootState) => state.checkout);
     const user = useSelector((state: RootState) => state.user.user);
 
-    const [showBill, setShowBill] = React.useState(false);
+    // const [showBill, setShowBill] = React.useState(false);
 
     useEffect(() => {
         dispatch(getAllDataCart())
@@ -32,11 +32,6 @@ function CheckOut() {
         }
     }, [cart, dispatch]);
 
-    // الكومنت القديم ل validate inputs
-    // const handelInputValidation = (e: React.MouseEvent<HTMLButtonElement>) => {
-    //     e.preventDefault();
-    //     ...
-    // };
 
     const handelInputValidation = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
@@ -91,7 +86,10 @@ function CheckOut() {
         try {
             await axios.post("https://68eec8f4b06cc802829b50f7.mockapi.io/order", newOrder);
 
-            setShowBill(true);
+            
+
+            // setShowBill(true);
+            orderSuccessAlert()
 
             console.log(newOrder);
 
@@ -103,9 +101,9 @@ function CheckOut() {
 
     };
 
-    function closeBill() {
-        setShowBill(false);
-    }
+    // function closeBill() {
+    //     setShowBill(false);
+    // }
 
     return (
         <>
@@ -241,9 +239,9 @@ function CheckOut() {
                             <button type="button" className='btn_order' onClick={handelInputValidation}>Place Order</button>
                         </div>
 
-                        {showBill && (
+                        {/* {showBill && (
                             <BillOrder onClose={closeBill}/>
-                        )}
+                        )} */}
 
                     </div>
                 </section>
