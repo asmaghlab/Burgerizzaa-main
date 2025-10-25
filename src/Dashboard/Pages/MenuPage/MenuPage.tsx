@@ -406,27 +406,17 @@ const DashboardMenu: React.FC = () => {
                             </div>
 
                             <form
+                                noValidate
+                                className="needs-validation"
                                 onSubmit={(e) => {
                                     e.preventDefault();
+                                    const form = e.currentTarget;
+                                    if (!form.checkValidity()) {
+                                        form.classList.add("was-validated");
+                                        return;
+                                    }
 
-                                    // validation
-                                    if (!formData.name.trim()) {
-                                        alert("⚠️ Please enter a product name.");
-                                        return;
-                                    }
                                     const priceValue = Number(formData.price);
-                                    if (isNaN(priceValue) || priceValue <= 0) {
-                                        alert("⚠️ Price must be a positive number.");
-                                        return;
-                                    }
-                                    if (!formData.image.trim()) {
-                                        alert("⚠️ Please enter a valid image URL.");
-                                        return;
-                                    }
-                                    if (!formData.category) {
-                                        alert("⚠️ Please select a category.");
-                                        return;
-                                    }
 
                                     const itemData = {
                                         ...formData,
@@ -455,7 +445,11 @@ const DashboardMenu: React.FC = () => {
                                             onChange={handleChange}
                                             placeholder="Enter product name"
                                             required
+                                            pattern="^[A-Za-z\s]+$"
                                         />
+                                        <div className="invalid-feedback">
+                                            Name cannot be empty or contain numbers.
+                                        </div>
                                     </div>
 
                                     {/* Price */}
@@ -471,6 +465,9 @@ const DashboardMenu: React.FC = () => {
                                             placeholder="Enter product price"
                                             required
                                         />
+                                        <div className="invalid-feedback">
+                                            Price must be a positive number.
+                                        </div>
                                     </div>
 
                                     {/* Image */}
@@ -485,9 +482,12 @@ const DashboardMenu: React.FC = () => {
                                             placeholder="Enter image URL"
                                             required
                                         />
+                                        <div className="invalid-feedback">
+                                            Please enter a valid image URL.
+                                        </div>
                                     </div>
 
-                                    {/* Category (Dropdown) */}
+                                    {/* Category */}
                                     <div className="mb-3">
                                         <label className="form-label fw-semibold">Category</label>
                                         <select
@@ -497,11 +497,16 @@ const DashboardMenu: React.FC = () => {
                                             onChange={handleChange}
                                             required
                                         >
-                                            <option value="Burger">Burger</option>
-                                            <option value="Pizza">Pizza</option>
-                                            <option value="Pasta">Pasta</option>
-                                            <option value="Drinks">Drinks</option>
+                                            <option value="">Select Category</option>
+                                            {categories.map((c) => (
+                                                <option key={c} value={c}>
+                                                    {c}
+                                                </option>
+                                            ))}
                                         </select>
+                                        <div className="invalid-feedback">
+                                            Please select a category.
+                                        </div>
                                     </div>
 
                                     {/* Description */}
@@ -511,23 +516,25 @@ const DashboardMenu: React.FC = () => {
                                             className="form-control"
                                             name="description"
                                             rows={3}
-                                            placeholder="Enter description (optional)"
+                                            placeholder="Enter description"
                                             value={formData.description}
                                             onChange={handleChange}
+                                            required
+                                            // pattern="^[A-Za-z\s]+$"
                                         ></textarea>
+                                        <div className="invalid-feedback">
+                                            Description cannot be empty or contain numbers.
+                                        </div>
                                     </div>
                                 </div>
 
                                 <div
                                     className="modal-footer border-0"
-                                    style={{
-                                        background: "#ad343e",
-                                        justifyContent: "center",
-                                    }}
+                                    style={{ background: "#ad343e", justifyContent: "center" }}
                                 >
                                     <button
                                         type="submit"
-                                        className="btn  fw-semibold"
+                                        className="btn fw-semibold"
                                         style={{
                                             background: "transparent",
                                             border: "2px solid #fff",

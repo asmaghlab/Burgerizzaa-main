@@ -21,10 +21,12 @@ export default function ProductDetails() {
   const cart = useSelector((state: RootState) => state.cart);
   const [count, setCount] = useState(1);
 
-  const product = menuData.find((item) => item.id === Number(id));
+  const product = menuData.find((item) => String(item.id) === id);
+
   useEffect(() => {
-    window.scrollTo(0, 0); // يوديك لأعلى الصفحة أول ما تفتح
+    window.scrollTo(0, 0); 
   }, [id]);
+
   useEffect(() => {
     if (menuData.length === 0) {
       dispatch(getAllMenuData());
@@ -46,10 +48,9 @@ export default function ProductDetails() {
     }
   };
 
-
   const relatedProducts = product
     ? menuData
-      .filter(item => item.category === product.category && item.id !== product.id)
+      .filter(item => item.category === product.category && String(item.id) !== String(product.id))
       .slice(0, 4)
     : [];
 
@@ -218,7 +219,7 @@ export default function ProductDetails() {
                       <div className="menu_item_col3">
                         {(() => {
                           const cartItem = cart.find(
-                            (cartItem) => cartItem.id === relatedProduct.id
+                            (cartItem) => String(cartItem.id) === String(relatedProduct.id)
                           );
 
                           return cartItem ? (
@@ -247,11 +248,7 @@ export default function ProductDetails() {
                               onClick={(e) => {
                                 e.stopPropagation();
                                 if (!user) {
-                                  if (!user) {
-                                    loginPromptAlert(() => navigate("/login"));
-                                    return;
-                                  }
-                                  navigate("/login");
+                                  loginPromptAlert(() => navigate("/login"));
                                   return;
                                 }
                                 dispatch(add(relatedProduct));

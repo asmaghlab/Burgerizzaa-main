@@ -1,14 +1,23 @@
-import React from 'react'
-import  Menu from '../Pages/MenuPage/MenuPage'
+import React from 'react';
+import { Helmet } from 'react-helmet-async'; 
+import Menu from '../Pages/MenuPage/MenuPage';
 
-const MenuPage:React.FC = () => {
+const MenuPageComponent: React.FC = () => {
     return (
         <>
-        <div>MenuPage</div>
-        <Menu/>
-        </>
-        
-    )
-}
+            <Helmet>
+                <title>Menu | Admin</title>
+                <meta
+                    name="description"
+                    content="Explore our delicious burger menu at Burgerizza!"
+                />
+            </Helmet>
 
-export default MenuPage
+            <div>
+                <Menu />
+            </div>
+        </>
+    );
+};
+
+export default MenuPageComponent;
