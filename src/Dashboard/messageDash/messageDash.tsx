@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import './MessageDash.css';
 import axios from "axios";
 import {
   Container,
@@ -15,8 +16,10 @@ import {
   Badge,
   Alert,
 } from "react-bootstrap";
-import { FaEdit, FaTrash, FaSave, FaTimes, FaSearch, FaClock } from "react-icons/fa";
+import { FaTrash, FaSave, FaTimes, FaSearch } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { RiEdit2Fill } from "react-icons/ri";
+
 
 interface Message {
   id: string;
@@ -41,8 +44,8 @@ const MessageDashboard: React.FC = () => {
     bg: "#95A5A6", // Gray for update
   });
 
- 
-  const avatarGray = "#7b7f80d7"; // لون الافاتار الجديد
+
+  const avatarGray = "#7b7f80d7";
   const apiUrl = "https://68eaad7b76b3362414cbea0d.mockapi.io/messages";
   const noOutlineStyle = { outline: "none", boxShadow: "none" };
 
@@ -81,6 +84,9 @@ const MessageDashboard: React.FC = () => {
     }
   }, [searchTerm, messages]);
 
+
+
+
   const handleDelete = (id: string) => {
     if (window.confirm("Are you sure you want to delete this message?")) {
       setDeletingId(id);
@@ -98,10 +104,14 @@ const MessageDashboard: React.FC = () => {
     }
   };
 
+
+
   const handleEditClick = (msg: Message) => {
     setEditingId(msg.id);
     setEditMessage(msg.message);
   };
+
+
 
   const handleSaveEdit = (id: string) => {
     const originalMessage = messages.find((m) => m.id === id)?.message;
@@ -123,6 +133,7 @@ const MessageDashboard: React.FC = () => {
       });
   };
 
+
   const formatDate = (dateString?: string) => {
     if (!dateString) return "-";
     const date = new Date(dateString);
@@ -137,6 +148,7 @@ const MessageDashboard: React.FC = () => {
     });
   };
 
+
   const isNewMessage = (dateString?: string) => {
     if (!dateString) return false;
     const date = new Date(dateString);
@@ -145,75 +157,81 @@ const MessageDashboard: React.FC = () => {
     return diffHours <= 24;
   };
 
-  const getAvatarLetter = (name: string) => name.charAt(0).toUpperCase();
+  // const getAvatarLetter = (name: string) => name.charAt(0).toUpperCase();
 
   return (
     <Container className="mt-5">
-      <h2 className="mb-3 text-center">Messages</h2>
 
-      {/* Search */}
-      <Form className="mb-4" style={{ maxWidth: 400, margin: "0 auto", position: "relative" }}>
-        <FaSearch
-          style={{
-            position: "absolute",
-            top: "50%",
-            left: 12,
-            transform: "translateY(-50%)",
-            color: avatarGray,
-          }}
-        />
-        <Form.Control
-          type="search"
-          placeholder="Search by name or email..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          style={{
-            borderRadius: 25,
-            border: "none",
-            padding: "10px 40px",
-            ...noOutlineStyle,
-          }}
-        />
-      </Form>
+      <div className="review_Message_head">
+        <h5 className="mb-3 text-center">Recent Feedbacks</h5>
 
-      {loading && (
-        <div className="text-center my-4">
-          <Spinner animation="border" variant="danger" />
-          <div className="mt-2 text-muted">Loading messages...</div>
-        </div>
-      )}
+        {/* Search */}
+        <Form className="mb-4" style={{ position: "relative"}}>
+          <FaSearch
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: 12,
+              transform: "translateY(-50%)",
+              color: avatarGray,
+            }}
+          />
+          <Form.Control
+            type="search"
+            placeholder="Search by name or email..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            style={{
+              borderRadius: 10,
+              border: "none",
+              padding: "10px 40px",
+              ...noOutlineStyle,
+            }}
+          />
+        </Form>
 
-      {error && <Alert variant="danger">{error}</Alert>}
+        {loading && (
+          <div className="text-center my-4">
+            <Spinner animation="border" variant="danger" />
+            <div className="mt-2 text-muted">Loading messages...</div>
+          </div>
+        )}
 
-      {!loading && filteredMessages.length === 0 && (
-        <Alert
-          variant="light"
-          className="text-center"
-          style={{ backgroundColor: "#f2f2f2", color: "#555", fontWeight: 500 }}
-        >
-          🔍 No messages found matching your search.
-        </Alert>
-      )}
+        {error && <Alert variant="danger">{error}</Alert>}
 
-      <Row className="g-3">
+        {!loading && filteredMessages.length === 0 && (
+          <Alert
+            variant="light"
+            className="text-center"
+            style={{ backgroundColor: "#f2f2f2", color: "#555", fontWeight: 500 }}
+          >
+            No messages found matching your search.
+          </Alert>
+        )}
+      </div>
+
+
+      <div className="g-3 feedback_cards">
+
         {!loading &&
           filteredMessages.map((msg) => (
-            <Col key={msg.id} xs={12} sm={6} md={6} lg={4} className="d-flex">
-              <Card
-                className="p-3 d-flex flex-column flex-grow-1"
+            <div key={msg.id}  className=" feedback_card">
+              <div
+                className="p-3"
                 style={{
-                  borderRadius: 12,
-                  backgroundColor: "#F9F9F9",
-                  boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+                  borderRadius: 10,
+                  backgroundColor: "rgba(245, 200, 200, 0.268)",
+                  // boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
                   transition: "transform 0.15s",
                   wordBreak: "break-word",
                   overflowWrap: "anywhere",
                   border: "none",
+                  
                 }}
               >
-                <div className="d-flex align-items-start gap-3 mb-3">
+                <div className="d-flex align-items-start gap-3">
                   {/* Avatar */}
-                  <div
+                  {/* <div
                     style={{
                       width: 50,
                       height: 50,
@@ -229,10 +247,10 @@ const MessageDashboard: React.FC = () => {
                     }}
                   >
                     {getAvatarLetter(msg.name)}
-                  </div>
+                  </div> */}
 
                   <div className="flex-grow-1">
-                    {isNewMessage(msg.createdAt) && (
+                    {/* {isNewMessage(msg.createdAt) && (
                       <Badge
                         style={{
                           backgroundColor: "#3498DB",
@@ -242,7 +260,7 @@ const MessageDashboard: React.FC = () => {
                       >
                         New
                       </Badge>
-                    )}
+                    )} */}
 
                     {editingId === msg.id ? (
                       <Form.Control
@@ -255,63 +273,68 @@ const MessageDashboard: React.FC = () => {
                       />
                     ) : (
                       <div
-                        style={{
-                          fontSize: "0.95rem",
-                          marginBottom: "0.5rem",
-                          lineHeight: 1.3,
-                          color: "#414536",
-                        }}
-                      >
+                      className="message_text">
                         {msg.message}
                       </div>
                     )}
 
-                    <div style={{ fontSize: "0.88rem", fontWeight: 500, color: "#333" }}>{msg.name}</div>
-                    <div style={{ fontSize: "0.82rem", color: "#555" }}>{msg.email}</div>
-                    <div style={{ fontSize: "0.78rem", color: "#999", marginTop: "0.25rem" }}>
-                      <FaClock style={{ marginRight: "4px" }} /> {formatDate(msg.createdAt)}
+                    <div className="feedbacks_data mt-4">
+                      <p style={{  color: "#333" }}><span >Name : </span> {msg.name}</p>
+                      <p style={{  color: "#555" }}><span>Email : </span>{msg.email}</p>
                     </div>
+
+
                   </div>
                 </div>
 
-                <div className="d-flex justify-content-end gap-2 mt-auto">
-                  {editingId === msg.id ? (
-                    <>
-                      <OverlayTrigger overlay={<Tooltip>Update</Tooltip>}>
-                        <Button size="sm" variant="warning" onClick={() => handleSaveEdit(msg.id)}>
-                          <FaSave />
-                        </Button>
-                      </OverlayTrigger>
-                      <OverlayTrigger overlay={<Tooltip>Cancel</Tooltip>}>
-                        <Button size="sm" variant="secondary" onClick={() => setEditingId(null)}>
-                          <FaTimes />
-                        </Button>
-                      </OverlayTrigger>
-                    </>
-                  ) : (
-                    <>
-                      <OverlayTrigger overlay={<Tooltip>Edit</Tooltip>}>
-                        <Button size="sm" variant="warning" onClick={() => handleEditClick(msg)}>
-                          <FaEdit />
-                        </Button>
-                      </OverlayTrigger>
-                      <OverlayTrigger overlay={<Tooltip>Delete</Tooltip>}>
-                        <Button
-                          size="sm"
-                          variant="danger"
-                          disabled={deletingId === msg.id}
-                          onClick={() => handleDelete(msg.id)}
-                        >
-                          <FaTrash />
-                        </Button>
-                      </OverlayTrigger>
-                    </>
-                  )}
+                <div className="d-flex justify-content-between  mt-2 feedback_control">
+                  <div style={{ fontSize: "1rem", color: "#999", marginTop: "0.25rem" }}>
+                      {formatDate(msg.createdAt)}
+                  </div>
+
+                  <div className="d-flex g-2">
+                    {editingId === msg.id ? (
+                      <>
+                        <OverlayTrigger overlay={<Tooltip>Update</Tooltip>}>
+                          <Button className="feedback_btn1 ms-2" variant="warning" onClick={() => handleSaveEdit(msg.id)}>
+                            <FaSave />
+                          </Button>
+                        </OverlayTrigger>
+                        <OverlayTrigger overlay={<Tooltip>Cancel</Tooltip>}>
+                          <Button className="feedback_btn2 ms-2" variant="secondary" onClick={() => setEditingId(null)}>
+                            <FaTimes />
+                          </Button>
+                        </OverlayTrigger>
+                      </>
+                    ) : (
+                      <>
+                        <OverlayTrigger overlay={<Tooltip>Edit</Tooltip>}>
+                          <Button className="feedback_btn1 ms-2"  variant="" onClick={() => handleEditClick(msg)}>
+                            <RiEdit2Fill />
+                          </Button>
+                        </OverlayTrigger>
+                        <OverlayTrigger overlay={<Tooltip>Delete</Tooltip>}>
+                          <Button
+                            
+                            variant=""
+                            disabled={deletingId === msg.id}
+                            onClick={() => handleDelete(msg.id)}
+                            className="feedback_btn2 ms-2"
+                          >
+                            <FaTrash />
+                          </Button>
+                        </OverlayTrigger>
+                      </>
+                    )}
+                  </div>
+
+
+
                 </div>
-              </Card>
-            </Col>
+              </div>
+            </div>
           ))}
-      </Row>
+      </div>
 
       <ToastContainer position="bottom-end" className="p-3">
         <Toast

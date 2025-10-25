@@ -1,8 +1,8 @@
-
+import './ContactPage.css';
 import React, { useState } from "react";
 import axios from "axios";
-import { Row, Col, Form, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Form, Button } from "react-bootstrap";
+// import { Link } from "react-router-dom";
 import {
     FaMapMarkerAlt,
     FaPhoneAlt,
@@ -41,9 +41,9 @@ const ContactPage: React.FC = () => {
 
     const inputStyle = `
         .form-control {
-        border: 1px solid #d6a6a1 !important;
-        border-radius: 20px !important;
-        background-color: transparent !important;
+        border-radius: 10px !important;
+        border:none;
+        background-color: #ad343e2c;
         color: #333 !important;
         font-size: 0.95rem;
         padding: 12px 15px;
@@ -56,9 +56,9 @@ const ContactPage: React.FC = () => {
         }
 
         .form-control:focus {
-        border: 1px solid ${accentColor} !important;
+        background-color: #ad343e2c;
         outline: none !important;
-        background-color: #fff !important;
+        box-shadow: 0 4px 8px 0 #e7adb2b6, 0 6px 20px 0 #e7adb2b6 !important;
         }
     `;
 
@@ -126,152 +126,153 @@ const ContactPage: React.FC = () => {
 
         <div id="background_home">
             <section className=" section">
-            {/* <Container> */}
-            <div className="container_box pt-3">
-                <div className="text-center mb-5">
-                    <h2 style={{ color: "#2C2F24"}} className="fs-1">
-                    Contact Us
-                    </h2>
-                    {/* <p
-                    className="text-muted w-75 mx-auto mt-3"
-                    style={{ fontSize: "0.95rem" }}
-                    >
-                    We'd love to hear from you! Whether it's feedback, a special
-                    request, or just to say hi — drop us a message.
-                    </p> */}
-                </div>
-
-                <Row className="d-flex align-items-start justify-content-center ">
-                    {/* Left side */}
-                    <Col md={6}>
-                        <h4 className="fw-semibold mb-4" style={{ color: accentColor }}>
-                            Get In Touch
-                        </h4>
-                        <p className="text-muted mb-4" style={{ fontSize: "0.9rem" }}>
-                            Our team is always ready to serve you the best slices in town!
-                        </p>
-
-                        <ul className="list-unstyled mb-4" style={{ fontSize: "0.9rem" }}>
-                            <li className="d-flex align-items-center mb-3">
-                            <FaMapMarkerAlt
-                                className="fs-5 me-3"
-                                style={{ color: accentColor }}
-                            />
-                            <span>London Eye, London, UK</span>
-                            </li>
-                            <li className="d-flex align-items-center mb-3">
-                            <FaPhoneAlt
-                                className="fs-5 me-3"
-                                style={{ color: accentColor }}
-                            />
-                            <span>+44 123 456 7890</span>
-                            </li>
-                            <li className="d-flex align-items-center mb-3">
-                            <FaEnvelope
-                                className="fs-5 me-3"
-                                style={{ color: accentColor }}
-                            />
-                            <span>mail@yourhub.com</span>
-                            </li>
-                        </ul>
-
-                        <div className="d-flex gap-3">
-                            {[FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn].map(
-                            (Icon, index) => (
-                                <Link
-                                to="#"
-                                key={index}
-                                style={{
-                                    color: accentColor,
-                                    fontSize: "1.3rem",
-                                    transition: "0.3s",
-                                }}
-                                onMouseOver={(e) =>
-                                    ((e.target as HTMLElement).style.color = "#8f2c36")
-                                }
-                                onMouseOut={(e) =>
-                                    ((e.target as HTMLElement).style.color = accentColor)
-                                }
-                                >
-                                <Icon />
-                                </Link>
-                            )
-                            )}
-                        </div>
-                    </Col>
-
-                    {/* Right Side (Form) */}
-                    <Col md={6}>
-                    <div
-                        className="bg-white p-4 rounded-4 shadow-sm mx-auto"
-                        style={{ maxWidth: "400px" }}
-                    >
-                        <h5 className="fw-semibold mb-3" style={{ color: accentColor }}>
-                        Send a Message
-                        </h5>
-                        <Form onSubmit={handleSubmit}>
-                        <Form.Group className="mb-3" controlId="formName">
-                            <Form.Control
-                            type="text"
-                            name="name"
-                            placeholder="Name"
-                            value={formData.name}
-                            onChange={handleChange}
-                            isInvalid={!!errors.name}
-                            />
-                            <Form.Control.Feedback type="invalid">
-                            {errors.name}
-                            </Form.Control.Feedback>
-                        </Form.Group>
-
-                        <Form.Group className="mb-3" controlId="formEmail">
-                            <Form.Control
-                            type="email"
-                            name="email"
-                            placeholder="Email address"
-                            value={formData.email}
-                            onChange={handleChange}
-                            isInvalid={!!errors.email}
-                            />
-                            <Form.Control.Feedback type="invalid">
-                            {errors.email}
-                            </Form.Control.Feedback>
-                        </Form.Group>
-
-                        <Form.Group className="mb-3" controlId="formMessage">
-                            <Form.Control
-                            as="textarea"
-                            rows={4}
-                            name="message"
-                            placeholder="Message"
-                            value={formData.message}
-                            onChange={handleChange}
-                            isInvalid={!!errors.message}
-                            />
-                            <Form.Control.Feedback type="invalid">
-                            {errors.message}
-                            </Form.Control.Feedback>
-                        </Form.Group>
-
-                        <Button
-                            type="submit"
-                            disabled={isSubmitting}
-                            className="w-100 fw-semibold text-white border-0"
-                            style={{
-                            backgroundColor: accentColor,
-                            transition: "0.3s",
-                            borderRadius: "20px",
-                            padding: "10px 0",
-                            }}
-                        >
-                            {isSubmitting ? "Sending..." : "Submit"}
-                        </Button>
-                        </Form>
+                <div className="container_box contant_container pt-5">
+                    <div className="review_head text-center mb-4">
+                        <h2  className="fs-1">
+                        Add a Review Message
+                        </h2>
                     </div>
-                    </Col>
-                </Row>
+
+                    <div className="contact_boxs mt-5" >
+                        {/* Left side */}
+                        <div className="review_box">
+
+                            <div className="review_box_data">
+                                <h3 className="fw-semibold mb-4" style={{ color:  "#2C2F24" }}>
+                                    Get In Touch
+                                </h3>
+                                <p className="text-muted mb-4">
+                                    Share your experience with us! Tell us what you loved about our pizzas, your favorite toppings, 
+                                    or anything else about your visit. We’d love to hear your honest review.
+                                </p>
+
+                                <ul className="list-unstyled mb-4" style={{ fontSize: "0.9rem" }}>
+                                    <li className="d-flex align-items-center mb-3">
+                                    <FaMapMarkerAlt
+                                        className="fs-6 me-3"
+                                        style={{ color: "#ad343e" }}
+                                    />
+                                    <p className='fs-6'>123 El-Masryeen St, Nasr City, Cairo, Egypt</p>
+                                    </li>
+                                    <li className="d-flex align-items-center mb-3">
+                                    <FaPhoneAlt
+                                        className="fs-6 me-3"
+                                        style={{ color: "#ad343e"}}
+                                    />
+                                    <p className='fs-6'>+010 345 856 76</p>
+                                    </li>
+                                    <li className="d-flex align-items-center mb-3">
+                                    <FaEnvelope
+                                        className="fs-6 me-3"
+                                        style={{ color: "#ad343e" }}
+                                    />
+                                    <p className='fs-6'>burgerizza@gmail.com</p>
+                                    </li>
+                                </ul>
+
+                                {/* <div className="d-flex gap-3">
+                                    {[FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn].map(
+                                    (Icon, index) => (
+                                        <Link
+                                        to="#"
+                                        key={index}
+                                        style={{
+                                            color: accentColor,
+                                            fontSize: "1.3rem",
+                                            transition: "0.3s",
+                                        }}
+                                        onMouseOver={(e) =>
+                                            ((e.target as HTMLElement).style.color = "#8f2c36")
+                                        }
+                                        onMouseOut={(e) =>
+                                            ((e.target as HTMLElement).style.color = accentColor)
+                                        }
+                                        >
+                                        <Icon />
+                                        </Link>
+                                    )
+                                    )}
+                                </div> */}
+                            </div>
+
+
+                        </div>
+
+                        {/* Right Side (Form) */}
+                        <div className="contact_box2">
+
+                            <div className=" p-4 rounded-3 shadow-sm review_box_form">
+
+                                {/* <h5 className="fw-semibold mb-3" style={{ color: accentColor }}>
+                                Send a Message
+                                </h5> */}
+                                <Form onSubmit={handleSubmit}>
+                                    <Form.Group className="mb-3" controlId="formName">
+                                        <Form.Control
+                                        type="text"
+                                        name="name"
+                                        placeholder="Name"
+                                        value={formData.name}
+                                        onChange={handleChange}
+                                        isInvalid={!!errors.name}
+                                        />
+                                        <Form.Control.Feedback type="invalid">
+                                        {errors.name}
+                                        </Form.Control.Feedback>
+                                    </Form.Group>
+
+                                    <Form.Group className="mb-3" controlId="formEmail">
+                                        <Form.Control
+                                        type="email"
+                                        name="email"
+                                        placeholder="Email address"
+                                        value={formData.email}
+                                        onChange={handleChange}
+                                        isInvalid={!!errors.email}
+                                        />
+                                        <Form.Control.Feedback type="invalid">
+                                        {errors.email}
+                                        </Form.Control.Feedback>
+                                    </Form.Group>
+
+                                    <Form.Group className="mb-3" controlId="formMessage">
+                                        <Form.Control
+                                        as="textarea"
+                                        rows={4}
+                                        name="message"
+                                        placeholder="Review"
+                                        value={formData.message}
+                                        onChange={handleChange}
+                                        isInvalid={!!errors.message}
+                                        />
+                                        <Form.Control.Feedback type="invalid">
+                                        {errors.message}
+                                        </Form.Control.Feedback>
+                                    </Form.Group>
+
+                                    <Button
+                                        type="submit"
+                                        disabled={isSubmitting}
+                                        className="w-100 fw-semibold text-white border-0"
+                                        style={{
+                                        backgroundColor: accentColor,
+                                        transition: "0.3s",
+                                        borderRadius: "10px",
+                                        padding: "10px 0",
+                                        }}
+                                    >
+                                        {isSubmitting ? "Sending..." : "Submit"}
+                                    </Button>
+                                </Form>
+                            </div>
+                        </div>
+
+
+
+
+
+                    </div>
                 </div>
-            {/* </Container> */}
             </section>
         </div>
         </>
