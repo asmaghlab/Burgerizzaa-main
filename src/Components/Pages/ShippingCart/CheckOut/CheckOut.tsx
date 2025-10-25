@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import type { AppDispatch, RootState } from '../../../../Store/Store';
 import { saveCheckOutPersonalData, sumTotals} from "../../../../Store/CheckOutSlice";
 import type { CheckOutData } from "../../../../types";
-import BillOrder from "./BillOrder";
 import { getAllDataCart } from "../../../../Store/CartSlice";
 import { CheckoutSchema } from "../../../../Store/CheckoutSchema";
 import axios from "axios";
@@ -20,7 +19,6 @@ function CheckOut() {
     const checkout = useSelector((state: RootState) => state.checkout);
     const user = useSelector((state: RootState) => state.user.user);
 
-    // const [showBill, setShowBill] = React.useState(false);
 
     useEffect(() => {
         dispatch(getAllDataCart())
@@ -88,7 +86,6 @@ function CheckOut() {
 
             
 
-            // setShowBill(true);
             orderSuccessAlert()
 
             console.log(newOrder);
@@ -101,9 +98,7 @@ function CheckOut() {
 
     };
 
-    // function closeBill() {
-    //     setShowBill(false);
-    // }
+
 
     return (
         <>
@@ -238,10 +233,6 @@ function CheckOut() {
 
                             <button type="button" className='btn_order' onClick={handelInputValidation}>Place Order</button>
                         </div>
-
-                        {/* {showBill && (
-                            <BillOrder onClose={closeBill}/>
-                        )} */}
 
                     </div>
                 </section>
