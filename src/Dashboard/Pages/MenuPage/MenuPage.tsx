@@ -512,16 +512,15 @@ const DashboardMenu: React.FC = () => {
                                     {/* Description */}
                                     <div className="mb-3">
                                         <label className="form-label fw-semibold">Description</label>
-                                        <textarea
+                                        <input
                                             className="form-control"
                                             name="description"
-                                            rows={3}
                                             placeholder="Enter description"
                                             value={formData.description}
                                             onChange={handleChange}
                                             required
-                                            // pattern="^[A-Za-z\s]+$"
-                                        ></textarea>
+                                            pattern="^[A-Za-z\s]+$"
+                                        ></input>
                                         <div className="invalid-feedback">
                                             Description cannot be empty or contain numbers.
                                         </div>

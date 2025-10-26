@@ -1,4 +1,3 @@
-import React from "react";
 import { Helmet } from "react-helmet";
 
 import Categories from "../Pages/Home/Categories/Categories";
@@ -9,7 +8,6 @@ import OurMenu from "../Pages/Home/OurMenu/OurMenu";
 import OurStories from "../Pages/Home/OurStories/OurStories";
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import Footer from "../Footer/Footer";
 
 function HomePage() {
     const queryClient = new QueryClient();
@@ -37,7 +35,7 @@ function HomePage() {
 
                     <Test />
                 </section>
-                <Footer />
+                {/* <Footer /> */}
             </div>
         </>
     );
