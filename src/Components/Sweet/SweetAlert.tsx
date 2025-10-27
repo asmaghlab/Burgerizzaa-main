@@ -170,3 +170,11 @@ export const itemAddedAlert = (): void => {
     color: "#fff",
   });
 };
+export const showSuccessAlert = (message: string) => {
+    Swal.fire({
+        icon: "success",
+        title: "Success!",
+        text: message,
+        confirmButtonColor: "#AD343E",
+    });
+};

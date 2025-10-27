@@ -12,9 +12,7 @@ import {
     FaInstagram,
     FaLinkedinIn,
 } from "react-icons/fa";
-
-import { toast } from "react-toastify";
-
+import { showSuccessAlert } from '../Sweet/SweetAlert';
 
 type Message  = {
     name?:string,
@@ -110,11 +108,11 @@ const ContactPage: React.FC = () => {
         );
         console.log("Response:", response);
 
-        toast.success("Message sent successfully!");
+        showSuccessAlert("Your review has been submitted successfully!");
         setFormData({ name: "", email: "", message: "" });
         } catch (error) {
-        toast.error("Failed to send message. Please try again.");
-        console.error(error);
+        // toast.error("Failed to send message. Please try again.");
+        // console.error(error);
         } finally {
         setIsSubmitting(false);
         }
