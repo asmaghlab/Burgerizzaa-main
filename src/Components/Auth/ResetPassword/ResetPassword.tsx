@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import z from 'zod';
 import { useNavigate } from 'react-router-dom';
 import { clearresetuser } from '../../../Store/Resetslice';
-import { Helmet } from 'react-helmet';
+import { Helmet } from "react-helmet-async";
 import type { RootState, AppDispatch } from '../../../Store/Store';
 
 type ResetPasswordForm = {
@@ -66,9 +66,11 @@ export default function ResetPassword() {
     return (
         <>
         <Helmet>
-            <meta charSet="utf-8" />
-            <title>ResetPassword</title>
-            <link rel="canonical" href="http://mysite.com/example" />
+           <title>Reset Password </title>
+                <meta
+                    name="description"
+                    content="Welcome to Burgerizza! Discover our delicious burgers, exclusive deals, and amazing stories."
+                />
         </Helmet>
 
         <div className="min-vh-100 d-flex justify-content-center align-items-center">

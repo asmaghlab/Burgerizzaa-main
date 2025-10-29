@@ -5,6 +5,8 @@ import type { RootState } from "../../../Store/Store";
 import { useSelector} from "react-redux";
 // import { setuser } from '../../../Store/Userslice';
 // import axios from 'axios';
+import { Helmet } from "react-helmet-async";
+
 
 const UserAccount:React.FC = () => {
     // const dispatch=useDispatch();
@@ -34,6 +36,10 @@ const UserAccount:React.FC = () => {
 
     return (
         <>
+        <Helmet>
+            <title>User Account </title>
+            <meta name="description" content="User account page for Burgerizza" />
+        </Helmet>
         <div id="background_home">
             <section id='profile_page' className='section2'>
 

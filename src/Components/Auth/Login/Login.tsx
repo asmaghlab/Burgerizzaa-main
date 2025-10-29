@@ -1,3 +1,5 @@
+import { Helmet } from "react-helmet-async";
+
 import React from 'react';
 import '../Auth.css';
 import { useForm } from "react-hook-form";
@@ -7,7 +9,6 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
-import { Helmet } from "react-helmet";
 import { useDispatch } from "react-redux";
 import { setuser } from "../../../Store/Userslice";
 
@@ -66,11 +67,9 @@ const Login: React.FC = () => {
         },
 
         onSuccess: (user) => {
-            // تخزين بيانات المستخدم في Redux
             dispatch(setuser(user));
             localStorage.setItem("user", JSON.stringify(user));
 
-            // SweetAlert عند نجاح تسجيل الدخول
             loginSuccessAlert(user.username, user.role as "admin" | "user", navigate);
         },
     });
@@ -82,8 +81,11 @@ const Login: React.FC = () => {
     return (
         <>
         <Helmet>
-            <meta charSet="utf-8" />
-            <title>Login</title>
+          <title>Login</title>
+                <meta
+                    name="description"
+                    content="Welcome to Burgerizza! Discover our delicious burgers, exclusive deals, and amazing stories."
+                />
         </Helmet>
 
         <div id="login_page">

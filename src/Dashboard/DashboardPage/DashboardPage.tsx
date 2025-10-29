@@ -1,5 +1,5 @@
 import React from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from "react-helmet-async";
 import DashStats from '../Pages/HomeDashPage/DashboardStats/DashStats';
 import MenuList from '../Pages/HomeDashPage/MenuList/MenuList';
 import CartDetails from '../Pages/HomeDashPage/CartDetails/CartDetails';
