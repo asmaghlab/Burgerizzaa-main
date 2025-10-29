@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import z from 'zod';
 import { setresetuser } from '../../../Store/Resetslice';
-import {Helmet} from 'react-helmet'
+import { Helmet } from "react-helmet-async";
 
 
 type ForgetPasswordForm = {
@@ -59,9 +59,11 @@ export default function ForgetPassword() {
     return (
         <>
         <Helmet>
-            <meta charSet="utf-8" />
             <title>ForgetPassword</title>
-            <link rel="canonical" href="http://mysite.com/example" />
+                <meta
+                    name="description"
+                    content="Explore our delicious burger menu at Burgerizza. Burgers, sides, drinks, and more!"
+                />
         </Helmet>
 
         <div className=" min-vh-100 d-flex justify-content-center align-items-center">

@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import Menu from "../Pages/Menu/Menu";
 
 function MenuPage() {

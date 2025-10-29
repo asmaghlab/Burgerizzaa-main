@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Form, Button } from "react-bootstrap";
 // import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import {
     FaMapMarkerAlt,
     FaPhoneAlt,
@@ -120,6 +121,13 @@ const ContactPage: React.FC = () => {
 
     return (
         <>
+        <Helmet>
+           <title>Contact  </title>
+                <meta
+                    name="description"
+                    content="Welcome to Burgerizza! Discover our delicious burgers, exclusive deals, and amazing stories."
+                />
+        </Helmet>
         <style>{inputStyle}</style>
 
         <div id="background_home">

@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 import Categories from "../Pages/Home/Categories/Categories";
 import Test from "../Pages/Home/Test/Test";
