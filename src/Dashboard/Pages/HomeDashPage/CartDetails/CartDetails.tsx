@@ -3,9 +3,9 @@ import './CartDetails.css';
 import axios from 'axios';
 import { useSelector, useDispatch } from "react-redux";
 import type { AppDispatch,RootState } from "../../../../Store/Store";
-import { setCustomerInfo, clearCart } from "../../../../Store/CartDashSlice";
+import { setCustomerInfo, clearCart, clearItems } from "../../../../Store/CartDashSlice";
 import { addToCart } from '../../../../Store/CartDashSlice';
-import type { CartDashItem } from '../../../../types';
+import { type CartDashItem } from '../../../../types';
 
 
 const CartDetails:React.FC = () => {
@@ -21,7 +21,7 @@ const CartDetails:React.FC = () => {
 
 
     // Puch Order To API
-    const handleProceedPayment = async() => {
+    const handleOrderPlace = async() => {
 
     if (!customerName || !/^[A-Z][a-zA-Z ]*$/.test(customerName)) {
         setError(prev => ({ ...prev, customerName: "Enter Name" }));
@@ -58,12 +58,9 @@ const CartDetails:React.FC = () => {
         };
         
 
-        const orderDataPost = await axios.post("https://68eec8f4b06cc802829b50f7.mockapi.io/order", orderData);
+    const orderDataPost = await axios.post("https://68eec8f4b06cc802829b50f7.mockapi.io/order", orderData);
         console.log(orderDataPost.data);
         dispatch(clearCart());
-
-
-
 
     };
 
@@ -113,7 +110,7 @@ const CartDetails:React.FC = () => {
                 <div className="cart_details_order_items mt-3">
                     <div className="cart_details_order_items_head">
                         <h6>Order Items</h6>
-                        <button onClick={() => dispatch(clearCart())}>Clear all items</button>
+                        <button onClick={() => dispatch(clearItems())}>Clear all items</button>
                     </div>
 
                     <div className="cart_details_orders">
@@ -172,7 +169,7 @@ const CartDetails:React.FC = () => {
                     </div>
                 </div>
 
-                <button onClick={handleProceedPayment}>Proceed Payment</button>
+                <button onClick={handleOrderPlace}>Order Place</button>
             </div>
         </div>
         </>

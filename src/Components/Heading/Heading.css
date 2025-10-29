@@ -48,7 +48,7 @@
 .logo_text>a>h1 {
     color: #474747;
     font-family:var(--font-heading);
-    font-size:30px;
+    font-size:25px;
     font-weight: bold;
     
 }
@@ -63,7 +63,7 @@
 }
 
 .heading_icons .cart {
-    font-size: 30px;
+    font-size: 27px;
     color: #474747;
     cursor: pointer;
     /* padding-bottom: 9px; */
@@ -71,9 +71,9 @@
 }
 
 .heading_icons>.cart span {
-    font-size: 20px;
+    font-size: 18px;
     position: absolute;
-    left: 1.9rem;
+    left: 1.8rem;
     top: 19px;
     color: #474747;
     font-weight:500;

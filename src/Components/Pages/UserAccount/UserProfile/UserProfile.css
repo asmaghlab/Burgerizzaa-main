@@ -76,8 +76,8 @@
     transform: translateY(-50%);
     height: 90%;
     width: 3px;
-    background-color: var(--color_input_bg);
-    border-radius: 2px;
+    /* background-color: var(--color_input_bg); */
+    border-radius: 5px;
     transition: all .6s ease;
     z-index: -1;
     -webkit-transform: translateY(-50%);

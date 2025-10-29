@@ -3,9 +3,9 @@ import './MessageDash.css';
 import axios from "axios";
 import {
   Container,
-  Row,
-  Col,
-  Card,
+  // Row,
+  // Col,
+  // Card,
   Form,
   Button,
   Spinner,
@@ -13,7 +13,7 @@ import {
   ToastContainer,
   OverlayTrigger,
   Tooltip,
-  Badge,
+  // Badge,
   Alert,
 } from "react-bootstrap";
 import { FaTrash, FaSave, FaTimes, FaSearch } from "react-icons/fa";
@@ -29,7 +29,7 @@ interface Message {
   createdAt?: string;
 }
 
-const MessageDashboard: React.FC = () => {
+const MessageDash: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [filteredMessages, setFilteredMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(true);
@@ -356,4 +356,4 @@ const MessageDashboard: React.FC = () => {
   );
 };
 
-export default MessageDashboard;
+export default MessageDash;

@@ -16,6 +16,8 @@ import UserAccount from "./UserAccount/UserAccount";
 import Orders from "./UserAccount/Orders/Orders";
 
 import Footer from "../Footer/Footer";
+import ScrollToTop from "../Common/ScroolToTop";
+import Review from "../Review/Review";
 
 const AppRoutes: React.FC = () => {
 
@@ -26,7 +28,8 @@ const AppRoutes: React.FC = () => {
 
     return (
         <>
-        
+
+        <ScrollToTop/>
         {headerFooter && <Heading />}
 
         <Routes>
@@ -37,7 +40,7 @@ const AppRoutes: React.FC = () => {
 
 
             <Route path="menu/:id" element={<ProductDetailsPage />} />
-            <Route path="/contactus" element={<ContactPage />} />
+            <Route path="/review" element={<Review/>} />
             <Route path="/useraccount" element={<UserAccount />}>
                 <Route index element={<UserProfile />} /> 
                 <Route path="orders" element={<Orders />} />

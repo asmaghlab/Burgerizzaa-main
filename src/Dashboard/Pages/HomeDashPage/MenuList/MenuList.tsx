@@ -113,6 +113,7 @@ const MenuList:React.FC = () => {
                         <div className="menulist_card" key={item.id}>
                             <div className="menulist_card_img">
                                 <img src={item.image} alt="" />
+                                <p className='menuList_price'>EGP {item.price}</p>
                             </div>
 
                             <div className="menulist_inf mt-2">

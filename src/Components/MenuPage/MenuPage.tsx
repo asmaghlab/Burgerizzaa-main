@@ -13,7 +13,7 @@ function MenuPage() {
             </Helmet>
 
             <div id="background_home">
-                <section className="section">
+                <section className="section2">
                     <Menu />
                 </section>
             </div>

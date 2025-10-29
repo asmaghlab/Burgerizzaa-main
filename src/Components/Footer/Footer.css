@@ -1,7 +1,43 @@
+
+
 #footer {
+    position: relative;
     padding: 2rem 0;
-    background-color: rgba(245, 200, 200, 0.81);
+    background-image: url(/src/assets/Images/pizza-bg1.jpg);
+    background-size: cover;
+    background-position: bottom right;
+    overflow: hidden;
+}
+
+#footer::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: inherit;
+    background-size: cover;
+    background-position: top right;
+    filter: blur(10px);
+    transform: scale(1.05);
+    z-index: 0;
+    -webkit-filter: blur(10px);
+}
+
+#footer::after {
+    content: "";
+    position: absolute;
+    inset: 0;
     backdrop-filter: blur(10px);
+    z-index: 1;
+    background: linear-gradient(
+    to bottom,
+    rgba(245, 218, 218, 0.887) 0%,       
+    rgba(229, 212, 212, 0.869) 100%   
+    );
+}
+
+#footer .container_box {
+    position: relative;
+    z-index: 2;
 }
 
 .footer {
@@ -59,9 +95,10 @@
 
 .footer_col_links>a {
     color: var(--color_font-heading);
-    font-size: 18px;
 }
-
+.footer_col_links> p {
+    cursor: pointer;
+}
 
 .footer_col_call {
     display: flex;

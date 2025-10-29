@@ -1,6 +1,7 @@
 import "./Sidebare.css";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { TbBrandGoogleAnalytics } from "react-icons/tb";
 
 const navItems = [
     { icon: "home", label: "Home", path: "/dashboard" },
@@ -9,13 +10,14 @@ const navItems = [
     { icon: "group", label: "Users", path: "/dashboard/userDashboard" },
     { icon: "mail", label: "Message", path: "/dashboard/messageDash" },
     { icon: "insert_chart", label: "Report", path: "/dashboard/reportspage" },
+    { icon: <TbBrandGoogleAnalytics />, label: "Analysis", path: "/dashboard/analysisPage" },
 
     {
         icon: "settings",
         label: "Settings",
         submenu: [
             // { icon: "person", label: "Profile", path: "/profile" },
-            { icon: "logout", label: "Logout", path: "/logout" }
+            { icon: "logout", label: "Logout", path: "/login" }
         ]
     }
 ];

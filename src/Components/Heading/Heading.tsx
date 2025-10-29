@@ -2,8 +2,9 @@ import './Heading.css'
 import { useEffect } from 'react';
 // import { IoLogInOutline } from "react-icons/io5";
 import { BsCart3 } from "react-icons/bs";
+
 import { RiMenu2Line } from "react-icons/ri";
-import { NavLink,Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { RiCloseLine } from "react-icons/ri";
 // import { RiUser3Line } from "react-icons/ri";
 
@@ -19,6 +20,7 @@ import type { RootState } from "../../Store/Store";
 
 import { clearCartAll } from "../../Store/CartSlice";
 import { logout } from '../../Store/Userslice';
+import SmartLink from '../Common/SmartLink';
 
 
 function Heading() {
@@ -59,14 +61,14 @@ function Heading() {
 
                 <div className="heading_logo">
                     <div className="logo_text">
-                        <NavLink to="/"><h1>Burgerizza</h1></NavLink>
+                        <SmartLink to="/"><h1>Burgerizza</h1></SmartLink>
                     </div>
                 </div>
 
                 <div className="heading_menu" >
-                    <NavLink to="/home" className="menu">Home</NavLink>
-                    <NavLink to="/menu"  className="menu">Menu</NavLink>
-                    <NavLink to="/contactus" className="menu">Contact</NavLink>
+                    <SmartLink to="/home" className="menu">Home</SmartLink>
+                    <SmartLink to="/menu"  className="menu">Menu</SmartLink>
+                    <SmartLink to="/review" className="menu">Review</SmartLink>
                 </div>
 
                 <div className="heading_icons">
@@ -121,9 +123,9 @@ function Heading() {
                     <div className="mobile_close" onClick={() => setResponsive(false)}>
                         <RiCloseLine />
                     </div>
-                    <NavLink to="/home" className="mobile_menu_link" onClick={() => setResponsive(false)}>Home</NavLink>
-                    <NavLink to="/menu" className="mobile_menu_link" onClick={() => setResponsive(false)}>Menu</NavLink>
-                    <NavLink to="/contactus" className="mobile_menu_link" onClick={() => setResponsive(false)}>Contact</NavLink>
+                    <SmartLink to="/home" className="mobile_menu_link" onClick={() => setResponsive(false)}>Home</SmartLink>
+                    <SmartLink to="/menu" className="mobile_menu_link" onClick={() => setResponsive(false)}>Menu</SmartLink>
+                    <SmartLink to="/review" className="mobile_menu_link" onClick={() => setResponsive(false)}>ReviewUs</SmartLink>
 
                     {/* <Link to="/login" className="mobile_account" onClick={() => setResponsive(false)}>
                         <h4>Login</h4>

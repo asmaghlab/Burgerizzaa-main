@@ -77,14 +77,11 @@ function CheckOut() {
             items: cart,
             checkoutData: checkout,
             userID: user.id,
-
         };
 
 
         try {
             await axios.post("https://68eec8f4b06cc802829b50f7.mockapi.io/order", newOrder);
-
-            
 
             orderSuccessAlert()
 
@@ -94,8 +91,6 @@ function CheckOut() {
             console.error("Error:", error);
         }
 
-
-
     };
 
 
@@ -103,7 +98,7 @@ function CheckOut() {
     return (
         <>
             <div id="background_home">
-                <section id="checkout" className="section">
+                <section id="checkout" className="section2">
                     <div className="container_box form-billing-data">
 
                         <form id="form-checkout">

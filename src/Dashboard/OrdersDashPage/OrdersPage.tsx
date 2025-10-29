@@ -2,15 +2,17 @@ import React, {useState, useEffect} from 'react'
 import './OrdersPage.css';
 import { LuSearch } from "react-icons/lu";
 import type { CartItem, Order } from '../../types';
-import { useSelector } from 'react-redux';
-import type { RootState } from '../../Store/Store';
+// import { useSelector } from 'react-redux';
+// import type { RootState } from '../../Store/Store';
 
 const OrdersPage:React.FC = () => {
         const [orders, setOrders]=useState<Order[]>([]);
         const [searchOrder, setsearchOrder] = useState('');
         const [hoveredOrderUserInfo, setHoveredOrderuserInfo] = useState<number | null>(null);
-        const user = useSelector((state: RootState) => state.user.user);
+        // const user = useSelector((state: RootState) => state.user.user);
+        // const checkout = useSelector((state: RootState) => state.checkout);
         // const { customerName, location }  = useSelector((state: RootState) => state.cartDash);
+        const [currentPage, setCurrentPage] = useState(1);
 
 
         const getAllOrdersData= async ()=> {
@@ -94,9 +96,55 @@ const OrdersPage:React.FC = () => {
             }
         };
 
-        const fOrders = orders.filter(order => 
+        // const fOrders = orders.filter(order => 
+        // order.id.toString().includes(searchOrder)
+        // );
+
+        const handleDeleteOrderFromAPI = async (orderId: number)=> {
+            await fetch(`https://68eec8f4b06cc802829b50f7.mockapi.io/order/${orderId}`, {
+                method:"DELETE",
+
+            });
+            setOrders(orders => orders.filter(item => Number(item.id) !== Number(orderId)))
+
+        }
+
+
+    const ITEMS_PER_PAGE = 5; 
+    const MAX_PAGE_BUTTONS = 5;
+
+    const filteredOrders = orders.filter(order =>
         order.id.toString().includes(searchOrder)
-        );
+    );
+
+    const totalPages = Math.max(1, Math.ceil(filteredOrders.length / ITEMS_PER_PAGE));
+    const indexOfLastItem = currentPage * ITEMS_PER_PAGE;
+    const indexOfFirstItem = indexOfLastItem - ITEMS_PER_PAGE;
+
+    const currentOrders = filteredOrders.slice(indexOfFirstItem, indexOfLastItem);
+
+    const goToPage = (page: number) => {
+        const newPage = Math.min(Math.max(1, page), totalPages);
+        setCurrentPage(newPage);
+    };
+
+
+    const getVisiblePages = () => {
+        let start = Math.max(currentPage - Math.floor(MAX_PAGE_BUTTONS / 2), 1);
+        let end = start + MAX_PAGE_BUTTONS - 1;
+
+        if (end > totalPages) {
+            end = totalPages;
+            start = Math.max(end - MAX_PAGE_BUTTONS + 1, 1);
+        }
+
+        const pages = [];
+        for (let i = start; i <= end; i++) {
+            pages.push(i);
+        }
+        return pages;
+    };
+
 
         useEffect(() => {
             getAllOrdersData();
@@ -129,7 +177,7 @@ const OrdersPage:React.FC = () => {
 
                     <div className="orders_users_cards ordars_page_cards mt-5">
                         
-                            {fOrders.map((order)=> (
+                            {currentOrders.map((order)=> (
                                 
                                 <div className={`orders_user_card ordars_page_card ${order.Status.toLowerCase()}`} key={order.id}>
             
@@ -143,11 +191,11 @@ const OrdersPage:React.FC = () => {
 
                                             {hoveredOrderUserInfo === order.id && (
                                                 <div className="user_info_box">
-                                                    {order.source === "website" && user && (
+                                                    {order.source === "website" && order.checkoutData && (
                                                         <>
-                                                            <p><strong>Name:</strong> {user.username}</p>
-                                                            <p><strong>Email:</strong> {user.email}</p>
-                                                            <p><strong>Phone:</strong> {user.phone}</p>
+                                                            <p><strong>Name:</strong> {order.checkoutData.firstName} {order.checkoutData.lastName}</p>
+                                                            <p><strong>Email:</strong> {order.checkoutData.email}</p>
+                                                            <p><strong>Phone:</strong> {order.checkoutData.phone}</p>
                                                         </>
                                                     )}
 
@@ -201,22 +249,73 @@ const OrdersPage:React.FC = () => {
                                             <p className='fw-medium'>EGP{order.items.reduce((sum, item) => sum + item.price * item.quantity, 0) + 50}</p>
                                         </div>
             
-                                        <div className="order_action_btn orders_page_btn">
+                                        {/* <div className="order_action_btn orders_page_btn">
                                             <button onClick={() => handleCancelOrder(order.id)}>X</button>
             
                                             {order.Status !== "Completed" && (
-                                                <button onClick={() => handleUpdateStatus(order.id)}
-                                            >✓</button>
+                                                <button onClick={() => handleUpdateStatus(order.id)}>✓</button>
                                             )}
+                                        </div> */}
+
+                                        <div className="order_action_btn orders_page_btn">
+                                            {order.Status === "Pending" || order.Status === "Shipping" ? (
+                                                <button onClick={() => handleCancelOrder(order.id)}>X Cancl</button>
+                                            ):(
+                                                order.Status === "Completed" || order.Status === "Cancelled" ? (
+                                                    <button
+                                                        onClick={() => handleDeleteOrderFromAPI(order.id)}>
+                                                        X Delete
+                                                    </button>
+                                                ):null
+                                            )}
+
+
+
+                                            {order.Status === "Pending" && (
+                                                <button onClick={() => handleUpdateStatus(order.id)}>✓Ship</button>
+                                            )}
+
+                                            {order.Status === "Shipped" && (
+                                                <button onClick={() => handleUpdateStatus(order.id)}>Complete</button>
+                                            )}
+
                                         </div>
+
+
                                     </div>
+
+
                                 </div>
                             ))}
                     </div>
 
 
 
+                {/* Pagination */}
+                {filteredOrders.length > 0 && (
+                    <div className="d-flex justify-content-center align-items-center gap-2 mt-4 flex-wrap pb-3">
+                        <button className="btn btn-outline-danger btn-sm" disabled={currentPage === 1} onClick={() => goToPage(currentPage - 1)}>Prev</button>
+
+                        {getVisiblePages().map((page) => (
+                            <button
+                                key={page}
+                                className={`btn btn-sm ${currentPage === page ? "btn-danger" : "btn-outline-danger"}`}
+                                onClick={() => goToPage(page)}
+                            >
+                                {page}
+                            </button>
+                        ))}
+
+                        <button className="btn btn-outline-danger btn-sm" disabled={currentPage === totalPages} onClick={() => goToPage(currentPage + 1)}>Next</button>
+                    </div>
+                )}
+
+                {filteredOrders.length === 0 && <p className="text-center text-muted mt-5">No Orders found.</p>}
+
+
+
             </div>
+
         </div>
 
         </>

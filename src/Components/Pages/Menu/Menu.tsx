@@ -33,6 +33,8 @@ function Menu() {
     }, [dispatch]);
 
 
+
+
     // Add Items
     const handleAddClick = (item: MenuType) => {
         if (!user) {
@@ -170,9 +172,9 @@ function Menu() {
                             onClick={() => handlePageChange(currentPage - 1)}
                             disabled={currentPage === 1}
                             style={{
-                                padding: '8px 16px',
-                                borderRadius: '8px',
-                                border: '1px solid #ad343e',
+                                padding: '5px 16px',
+                                borderRadius: '5px',
+                                border: '1px solid #ad343e5c',
                                 backgroundColor: currentPage === 1 ? 'rgba(255, 255, 255, 0.346)' : 'transparent',
                                 color: currentPage === 1 ? '#6c757d' : '#ad343e',
                                 cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
@@ -188,9 +190,9 @@ function Menu() {
                                 className="btn"
                                 onClick={() => handlePageChange(page)}
                                 style={{
-                                    padding: '8px 12px',
-                                    borderRadius: '8px',
-                                    border: '1px solid #ad343e',
+                                    padding: '5px 12px',
+                                    borderRadius: '5px',
+                                    border: '1px solid #ad343e5c',
                                     backgroundColor: currentPage === page ? '#ad343e' : 'transparent',
                                     color: currentPage === page ? 'white' : '#ad343e',
                                     cursor: 'pointer',
@@ -207,9 +209,9 @@ function Menu() {
                             onClick={() => handlePageChange(currentPage + 1)}
                             disabled={currentPage === totalPages}
                             style={{
-                                padding: '8px 16px',
-                                borderRadius: '8px',
-                                border: '1px solid #ad343e',
+                                padding: '5px 16px',
+                                borderRadius: '5px',
+                                border: '1px solid #ad343e5c',
                                 backgroundColor: currentPage === totalPages ? 'rgba(255, 255, 255, 0.346)' : 'transparent',
                                 color: currentPage === totalPages ? '#6c757d' : '#ad343e',
                                 cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
@@ -222,7 +224,7 @@ function Menu() {
                 )}
 
                 {totalPages > 1 && (
-                    <div className="page-info" style={{ textAlign: 'center', marginTop: '20px', color: '#6c757d', fontSize: '14px' }}>
+                    <div className="page-info" style={{ textAlign: 'center', marginTop: '20px', color: '#414536', fontSize: '14px' }}>
                         Showing {startIndex + 1} to {Math.min(endIndex, filteredMenuData.length)} of {filteredMenuData.length} items
                     </div>
                 )}

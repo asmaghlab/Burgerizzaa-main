@@ -33,6 +33,7 @@
     margin-top: 1rem;
     border-radius: 10px;
 
+
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -43,6 +44,7 @@
     -moz-border-radius: 10px;
     -ms-border-radius: 10px;
     -o-border-radius: 10px;
+
 }
 .menulist_filter>button {
     border: none;
@@ -84,6 +86,7 @@
 }
 .menulist_filter>button>i {
     border: 1px solid rgb(172, 171, 171);
+    color: rgb(83, 83, 83);
     padding: 0 8px;
     display: flex;
     justify-content: center;
@@ -208,17 +211,39 @@
     -moz-border-radius: 10px;
     -ms-border-radius: 10px;
     -o-border-radius: 10px;
+    overflow: hidden;
+
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .menulist_card .menulist_card_img> img {
-    width: 100%;
+    /* object-fit: contain; */
+    width: 80%;
     height: 100%;
 }
+.menuList_price {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    padding: 2px 8px;
+    background-color: white;
+    border-radius: 0 10px 0 10px;
+    -webkit-border-radius: 0 10px 0 10px;
+    -moz-border-radius: 0 10px 0 10px;
+    -ms-border-radius: 0 10px 0 10px;
+    -o-border-radius: 0 10px 0 10px;
 
+    font-weight: 500;
+}
 .menulist_button {
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 

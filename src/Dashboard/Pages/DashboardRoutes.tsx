@@ -9,7 +9,8 @@ import OrdersPage from "../OrdersDashPage/OrdersPage";
 // import UsersPage from "../UsersDashPage/UsersPage";
 import ReportsPage from '../ReportsPage/ReportsPage';
 import UserDashboard from '../UserDashboard/UserDashboard';
-import MessageDash from '../MessageDash/MessageDash';
+import AnalusisPage from '../AnalysisPage/AnalusisPage';
+import MessageDash from '../messageDash/messageDash';
 
 
 const DashboardRoutes: React.FC = () => {
@@ -33,6 +34,7 @@ const DashboardRoutes: React.FC = () => {
                     <Route path="userDashboard" element={<UserDashboard/>} />
                     <Route path="reportspage" element={<ReportsPage/>} />
                     <Route path="messageDash" element={<MessageDash/>} />
+                    <Route path="analysisPage" element={<AnalusisPage/>} />
                 </Routes>
             </div>
 

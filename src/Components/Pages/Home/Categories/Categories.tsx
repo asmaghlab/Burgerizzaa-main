@@ -18,7 +18,7 @@ interface Item {
 const Categories: React.FC = () => {
   const navigate = useNavigate();
 
-  // ✅ Fetch categories
+  // Fetch categories
   const { data: categories = [], isLoading: loadingCats } = useQuery({
     queryKey: ["categories"],
     queryFn: async () => {
@@ -29,7 +29,7 @@ const Categories: React.FC = () => {
     },
   });
 
-  // ✅ Fetch items
+  // Fetch items
   const { data: items = [], isLoading: loadingItems } = useQuery({
     queryKey: ["items"],
     queryFn: async () => {

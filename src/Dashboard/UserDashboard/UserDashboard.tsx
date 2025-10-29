@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import { Helmet } from "react-helmet-async";
 import z from 'zod';
@@ -14,7 +14,7 @@ interface IUser {
   role: 'user' | 'admin';
   phone:string;
 }
- 
+
 export default function UserDashboard() {
   const [search, setSearch] = useState('');
   const [showModal, setShowModal] = useState(false);
@@ -33,9 +33,8 @@ type UserFormData = z.infer<typeof schema>;
   const { register, handleSubmit, reset, formState} = useForm<UserFormData>({
     resolver: zodResolver(schema),
   });
- 
 
- 
+
   //  Get Users
   const { data, isLoading, isError } = useQuery<IUser[]>({
     queryKey: ['users'],

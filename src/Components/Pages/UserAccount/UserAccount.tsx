@@ -35,7 +35,7 @@ const UserAccount:React.FC = () => {
     return (
         <>
         <div id="background_home">
-            <section id='profile_page' className='section'>
+            <section id='profile_page' className='section2'>
 
                 <div className="container_box profile_page">
 
@@ -45,7 +45,10 @@ const UserAccount:React.FC = () => {
                         <div className="profile_box_left">
                             <div className="profile_img">
                                 { user && (
-                                        <img src={`https://ui-avatars.com/api/?name=${user.username}&background=ad343e2c&color=fff&size=128`} alt="" />
+                                        // <img src={`https://ui-avatars.com/api/?name=${user.username}&background=ad343e2c&color=fff&size=128`} 
+                                        <img src={`https://api.dicebear.com/9.x/adventurer/svg?seed=${user.username}`} 
+                                        style={{background:"#ad343e2c", borderRadius:"50%"}}
+                                        alt="" />
                                 )}
                             </div>
                             <h4 className='mt-2 fs-5'>{user.username}</h4>

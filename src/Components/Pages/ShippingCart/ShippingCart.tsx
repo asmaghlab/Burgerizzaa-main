@@ -37,7 +37,7 @@ const ShippingCart:React.FC = () => {
 
     return (
     <div id="background_home">
-        <section id="cart" className='section'>
+        <section id="cart" className='section2'>
 
 
             <div className="cart_container container_box">

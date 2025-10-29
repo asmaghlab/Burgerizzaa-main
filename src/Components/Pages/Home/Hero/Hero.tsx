@@ -1,9 +1,26 @@
 import "./Hero.css";
 import { GiRoundStar } from "react-icons/gi";
 import { Link } from "react-router-dom";
-
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect } from "react";
 
 function Hero() {
+
+    const imagesChande = [
+        "/src/assets/Images/Hero_img/Pizza1.png",
+        "/src/assets/Images/Hero_img/Pizza2.png",
+        "/src/assets/Images/Hero_img/Pizza3.png",
+        "/src/assets/Images/Hero_img/Pizza4.png",
+    ];
+
+    const [imagesAnim, setimagesAnim] = useState(0);
+
+    useEffect(() => {
+        const timerImageRoute = setInterval(() => {
+        setimagesAnim((img) => (img + 1) % imagesChande.length);
+        }, 40000);
+        return () => clearInterval(timerImageRoute);
+    }, []);
 
     return (
         <>
@@ -83,7 +100,37 @@ function Hero() {
 
 
                     <div className="hero_img">
-                        <img className="hero_img_left" src="/src/assets/Images/Hero_img/hero-bg3.png" alt="" />
+                        <AnimatePresence mode="wait">
+                            <motion.img
+                                key={imagesChande[imagesAnim]}
+                                src={imagesChande[imagesAnim]}
+                                alt="Food"
+                                initial={{
+                                opacity: 0,
+                                x: 150,
+                                y: -150,
+                                rotate: 45,
+                                scale: 0.8,
+                                }}
+                                animate={{
+                                opacity: 1,
+                                x: 0,
+                                y: 0,
+                                rotate: 0,
+                                scale: 1,
+                                transition: { duration: 0.8, ease: "easeOut" },
+                                }}
+                                exit={{
+                                opacity: 0,
+                                x: 150,
+                                y: 150,
+                                rotate: -45,
+                                scale: 0.8,
+                                transition: { duration: 0.8, ease: "easeIn" },
+                                }}
+                                className="hero_img_item"
+                            />
+                        </AnimatePresence>
                     </div>
                 </div>
 

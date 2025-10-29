@@ -2,7 +2,7 @@
     width: 85%;
     margin: 0 auto;
     padding-bottom: 5rem;
-    padding-top: 1.5rem;
+    padding-top: 1.7rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -26,6 +26,7 @@
     border-radius: 10px;
     flex-wrap: wrap;
     justify-content: center;
+
 }
 
 .Menu_btns > button {
@@ -46,6 +47,8 @@
 .Menu_btns > button > p {
     font-size: 15px;
     color: rgb(134, 134, 134);
+    font-weight: 500;
+    font-size: 14px;
 }
 
 button .emoji {
@@ -58,6 +61,8 @@ button.active .emoji {
 }
 button.active p {
     color: rgb(75, 75, 75);
+    font-weight: 500;
+    font-size: 14px;
 }
 .Menu_btns > button:hover p {
     color: rgb(75, 75, 75);
@@ -197,9 +202,8 @@ button.active p {
     border-radius: 0 10px 10px 0;
 }
 
-/* ---------- Responsive ---------- */
 
-/* 📱 Small screens (phones) */
+/* Media Queries (Media Device) */
 @media screen and (max-width: 600px) {
     .menu_title > h1 {
         font-size: 36px;
@@ -220,9 +224,6 @@ button.active p {
         gap: 1.5rem;
     }
 
-    .menu_item {
-        width: 90%;
-    }
 
     .menu_item_img img {
         width: 160px;
@@ -241,7 +242,7 @@ button.active p {
     }
 }
 
-/* 💻 Tablets */
+/* Media Queries (Small Device) */
 @media screen and (max-width: 1024px) and (min-width: 601px) {
     .menu_title > h1 {
         font-size: 45px;
@@ -252,16 +253,12 @@ button.active p {
         gap: 2rem;
     }
 
-    .menu_item {
-        width: 80%;
-    }
 
     .menu_item_img img {
         width: 180px;
     }
 }
 
-/* 🖥️ Large screens */
 @media screen and (min-width: 1440px) {
     .menu_items {
         grid-template-columns: repeat(5, 1fr);

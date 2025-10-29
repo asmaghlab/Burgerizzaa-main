@@ -28,16 +28,19 @@ const cartDashSlice = createSlice({
                 existing.quantity += action.payload.quantity;
                 if (existing.quantity < 1) existing.quantity = 1;
             } else {
-                state.items.push({ ...action.payload.item, quantity: action.payload.quantity });
+                state.items.unshift({ ...action.payload.item, quantity: action.payload.quantity });
             }
         },
         removeFromCart: (state, action: PayloadAction<number>) => {
             state.items = state.items.filter(i => i.id !== action.payload);
         },
         clearCart: (state) => {
-            state.items = [];
+            // state.items = [];
             state.customerName = "";
             state.location = "";
+        },
+        clearItems: (state) => {
+            state.items = [];
         },
         setCustomerInfo: (state, action: PayloadAction<{ name: string; location: string }>) => {
             state.customerName = action.payload.name;
@@ -46,5 +49,5 @@ const cartDashSlice = createSlice({
     }
 });
 
-export const { addToCart, removeFromCart, clearCart, setCustomerInfo  } = cartDashSlice.actions;
+export const { addToCart, removeFromCart, clearCart, setCustomerInfo,clearItems  } = cartDashSlice.actions;
 export default cartDashSlice.reducer;

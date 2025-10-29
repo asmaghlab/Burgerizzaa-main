@@ -1,15 +1,22 @@
 import React from 'react';
 import './Footer.css';
-import { Link } from 'react-router-dom';
+import SmartLink from '../Common/SmartLink';
 import { FaFacebookF } from "react-icons/fa";
 import { RiInstagramFill } from "react-icons/ri";
 import { FaTwitter } from "react-icons/fa";
 import { IoLocationSharp } from "react-icons/io5";
 import { MdPhoneInTalk } from "react-icons/md";
 import { MdEmail } from "react-icons/md";
+import {useNavigate } from "react-router-dom";
 
 
 const Footer:React.FC = () => {
+    const navigate = useNavigate();
+
+    const handleCategoryClick = (category: string) => {
+        navigate("/menu", { state: { category } });
+    };
+
     return (
 
         <>
@@ -31,17 +38,25 @@ const Footer:React.FC = () => {
 
                         <div className="footer_col_links">
                             <h5>Quick Links</h5>
-                            <Link to="/home">Home</Link>
-                            <Link to="/menu">Menu</Link>
-                            <Link to="/contact">Contact</Link>
+                            <SmartLink to="/home">Home</SmartLink>
+                            <SmartLink to="/menu">Menu</SmartLink>
+                            <SmartLink to="/contactus">Contact</SmartLink>
                         </div>
 
                         <div className="footer_col_links">
                             <h5>Our Menu</h5>
-                            <Link to="">Pizza</Link>
-                            <Link to="">Burgers</Link>
-                            <Link to="">Desserts</Link>
-                            <Link to="">Drinks</Link>
+                                <p onClick={() => handleCategoryClick("Pizza")}>
+                                    Pizza
+                                </p>
+                                <p onClick={() => handleCategoryClick("Burger")}>
+                                    Burgers
+                                </p>
+                                <p onClick={() => handleCategoryClick("Dessert")}>
+                                    Desserts
+                                </p>
+                                <p onClick={() => handleCategoryClick("Drinks")}>
+                                    Drinks
+                                </p>
                         </div>
 
 
