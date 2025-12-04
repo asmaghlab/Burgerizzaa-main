@@ -1,0 +1,13 @@
+{
+  "cart": [
+    {
+      "id": "3",
+      "name": "Classic Beef Burger",
+      "description": "Juicy beef patty with lettuce, tomato, and cheddar cheese.",
+      "price": 85,
+      "image": "https://i.ibb.co/HD5dPTBX/3.png",
+      "category": "Burger",
+      "quantity": 2
+    }
+  ]
+}

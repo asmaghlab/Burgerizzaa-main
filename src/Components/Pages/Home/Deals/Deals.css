@@ -1,0 +1,126 @@
+#deals {
+    margin-top: 4rem;
+}
+.deals_header>h3 {
+    color: var(--color_font-heading);
+    text-align:start;
+}
+
+/* .deals_header .deals_btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+
+    color: var(--color_font-heading);
+}
+.deals_header .deals_btn > i {
+    font-size: 15px;
+}
+.deals_header .deals_btn:hover{
+    color: var(--color-primary);
+} */
+
+
+/* Cards Style */
+/* 
+.deals_cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.deal_card {
+    margin-top: 2rem;
+} */
+
+
+
+.deals_cards {
+    display: flex;
+    overflow-x: auto; 
+    scroll-snap-type: x mandatory; 
+    gap: 20px;
+    padding: 3rem 0;
+
+    scrollbar-width: none; 
+}
+
+.deal_card {
+    flex: 0 0 40%;
+    scroll-snap-align: start;
+    position: relative;
+}
+
+
+.deal_card .deal_card_box {
+    width: 100%;
+    background-color: var(--color_bg);
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 1rem 1rem 0 1rem;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+
+    position: relative;
+}
+.deal_card_box .deal_img {
+    width: 250px;
+    height: 200px;
+}
+.deal_card_box .deal_img > img {
+    width: 100%;
+    height: 100%;
+}
+
+
+.deal_card_box .deal_card-desc {
+    padding: 0 1rem;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.deal_card_box .deal_card-desc> p > i {
+    color: var(--color_star);
+}
+.deals_price {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.deals_price > span:nth-of-type(1) {
+    font-weight: 500;
+    color: var(--color-primary);
+}
+
+.deals_price > span:nth-of-type(2) {
+    text-decoration: line-through;
+    font-size: 15px;
+}
+
+
+.deal_card_box .deal_card_btn {
+    position: absolute;
+    left: 50%;
+    bottom: -1rem;
+    transform: translateX(-50%);
+    background: var(--color-primary);
+    color: white;
+    padding: 7px 15px;
+    border-radius: 8px;
+}
+
+
+/* Media Queries (Small Device) */
+
+@media screen and (max-width:1024px) {
+
+    .deal_card_box .deal_card-desc {
+        width:250px;
+    }
+}

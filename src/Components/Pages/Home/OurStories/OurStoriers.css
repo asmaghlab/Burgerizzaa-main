@@ -1,0 +1,137 @@
+#ourstories {
+    /* margin-top: 3rem; */
+    padding: 3rem 0;
+}
+
+.ourstories {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10rem;
+}
+.outstories_img_box {
+    overflow:hidden;
+    padding: 3rem 2rem 0 2rem;
+    height: 440px;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+}
+.ourstories_img {
+    position: relative;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    overflow: visible;
+
+
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    z-index: 1;
+
+}
+
+.ourstories_img > img {
+    width: 120%;
+    height: auto;
+    object-fit: cover;
+    position: relative;
+    bottom: 0;
+    left: 2rem;
+    top: 13rem;
+    transform: translateY(-10%);
+    
+    z-index: 10;
+    -webkit-transform: translateY(-10%);
+    -moz-transform: translateY(-10%);
+    -ms-transform: translateY(-10%);
+    -o-transform: translateY(-10%);
+}
+
+.ourstories_img::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.6) 0%,   
+        rgba(255, 255, 255, 0.2) 40%,  
+        #ad343e2c 100%
+    );
+    z-index: 3;
+}
+
+
+
+
+
+.ourstiries_desc p:nth-of-type(1) {
+    font-weight: bold;
+    color: var(--color-primary);
+
+}
+.ourstiries_desc p:nth-of-type(2) {
+    width: 500px;
+}
+
+.ourstiries_desc>h3 {
+    font-size: 50px;
+    padding-bottom: 1rem;
+}
+.ourstiries_desc>h3 span {
+    color: var(--color-primary);
+}
+
+
+.ourstories_cards {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 2rem;
+}
+.ourstories_cards .ourstories_card {
+    background-color: var(--color_bg);
+    padding: 1rem;
+    text-align: center;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+}
+
+
+
+/* Media Queries (Media Device) */
+
+@media screen and (max-width:1024px) {
+    .ourstories {
+        gap: 4rem;
+        flex-wrap: wrap;
+    }
+    .ourstories_cards {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-top: 2rem;
+        
+        flex-wrap: wrap;
+        gap: 2rem;
+    }
+}
+
+/* Media Queries (Small Device) */
+
+@media screen and (max-width:600px) {
+
+    .ourstiries_desc p:nth-of-type(2) {
+        width: 360px;
+    }
+    .ourstories_img > img {
+        left: 0;
+    }
+}

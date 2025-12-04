@@ -1,0 +1,190 @@
+#login_page {
+    background: linear-gradient(180deg, #fde8de9b 0%, #fff5ef 100%);
+    min-height: 100vh;
+}
+
+
+.login_page {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-around;
+    height: 100vh;
+    padding-top: 7rem;
+}
+
+.login_img {
+    background-color: rgba(245, 200, 200, 0.7);
+    border-radius: 20rem;
+    height: 100%;
+    -webkit-border-radius: 20rem 20rem 0 0;
+    -moz-border-radius: 20rem;
+    -ms-border-radius: 20rem;
+    -o-border-radius: 20rem;
+    position: relative;
+}
+
+.login_img img {
+    position: relative;
+    top: 8rem;
+    left: 10rem;
+    display: block;
+    margin: 0 auto;
+    width: 80%;
+
+}
+
+#login_form {
+    width: 35%;
+    padding: 1rem;
+    text-align: center;
+}
+
+.alert_form {
+    color: rgb(217, 18, 18);
+    height: 0 !important;
+}
+
+/* .login_input> label,
+register_input > label {
+    font-weight: 400;
+    font-family: var(--font-text);
+    color: var(--color_font-pra);
+    font-size: 16px;
+    padding: .6rem 1rem !important;
+} */
+
+.login_input .form-control,
+.register_input > .form-control  {
+    height: 30px !important;
+    padding: 0px 20px !important;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+    background: transparent;
+    border: 1px solid var(--color_border);
+    outline: none !important;
+    box-shadow: none !important;
+    transition: border-color 0.2 ease;
+    -webkit-transition: border-color 0.2 ease;
+    -moz-transition: border-color 0.2 ease;
+    -ms-transition: border-color 0.2 ease;
+    -o-transition: border-color 0.2 ease;
+    min-height: calc(2.8rem + calc(var(--bs-border-width) * 2)) !important;
+}
+
+
+
+#login_form .login_form .login_input> input[type="email"]:first-of-type,
+#login_form .login_form .register_input> input[type="text"]:first-of-type  {
+    margin-top: 4rem !important;
+}
+
+.login_input> input:focus, 
+.register_input> input:focus{
+    background: transparent;
+    outline: none !important;
+    border-color: var(--color_border) !important;
+}
+
+.login_btn {
+    height: 40px;
+    background-color: rgba(245, 200, 200, 0.7) !important;
+    color: var(--color-primary) !important;
+    font-weight: bold !important;
+    padding: 8px 0 !important;
+}
+
+
+.text-end > a,
+.text-center > a {
+    color: var(--color-primary) !important;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+}
+
+.text-end > a:hover,
+.text-center > a:hover {
+    text-decoration: underline !important;
+}
+
+
+/* Handel Error Messege */
+.alert_error {
+    text-align: left !important;
+    color: rgb(217, 18, 18);
+    margin-left: 1rem;
+    height: 0px !important;
+}
+
+
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0px 1000px transparent !important; 
+    box-shadow: 0 0 0px 1000px transparent inset !important;
+    -webkit-text-fill-color: #000 !important; 
+    transition: background-color 5000s ease-in-out 0s; 
+}
+
+
+/* Forget Password */
+
+.reset_form {
+    background-color: transparent;
+    box-shadow: var(--box-shadow);
+}
+
+
+/* Media Queries (Media Device) */
+
+@media screen and (max-width:1024px) {
+    .login_page {
+        justify-content: center;
+    }
+
+    .login_img {
+        display: none;
+    }
+
+    #login_form {
+        width: 80% !important;
+        text-align: center;
+        padding: 2rem;
+        box-shadow:  0 4px 8px 0 #e7adb2b6, 0 6px 20px 0 #e7adb2b6;
+        border-radius: 50px 0 50px 0;
+        -webkit-border-radius: 50px 0 50px 0;
+        -moz-border-radius: 50px 0 50px 0;
+        -ms-border-radius: 50px 0 50px 0;
+        -o-border-radius: 50px 0 50px 0;
+}
+
+    .forget_pass {
+    width: 70% !important;
+    }
+}
+
+/* Media Queries (Small Device) */
+
+@media screen and (max-width:600px) {
+    #login_form {
+        width: 100% !important;
+    }
+    .forget_pass {
+    width: 90% !important;
+    }
+
+}
+
+
+
+
+
+
