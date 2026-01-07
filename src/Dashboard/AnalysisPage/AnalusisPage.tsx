@@ -15,6 +15,20 @@ import {
   Area,
 } from "recharts";
 
+interface User {
+  id: string;
+  role?: string;
+  [key: string]: unknown;
+}
+
+interface Item {
+  id: string;
+  name: string;
+  price?: number;
+  category?: string;
+  [key: string]: unknown;
+}
+
 const styles = `
 .dashboard {
     background-color: #f8f9fa;
@@ -143,8 +157,8 @@ const styles = `
 const COLORS = ["#800000", "#a05252", "#c0c0c0", "#9ca3af"];
 
 export default function AnalysisPage() {
-    const [users, setUsers] = useState<any[]>([]);
-    const [items, setItems] = useState<any[]>([]);
+    const [users, setUsers] = useState<User[]>([]);
+    const [items, setItems] = useState<Item[]>([]);
     const [loading, setLoading] = useState(true);
     const [progress, setProgress] = useState({ users: 0, categories: 0, products: 0 });
 
@@ -194,7 +208,7 @@ export default function AnalysisPage() {
         value,
     }));
 
-    const usersByRole = users.reduce((acc: any, u) => {
+    const usersByRole = users.reduce((acc: Record<string, number>, u) => {
         const role = u.role || "user";
         acc[role] = (acc[role] || 0) + 1;
         return acc;

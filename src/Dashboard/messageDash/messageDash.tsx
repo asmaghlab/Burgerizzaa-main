@@ -149,13 +149,13 @@ const MessageDash: React.FC = () => {
   };
 
 
-  const isNewMessage = (dateString?: string) => {
-    if (!dateString) return false;
-    const date = new Date(dateString);
-    const now = new Date();
-    const diffHours = (now.getTime() - date.getTime()) / (1000 * 60 * 60);
-    return diffHours <= 24;
-  };
+  // const isNewMessage = (dateString?: string) => {
+  //   if (!dateString) return false;
+  //   const date = new Date(dateString);
+  //   const now = new Date();
+  //   const diffHours = (now.getTime() - date.getTime()) / (1000 * 60 * 60);
+  //   return diffHours <= 24;
+  // };
 
   // const getAvatarLetter = (name: string) => name.charAt(0).toUpperCase();
 

@@ -1,5 +1,6 @@
 
-import { createContext,useReducer, Dispatch } from "react";
+import { createContext, useReducer } from "react";
+import type { Dispatch } from "react";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import CartReducer from "./CartReducer";

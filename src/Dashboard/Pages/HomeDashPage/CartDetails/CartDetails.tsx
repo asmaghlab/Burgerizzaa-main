@@ -11,7 +11,7 @@ import { type CartDashItem } from '../../../../types';
 const CartDetails:React.FC = () => {
     const { items, customerName, location } = useSelector((state: RootState) => state.cartDash);
     const dispatch = useDispatch<AppDispatch>();
-    const [error, setError] = useState<{ customerName?: string; location?: string }>({});
+    const [, setError] = useState<{ customerName?: string; location?: string }>({});
 
 
     const subTotal: number = items?.reduce((sum: number, item: CartDashItem) => {
@@ -31,6 +31,7 @@ const CartDetails:React.FC = () => {
             element.value = "";
             element.placeholder = "Invalid Name";
         }
+
     }
 
     if (!location || location.trim().length < 3) {

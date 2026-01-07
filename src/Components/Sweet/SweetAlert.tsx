@@ -76,7 +76,7 @@ export const errorAlert = (message: string): void => {
 export const loginSuccessAlert = (
   name: string,
   role: "admin" | "user",
-  navigate: any
+  navigate: (path: string) => void
 ) => {
   Swal.fire({
     title: "✅ Login Successful!",
@@ -101,7 +101,7 @@ export const loginSuccessAlert = (
 /**
  * 🎉 Order success
  */
-export const orderSuccessAlert = (navigate?: any) => {
+export const orderSuccessAlert = (navigate?: (path: string) => void) => {
   Swal.fire({
     icon: "success",
     title: "Order Placed! 🎉",
