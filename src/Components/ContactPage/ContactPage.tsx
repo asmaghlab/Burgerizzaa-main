@@ -8,10 +8,7 @@ import {
     FaMapMarkerAlt,
     FaPhoneAlt,
     FaEnvelope,
-    FaFacebookF,
-    FaTwitter,
-    FaInstagram,
-    FaLinkedinIn,
+    
 } from "react-icons/fa";
 import { showSuccessAlert } from '../Sweet/SweetAlert';
 
@@ -113,7 +110,7 @@ const ContactPage: React.FC = () => {
         setFormData({ name: "", email: "", message: "" });
         } catch (error) {
         // toast.error("Failed to send message. Please try again.");
-        // console.error(error);
+        console.error(error);
         } finally {
         setIsSubmitting(false);
         }
