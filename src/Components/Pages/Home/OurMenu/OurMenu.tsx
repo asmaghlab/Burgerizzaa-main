@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { add, increase, decrease } from "../../../../Store/CartSlice";
 import type { RootState, AppDispatch } from "../../../../Store/Store";
 import { addToCartAlert, loginPromptAlert } from "../../../Sweet/SweetAlert";
-// import { useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { getAllMenuData } from '../../../../Store/MenuSlice';
 
@@ -20,13 +20,13 @@ const OurMenu = () => {
   const user = useSelector((state: RootState) => state.user.user);
   const { menuData} = useSelector((state: RootState) => state.menu);
 
-  // const { data } = useQuery<MenuType[]>({
-  //   queryKey: ["menuData"],
-  //   queryFn: async () => {
-  //     const response = await fetch("https://68e3e5f38e116898997a5f72.mockapi.io/items");
-  //     return response.json();
-  //   },
-  // });
+  useQuery<MenuType[]>({
+    queryKey: ["menuData"],
+    queryFn: async () => {
+      const response = await fetch("https://68e3e5f38e116898997a5f72.mockapi.io/items");
+      return response.json();
+    },
+  });
 
   const AllMenuData = menuData?.slice(0, 8) || [];
 
