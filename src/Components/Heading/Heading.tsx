@@ -25,12 +25,12 @@ import SmartLink from '../Common/SmartLink';
 
 function Heading() {
 
-    const dispatch=useDispatch();
-    const navigate=useNavigate();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const [responsive, setResponsive] = useState(false);
     const cart = useSelector((state: RootState) => state.cart);
-    const user =useSelector((state: RootState)=> state.user.user);
+    const user = useSelector((state: RootState) => state.user.user);
 
     const [openDropdown, setOpenDropdown] = useState(false);
     const [headingScrolled, setHeadingScrolled] = useState(false);
@@ -43,44 +43,44 @@ function Heading() {
         return () => window.removeEventListener("scroll", handleHeadingScroll);
     }, []);
 
-    const cartQuantity =cart.reduce((total, item) => total + item.quantity, 0)
+    const cartQuantity = cart.reduce((total, item) => total + item.quantity, 0)
 
 
-    const handleLogout= async ()=> {
+    const handleLogout = async () => {
         setOpenDropdown(false);
-            
+
         dispatch(clearCartAll());
-        dispatch(logout()) 
-        navigate("/home"); 
+        dispatch(logout())
+        navigate("/home");
     }
 
     return (
         <>
-        <nav id="heading" className={headingScrolled ? "headingScrolled":""}>
-            <div className="heading container_box">
+            <nav id="heading" className={headingScrolled ? "headingScrolled" : ""}>
+                <div className="heading container_box">
 
-                <div className="heading_logo">
-                    <div className="logo_text">
-                        <SmartLink to="/"><h1>Burgerizza</h1></SmartLink>
+                    <div className="heading_logo">
+                        <div className="logo_text">
+                            <SmartLink to="/"><h1>Burgerizza</h1></SmartLink>
+                        </div>
                     </div>
-                </div>
 
-                <div className="heading_menu" >
-                    <SmartLink to="/home" className="menu">Home</SmartLink>
-                    <SmartLink to="/menu"  className="menu">Menu</SmartLink>
-                    <SmartLink to="/review" className="menu">Review</SmartLink>
-                </div>
+                    <div className="heading_menu" >
+                        <SmartLink to="/home" className="menu">Home</SmartLink>
+                        <SmartLink to="/menu" className="menu">Menu</SmartLink>
+                        <SmartLink to="/contact" className="menu">ContactUS</SmartLink>
+                    </div>
 
-                <div className="heading_icons">
-                    {user? (
-                        <div className="profile_drop">
-                            <button
-                            onClick={() => setOpenDropdown(!openDropdown)}
-                            className='user_icon'>
+                    <div className="heading_icons">
+                        {user ? (
+                            <div className="profile_drop">
+                                <button
+                                    onClick={() => setOpenDropdown(!openDropdown)}
+                                    className='user_icon'>
 
-                                <i className={openDropdown ? "icon_rotate active" : "icon_rotate"}><IoIosArrowDown /></i>
-                                <h5>Hi, {user.username.split("")}</h5>
-                            </button>
+                                    <i className={openDropdown ? "icon_rotate active" : "icon_rotate"}><IoIosArrowDown /></i>
+                                    <h5>Hi, {user.username.split("")}</h5>
+                                </button>
 
                                 {openDropdown && (
                                     <div className="dropdown_menu">
@@ -92,64 +92,64 @@ function Heading() {
                                             <FiLogIn />
                                             LogOut
                                         </Link>
-                                </div>
+                                    </div>
                                 )}
-                        </div>
-                    ):(
+                            </div>
+                        ) : (
 
-                        <Link to="/login">
-                            <button className='user_login'>Login</button>
-                        </Link>
-
-                    )}
-
-
-
-                    <Link to="/shippingcart" className='cart'>
-                        {/* <i><BsCart3 /> {cart.length > 0 && <span>{cart.length}</span>}</i> */}
-                        <i><BsCart3 /> {cartQuantity > 0 && <span>{cartQuantity}</span>}</i>
-                    </Link>
-
-                    <i className='toggle' onClick={() => setResponsive(true)}><RiMenu2Line /></i>
-
-                </div>
-
-            </div>
-
-
-            {/* Mobile Menu */}
-            {responsive && (
-                <div className="mobile_menu">
-                    <div className="mobile_close" onClick={() => setResponsive(false)}>
-                        <RiCloseLine />
-                    </div>
-                    <SmartLink to="/home" className="mobile_menu_link" onClick={() => setResponsive(false)}>Home</SmartLink>
-                    <SmartLink to="/menu" className="mobile_menu_link" onClick={() => setResponsive(false)}>Menu</SmartLink>
-                    <SmartLink to="/review" className="mobile_menu_link" onClick={() => setResponsive(false)}>ReviewUs</SmartLink>
-
-                    {/* <Link to="/login" className="mobile_account" onClick={() => setResponsive(false)}>
-                        <h4>Login</h4>
-                    </Link> */}
-
-                    <div className="mobile_account">
-
-                        {user? (
-
-                        <h5>Hi, {user.username.split("")}</h5>
-
-                        ):(
                             <Link to="/login">
                                 <button className='user_login'>Login</button>
                             </Link>
+
                         )}
-                        
+
+
+
+                        <Link to="/shippingcart" className='cart'>
+                            {/* <i><BsCart3 /> {cart.length > 0 && <span>{cart.length}</span>}</i> */}
+                            <i><BsCart3 /> {cartQuantity > 0 && <span>{cartQuantity}</span>}</i>
+                        </Link>
+
+                        <i className='toggle' onClick={() => setResponsive(true)}><RiMenu2Line /></i>
+
                     </div>
 
                 </div>
-            )}
 
 
-        </nav>
+                {/* Mobile Menu */}
+                {responsive && (
+                    <div className="mobile_menu">
+                        <div className="mobile_close" onClick={() => setResponsive(false)}>
+                            <RiCloseLine />
+                        </div>
+                        <SmartLink to="/home" className="mobile_menu_link" onClick={() => setResponsive(false)}>Home</SmartLink>
+                        <SmartLink to="/menu" className="mobile_menu_link" onClick={() => setResponsive(false)}>Menu</SmartLink>
+                        <SmartLink to="/contact" className="mobile_menu_link" onClick={() => setResponsive(false)}>Contact</SmartLink>
+
+                        {/* <Link to="/login" className="mobile_account" onClick={() => setResponsive(false)}>
+                        <h4>Login</h4>
+                    </Link> */}
+
+                        <div className="mobile_account">
+
+                            {user ? (
+
+                                <h5>Hi, {user.username.split("")}</h5>
+
+                            ) : (
+                                <Link to="/login">
+                                    <button className='user_login'>Login</button>
+                                </Link>
+                            )}
+
+                        </div>
+
+                    </div>
+                )}
+
+
+            </nav>
         </>
     )
 }

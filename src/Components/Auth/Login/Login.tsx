@@ -2,6 +2,7 @@ import { Helmet } from "react-helmet-async";
 
 import React from 'react';
 import '../Auth.css';
+import loginImg from "../../../assets/Images/login_img.png";
 import { useForm } from "react-hook-form";
 import type { SubmitHandler } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
@@ -80,89 +81,89 @@ const Login: React.FC = () => {
 
     return (
         <>
-        <Helmet>
-          <title>Login</title>
+            <Helmet>
+                <title>Login</title>
                 <meta
                     name="description"
                     content="Welcome to Burgerizza! Discover our delicious burgers, exclusive deals, and amazing stories."
                 />
-        </Helmet>
+            </Helmet>
 
-        <div id="login_page">
-            <div className="container_box login_page">
+            <div id="login_page">
+                <div className="container_box login_page">
 
-                {/* صورة */}
-                <div className="login_img">
-                    <img src="/src/assets/Images/login_img.png" alt="Login" />
-                </div>
-
-                {/* Form */}
-                <div id="login_form">
-                    <div className="login_form">
-                        <h2>Welcome back!!</h2>
-
-                        <form onSubmit={handleSubmit(handleLogin)}>
-                            {mutation.isError && (
-                                <p className="alert_form">
-                                    {(mutation.error as Error).message}
-                                </p>
-                            )}
-
-                            <div className="login_input mb-4">
-                                <input
-                                    type="email"
-                                    {...register("email")}
-                                    className="form-control"
-                                    placeholder="Email you email address"
-                                />
-                                {formState.errors.email && (
-                                    <p className="alert_error">
-                                        {formState.errors.email.message}
-                                    </p>
-                                )}
-                            </div>
-
-                            <div className="login_input mb-3">
-                                <input
-                                    type="password"
-                                    {...register("password")}
-                                    className="form-control"
-                                    placeholder="Password"
-                                />
-                                {formState.errors.password && (
-                                    <p className="alert_error">
-                                        {formState.errors.password.message}
-                                    </p>
-                                )}
-                            </div>
-
-                            <div className="text-end mb-5">
-                                <Link to="/forget">Forget Password?</Link>
-                            </div>
-
-                            <button
-                                type="submit"
-                                disabled={mutation.isPending}
-                                className="login_btn btn w-100 d-flex justify-content-center align-items-center rounded-4"
-                            >
-                                {mutation.isPending ? (
-                                    <div className="spinner-border" role="status">
-                                        <span className="visually-hidden">Loading...</span>
-                                    </div>
-                                ) : (
-                                    "Sign in"
-                                )}
-                            </button>
-
-                            <p className="text-center mt-5">
-                                Don’t have an account? <Link to="/register">Sign up</Link>
-                            </p>
-                        </form>
+                    {/* صورة */}
+                    <div className="login_img">
+                        <img src={loginImg} alt="Login" />
                     </div>
-                </div>
 
+                    {/* Form */}
+                    <div id="login_form">
+                        <div className="login_form">
+                            <h2>Welcome back!!</h2>
+
+                            <form onSubmit={handleSubmit(handleLogin)}>
+                                {mutation.isError && (
+                                    <p className="alert_form">
+                                        {(mutation.error as Error).message}
+                                    </p>
+                                )}
+
+                                <div className="login_input mb-4">
+                                    <input
+                                        type="email"
+                                        {...register("email")}
+                                        className="form-control"
+                                        placeholder="Email you email address"
+                                    />
+                                    {formState.errors.email && (
+                                        <p className="alert_error">
+                                            {formState.errors.email.message}
+                                        </p>
+                                    )}
+                                </div>
+
+                                <div className="login_input mb-3">
+                                    <input
+                                        type="password"
+                                        {...register("password")}
+                                        className="form-control"
+                                        placeholder="Password"
+                                    />
+                                    {formState.errors.password && (
+                                        <p className="alert_error">
+                                            {formState.errors.password.message}
+                                        </p>
+                                    )}
+                                </div>
+
+                                <div className="text-end mb-5">
+                                    <Link to="/forget">Forget Password?</Link>
+                                </div>
+
+                                <button
+                                    type="submit"
+                                    disabled={mutation.isPending}
+                                    className="login_btn btn w-100 d-flex justify-content-center align-items-center rounded-4"
+                                >
+                                    {mutation.isPending ? (
+                                        <div className="spinner-border" role="status">
+                                            <span className="visually-hidden">Loading...</span>
+                                        </div>
+                                    ) : (
+                                        "Sign in"
+                                    )}
+                                </button>
+
+                                <p className="text-center mt-5">
+                                    Don’t have an account? <Link to="/register">Sign up</Link>
+                                </p>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
             </div>
-        </div>
         </>
     )
 }

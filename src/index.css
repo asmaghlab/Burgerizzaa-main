@@ -89,7 +89,7 @@ p{
 #background_home{
     min-height: 100vh;
     height: auto; 
-    background-image: url(/src/assets/Images/pizza-bg1.jpg);
+    background-image: url(./assets/Images/pizza-bg1.jpg);
     background-position: top left;
     background-size: cover;
     backdrop-filter: blur(0px);

@@ -3,7 +3,7 @@
 #footer {
     position: relative;
     padding: 2rem 0;
-    background-image: url(/src/assets/Images/pizza-bg1.jpg);
+    background-image: url(../../assets/Images/pizza-bg1.jpg);
     background-size: cover;
     background-position: bottom right;
     overflow: hidden;
