@@ -16,7 +16,7 @@ export default function ProductDetails() {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
-  const { menuData, loading } = useSelector((state: RootState) => state.menu);
+  const { menuData} = useSelector((state: RootState) => state.menu);
   const user = useSelector((state: RootState) => state.user.user);
   const cart = useSelector((state: RootState) => state.cart);
   const [count, setCount] = useState(1);
@@ -227,7 +227,7 @@ export default function ProductDetails() {
                               <button
                                 onClick={(e) => {
                                   e.stopPropagation();
-                                  dispatch(decrease(relatedProduct.id));
+                                  dispatch(decrease(cartItem));
                                 }}
                               >
                                 −
@@ -236,7 +236,7 @@ export default function ProductDetails() {
                               <button
                                 onClick={(e) => {
                                   e.stopPropagation();
-                                  dispatch(increase(relatedProduct.id));
+                                  dispatch(increase(cartItem));
                                 }}
                               >
                                 +
