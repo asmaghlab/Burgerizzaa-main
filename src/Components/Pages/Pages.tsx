@@ -3,7 +3,7 @@ import Heading from "../Heading/Heading";
 import HomePage from "../HomePage/HomePage";
 import MenuPage from "../MenuPage/MenuPage";
 import ProductDetailsPage from "../ProductDetailsPage/ProductDetailsPage";
-import ContactPage from "../ContactPage/ContactPage";
+// import ContactPage from "../ContactPage/ContactPage";
 import ShippingCart from "./ShippingCart/ShippingCart";
 import Login from "../Auth/Login/Login";
 import Register from "../Auth/Register/Register";
